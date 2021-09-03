@@ -9,5 +9,4 @@ public class FMSpringApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FMSpringApplication.class, args);
 	}
-
 }
