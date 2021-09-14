@@ -1,8 +1,12 @@
-package pl.gorzki.fmspring;
+package pl.gorzki.fmspring.fault.domain;
+
+import pl.gorzki.fmspring.*;
 
 import java.util.StringJoiner;
 
 public class Fault {
+
+
     Long id;
     String faultDescribe;
     FaultStatus status;
