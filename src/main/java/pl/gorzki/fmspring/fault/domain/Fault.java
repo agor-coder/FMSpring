@@ -1,9 +1,10 @@
 package pl.gorzki.fmspring.fault.domain;
 
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import pl.gorzki.fmspring.*;
-import java.util.StringJoiner;
 
 
 

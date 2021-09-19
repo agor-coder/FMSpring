@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-public class MemoryFaultRepository implements FaultRepository {
+ class MemoryFaultRepository implements FaultRepository {
 
     private final Map<Long, Fault> storage = new ConcurrentHashMap<>();
 
