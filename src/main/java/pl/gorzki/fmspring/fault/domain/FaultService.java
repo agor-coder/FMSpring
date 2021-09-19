@@ -1,22 +1,16 @@
 package pl.gorzki.fmspring.fault.domain;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.gorzki.fmspring.fault.domain.Fault;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class FaultService {
 
-    private FaultRepository repository;
-
-    public FaultService(FaultRepository repository) {
-        this.repository = repository;
-    }
+    private final FaultRepository repository;
 
     public List<Fault> findAll() {
         return repository.findAll();
@@ -34,7 +28,7 @@ public class FaultService {
     public List<Fault> finByDesription(String text) {
         return repository.findAll()
                 .stream()
-                .filter(fault -> fault.faultDescribe.startsWith(text))
+                .filter(fault -> fault.getFaultDescribe().startsWith(text))
                 .collect(Collectors.toList());
     }
 }

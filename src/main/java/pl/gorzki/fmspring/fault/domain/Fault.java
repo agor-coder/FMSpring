@@ -1,29 +1,24 @@
 package pl.gorzki.fmspring.fault.domain;
 
-import pl.gorzki.fmspring.*;
 
+import lombok.*;
+import pl.gorzki.fmspring.*;
 import java.util.StringJoiner;
 
+
+
+@RequiredArgsConstructor
+@Getter
+@ToString
 public class Fault {
 
-
-    Long id;
-    String faultDescribe;
-    FaultStatus status;
-    TechArea area;
-    Specialist specialist;
-    Assigner whoAssigned;
-    Notifier whoNotify;
-
-    public Fault(Long id, String faultDescribe, FaultStatus status, TechArea area, Specialist specialist, Assigner whoAssigned, Notifier whoNotify) {
-        this.id = id;
-        this.faultDescribe = faultDescribe;
-        this.status = status;
-        this.area = area;
-        this.specialist = specialist;
-        this.whoAssigned = whoAssigned;
-        this.whoNotify = whoNotify;
-    }
+    private Long id;
+    private String faultDescribe;
+    private FaultStatus status;
+    private TechArea area;
+    private Specialist specialist;
+    private Assigner whoAssigned;
+    private Notifier whoNotify;
 
     public Fault(Long id, String faultDescribe) {
         this.id = id;
@@ -31,16 +26,5 @@ public class Fault {
 
     }
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", Fault.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("faultDescribe='" + faultDescribe + "'")
-                .add("status=" + status)
-                .add("area=" + area)
-                .add("specialist=" + specialist)
-                .add("whoAssigned=" + whoAssigned)
-                .add("whoNotify=" + whoNotify)
-                .toString();
-    }
+
 }
