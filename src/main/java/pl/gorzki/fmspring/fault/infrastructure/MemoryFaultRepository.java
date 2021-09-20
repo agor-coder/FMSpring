@@ -5,11 +5,10 @@ import pl.gorzki.fmspring.fault.domain.Fault;
 import pl.gorzki.fmspring.fault.domain.FaultRepository;
 
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
@@ -19,7 +18,6 @@ class MemoryFaultRepository implements FaultRepository {
     private final AtomicLong ID_NEXTVALUE = new AtomicLong((0L));
 
 
-
     @Override
     public List<Fault> findAll() {
         return new ArrayList<>(storage.values());
@@ -27,10 +25,19 @@ class MemoryFaultRepository implements FaultRepository {
 
     @Override
     public void save(Fault fault) {
-        nextId();
-        fault.setId(nextId());
-        storage.put(nextId(), fault);
+        if (fault.getId() != null) {
+            storage.put(fault.getId(), fault);
+        } else {
+            long nextId = nextId();
+            fault.setId(nextId);
+            storage.put(nextId, fault);
+        }
 
+    }
+
+    @Override
+    public Optional<Fault> findById(Long id) {
+        return Optional.ofNullable(storage.get(id));
     }
 
     private long nextId() {

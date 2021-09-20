@@ -20,11 +20,15 @@ public class ApplicationStartup implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args)  {
+    public void run(String... args) {
         initData();
         findAllFaults();
         findByDescr();
+        System.out.println("update_start");
+        findAndUpdate();
+        findByDescr();
     }
+
 
     private void initData() {
         faults.addFault(new CreateFaultCommand("zwarcie"));
@@ -35,7 +39,7 @@ public class ApplicationStartup implements CommandLineRunner {
     }
 
     private void findByDescr() {
-        List<Fault> faultByDesc = faults.finByDesription("z");
+        List<Fault> faultByDesc = faults.findByDesription("z");
         faultByDesc.forEach(System.out::println);
     }
 
@@ -43,5 +47,22 @@ public class ApplicationStartup implements CommandLineRunner {
         List<Fault> allFaults = faults.findAll();
         allFaults.forEach(System.out::println);
         System.out.println();
+    }
+
+    private void findAndUpdate() {
+        faults.findOneByDesription("z")
+                .ifPresent(fault -> {
+                    UpdateFaultCommand command = new UpdateFaultCommand(
+                            fault.getId(),
+                            "zwarcie_update///",
+                            fault.getStatus(),
+                            fault.getArea(),
+                            fault.getSpecialist(),
+                            fault.getWhoAssigned(),
+                            fault.getWhoNotify()
+                    );
+                    faults.updateFault(command);
+                    System.out.println("zaktualizowano");
+                });
     }
 }

@@ -1,12 +1,12 @@
 package pl.gorzki.fmspring.fault.application;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.domain.Fault;
 import pl.gorzki.fmspring.fault.domain.FaultRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,16 +34,20 @@ class FaultService implements FaultUseCase {
 
 
     @Override
-    public List<Fault> finByDesription(String text) {
+    public List<Fault> findByDesription(String text) {
         return repository.findAll()
                 .stream()
                 .filter(fault -> fault.getFaultDescribe().startsWith(text))
                 .collect(Collectors.toList());
+
     }
 
     @Override
-    public Optional<Fault> finOneByDesription(String text) {
-        return Optional.empty();
+    public Optional<Fault> findOneByDesription(String text) {
+        return repository.findAll()
+                .stream()
+                .filter(fault -> fault.getFaultDescribe().startsWith(text))
+                .findFirst();
     }
 
     @Override
@@ -59,8 +63,22 @@ class FaultService implements FaultUseCase {
     }
 
     @Override
-    public void updateFault() {
+    public UpdateFaultResponse updateFault(UpdateFaultCommand command) {
+        return repository
+                .findById(command.getId())
+                .map(fault -> {
+                    fault.setFaultDescribe(command.getFaultDescribe());
+                    fault.setStatus(command.getStatus());
+                    fault.setArea(command.getArea());
+                    fault.setSpecialist(command.getSpecialist());
+                    fault.setWhoAssigned(command.getWhoAssigned());
+                    fault.setWhoNotify(command.getWhoNotify());
+                    repository.save(fault);
+                    return UpdateFaultResponse.SUCCESS;
+                })
+                .orElseGet(() -> new UpdateFaultResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));
 
     }
+
 
 }
