@@ -3,6 +3,7 @@ package pl.gorzki.fmspring.fault.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import pl.gorzki.fmspring.*;
 
@@ -10,6 +11,7 @@ import pl.gorzki.fmspring.*;
 
 @RequiredArgsConstructor
 @Getter
+@Setter
 @ToString
 public class Fault {
 
@@ -21,8 +23,7 @@ public class Fault {
     private Assigner whoAssigned;
     private Notifier whoNotify;
 
-    public Fault(Long id, String faultDescribe) {
-        this.id = id;
+    public Fault(String faultDescribe) {
         this.faultDescribe = faultDescribe;
 
     }

@@ -4,5 +4,6 @@ import java.util.List;
 
 public interface FaultRepository {
     List<Fault> findAll();
+    void save (Fault fault);
 
 }
