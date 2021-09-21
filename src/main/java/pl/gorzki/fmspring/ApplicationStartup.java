@@ -1,6 +1,5 @@
 package pl.gorzki.fmspring;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
@@ -13,16 +12,16 @@ import static pl.gorzki.fmspring.fault.application.port.FaultUseCase.*;
 @Component
 public class ApplicationStartup implements CommandLineRunner {
 
-    private final FaultUseCase faults;
+    private final FaultUseCase faultService;
 
-    public ApplicationStartup(FaultUseCase faults) {
-        this.faults = faults;
+    public ApplicationStartup(FaultUseCase faultService) {
+        this.faultService = faultService;
     }
 
     @Override
     public void run(String... args) {
         initData();
-        findAllFaults();
+        findAllfaultService();
         findByDescr();
         System.out.println("update_start");
         findAndUpdate();
@@ -31,26 +30,26 @@ public class ApplicationStartup implements CommandLineRunner {
 
 
     private void initData() {
-        faults.addFault(new CreateFaultCommand("zwarcie"));
-        faults.addFault(new CreateFaultCommand("brak"));
-        faults.addFault(new CreateFaultCommand("nie ma"));
-        faults.addFault(new CreateFaultCommand("spalony"));
+        faultService.addFault(new CreateFaultCommand("zwarcie"));
+        faultService.addFault(new CreateFaultCommand("brak"));
+        faultService.addFault(new CreateFaultCommand("nie ma"));
+        faultService.addFault(new CreateFaultCommand("spalony"));
 
     }
 
     private void findByDescr() {
-        List<Fault> faultByDesc = faults.findByDesription("z");
+        List<Fault> faultByDesc = faultService.findByDesription("z");
         faultByDesc.forEach(System.out::println);
     }
 
-    private void findAllFaults() {
-        List<Fault> allFaults = faults.findAll();
-        allFaults.forEach(System.out::println);
+    private void findAllfaultService() {
+        List<Fault> allfaultService = faultService.findAll();
+        allfaultService.forEach(System.out::println);
         System.out.println();
     }
 
     private void findAndUpdate() {
-        faults.findOneByDesription("z")
+        faultService.findOneByDesription("z")
                 .ifPresent(fault -> {
                     UpdateFaultCommand command = new UpdateFaultCommand(
                             fault.getId(),
@@ -61,8 +60,10 @@ public class ApplicationStartup implements CommandLineRunner {
                             fault.getWhoAssigned(),
                             fault.getWhoNotify()
                     );
-                    faults.updateFault(command);
-                    System.out.println("zaktualizowano");
+                    UpdateFaultResponse response = faultService.updateFault(command);
+                    System.out.println(response.isSuccess());
+                    System.out.println(response.getErrors());
+
                 });
     }
 }

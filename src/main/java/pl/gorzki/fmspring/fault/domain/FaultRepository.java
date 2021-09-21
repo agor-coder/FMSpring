@@ -6,6 +6,5 @@ import java.util.Optional;
 public interface FaultRepository {
     List<Fault> findAll();
     void save (Fault fault);
-
     Optional<Fault> findById(Long id);
 }
