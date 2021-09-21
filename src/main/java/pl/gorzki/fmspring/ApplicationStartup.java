@@ -51,17 +51,12 @@ public class ApplicationStartup implements CommandLineRunner {
     private void findAndUpdate() {
         faultService.findOneByDesription("z")
                 .ifPresent(fault -> {
-                    UpdateFaultCommand command = new UpdateFaultCommand(
-                            fault.getId(),
-                            "zwarcie_update///",
-                            fault.getStatus(),
-                            fault.getArea(),
-                            fault.getSpecialist(),
-                            fault.getWhoAssigned(),
-                            fault.getWhoNotify()
-                    );
+                    UpdateFaultCommand command = UpdateFaultCommand.builder()
+                            .id(fault.getId())
+                            .faultDescribe("zwarcie_update")
+                            .build();
                     UpdateFaultResponse response = faultService.updateFault(command);
-                    System.out.println(response.isSuccess());
+                    System.out.println("Update result: " + response.isSuccess());
                     System.out.println(response.getErrors());
 
                 });

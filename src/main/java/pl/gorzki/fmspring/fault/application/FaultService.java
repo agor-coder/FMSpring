@@ -59,7 +59,7 @@ class FaultService implements FaultUseCase {
 
     @Override
     public void removeFaultById(Long id) {
-
+        repository.removeById(id);
     }
 
     @Override
@@ -67,13 +67,8 @@ class FaultService implements FaultUseCase {
         return repository
                 .findById(command.getId())
                 .map(fault -> {
-                    fault.setFaultDescribe(command.getFaultDescribe());
-                    fault.setStatus(command.getStatus());
-                    fault.setArea(command.getArea());
-                    fault.setSpecialist(command.getSpecialist());
-                    fault.setWhoAssigned(command.getWhoAssigned());
-                    fault.setWhoNotify(command.getWhoNotify());
-                    repository.save(fault);
+                    Fault updatedFault = command.updateFields(fault);
+                    repository.save(updatedFault);
                     return UpdateFaultResponse.SUCCESS;
                 })
                 .orElseGet(() -> new UpdateFaultResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));

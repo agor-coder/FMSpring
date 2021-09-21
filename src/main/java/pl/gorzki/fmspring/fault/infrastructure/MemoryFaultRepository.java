@@ -25,20 +25,23 @@ class MemoryFaultRepository implements FaultRepository {
 
     @Override
     public void save(Fault fault) {
-        if (fault.getId() != null) {
+        if (null != fault.getId()) {
             storage.put(fault.getId(), fault);
         } else {
             long nextId = nextId();
             fault.setId(nextId);
             storage.put(nextId, fault);
         }
-
     }
 
     @Override
     public Optional<Fault> findById(Long id) {
         return Optional.ofNullable(storage.get(id));
     }
+
+    @Override
+    public void removeById(Long id) {
+        storage.remove(id);    }
 
     private long nextId() {
         return ID_NEXTVALUE.getAndIncrement();
