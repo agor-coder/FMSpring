@@ -23,6 +23,11 @@ class FaultService implements FaultUseCase {
     }
 
     @Override
+    public Optional<Fault> fidById(Long id) {
+        return repository.findById(id);
+    }
+
+    @Override
     public List<Fault> findByNotifier(String notifier) {
         return null;
     }

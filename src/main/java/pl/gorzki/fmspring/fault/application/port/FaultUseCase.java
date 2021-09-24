@@ -5,7 +5,6 @@ import lombok.Value;
 import pl.gorzki.fmspring.*;
 import pl.gorzki.fmspring.fault.domain.Fault;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +12,8 @@ import static java.util.Collections.emptyList;
 
 public interface FaultUseCase {
     List<Fault> findAll();
+
+    Optional<Fault> fidById(Long id);
 
     List<Fault> findByNotifier(String notifier);
 
