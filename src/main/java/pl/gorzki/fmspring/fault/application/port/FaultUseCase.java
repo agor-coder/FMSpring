@@ -51,7 +51,7 @@ public interface FaultUseCase {
                 fault.setFaultDescribe(faultDescribe);
             }
             if (status != null) {
-                fault.setStatus(status);
+                fault.setStatus(fault.getStatus());
             }
             if (area != null) {
                 fault.setArea(area);
