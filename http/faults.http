@@ -1,4 +1,4 @@
 ###
 GET http://localhost:8080/faults/
 ###
-GET http://localhost:8080/faults/2
+GET http://localhost:8080/faults/3

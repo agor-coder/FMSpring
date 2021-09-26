@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Value;
 import pl.gorzki.fmspring.*;
 import pl.gorzki.fmspring.fault.domain.Fault;
+import pl.gorzki.fmspring.fault.domain.FaultStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -51,7 +52,7 @@ public interface FaultUseCase {
                 fault.setFaultDescribe(faultDescribe);
             }
             if (status != null) {
-                fault.setStatus(fault.getStatus());
+                fault.setStatus(status);
             }
             if (area != null) {
                 fault.setArea(area);

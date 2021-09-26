@@ -4,8 +4,10 @@ package pl.gorzki.fmspring.fault.domain;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-import pl.gorzki.fmspring.*;
+import pl.gorzki.fmspring.Assigner;
+import pl.gorzki.fmspring.Notifier;
+import pl.gorzki.fmspring.Specialist;
+import pl.gorzki.fmspring.TechArea;
 
 
 @RequiredArgsConstructor
