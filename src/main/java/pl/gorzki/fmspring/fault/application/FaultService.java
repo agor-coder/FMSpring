@@ -39,20 +39,37 @@ class FaultService implements FaultUseCase {
 
 
     @Override
-    public List<Fault> findByDesription(String text) {
+    public List<Fault> findByDescription(String text) {
         return repository.findAll()
                 .stream()
-                .filter(fault -> fault.getFaultDescribe().startsWith(text))
+                .filter(fault -> fault.getFaultDescribe().toLowerCase().contains(text.toLowerCase()))
                 .collect(Collectors.toList());
-
     }
+
 
     @Override
     public Optional<Fault> findOneByDesription(String text) {
         return repository.findAll()
                 .stream()
-                .filter(fault -> fault.getFaultDescribe().startsWith(text))
+                .filter(fault -> fault.getFaultDescribe().toLowerCase().contains(text.toLowerCase()))
                 .findFirst();
+    }
+
+    @Override
+    public List<Fault> findByStatus(String text) {
+        return repository.findAll()
+                .stream()
+                .filter(fault -> fault.getStatus().getDescription().toLowerCase().contains(text.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Fault> findByDescriptionAndStatus(String descr, String status) {
+        return repository.findAll()
+                .stream()
+                .filter(fault -> fault.getFaultDescribe().toLowerCase().contains(descr.toLowerCase()))
+                .filter(fault -> fault.getStatus().getDescription().toLowerCase().contains(status.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     @Override

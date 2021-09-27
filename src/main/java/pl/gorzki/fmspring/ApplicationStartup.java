@@ -22,7 +22,7 @@ public class ApplicationStartup implements CommandLineRunner {
     @Override
     public void run(String... args) {
         initData();
-        findAllfaultService();
+        findAllFaults();
         findByDescr();
         System.out.println("update_start");
         findAndUpdate();
@@ -39,13 +39,13 @@ public class ApplicationStartup implements CommandLineRunner {
     }
 
     private void findByDescr() {
-        List<Fault> faultByDesc = faultService.findByDesription("z");
+        List<Fault> faultByDesc = faultService.findByDescription("z");
         faultByDesc.forEach(System.out::println);
     }
 
-    private void findAllfaultService() {
-        List<Fault> allfaultService = faultService.findAll();
-        allfaultService.forEach(System.out::println);
+    private void findAllFaults() {
+        List<Fault> allFaults = faultService.findAll();
+        allFaults.forEach(System.out::println);
         System.out.println();
     }
 

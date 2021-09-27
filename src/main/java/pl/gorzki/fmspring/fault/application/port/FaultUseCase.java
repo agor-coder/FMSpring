@@ -20,7 +20,11 @@ public interface FaultUseCase {
 
     List<Fault> findByAssigner(String assigner);
 
-    List<Fault> findByDesription(String text);
+    List<Fault> findByDescription(String text);
+
+    List<Fault> findByStatus(String text);
+
+    List<Fault> findByDescriptionAndStatus(String descr, String status);
 
     Optional<Fault> findOneByDesription(String text);
 

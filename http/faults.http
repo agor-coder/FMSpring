@@ -1,4 +1,8 @@
 ###
 GET http://localhost:8080/faults/
 ###
-GET http://localhost:8080/faults/5
+GET http://localhost:8080/faults/2
+###
+GET http://localhost:8080/faults?descr=E
+###
+GET http://localhost:8080/faults?stat=nie
