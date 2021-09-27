@@ -1,10 +1,9 @@
 package pl.gorzki.fmspring.fault.web;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.domain.Fault;
 
@@ -18,13 +17,17 @@ public class FaultController {
     private final FaultUseCase service;
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<Fault> getAll() {
         return service.findAll();
     }
 
 
     @GetMapping("/{id}")
-    public Fault getById(@PathVariable Long id){
-       return service.fidById(id).orElse(null);
+    public ResponseEntity<?> getById(@PathVariable Long id){
+       return service
+               .fidById(id)
+               .map(ResponseEntity::ok)
+               .orElse(ResponseEntity.notFound().build());
     }
 }
