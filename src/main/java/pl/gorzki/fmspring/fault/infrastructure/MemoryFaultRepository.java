@@ -24,7 +24,7 @@ class MemoryFaultRepository implements FaultRepository {
     }
 
     @Override
-    public void save(Fault fault) {
+    public Fault save(Fault fault) {
         if (null != fault.getId()) {
             storage.put(fault.getId(), fault);
         } else {
@@ -32,6 +32,7 @@ class MemoryFaultRepository implements FaultRepository {
             fault.setId(nextId);
             storage.put(nextId, fault);
         }
+        return fault;
     }
 
     @Override
@@ -41,7 +42,8 @@ class MemoryFaultRepository implements FaultRepository {
 
     @Override
     public void removeById(Long id) {
-        storage.remove(id);    }
+        storage.remove(id);
+    }
 
     private long nextId() {
         return ID_NEXTVALUE.getAndIncrement();

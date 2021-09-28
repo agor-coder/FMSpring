@@ -23,9 +23,12 @@ public class Fault {
     private Assigner whoAssigned;
     private Notifier whoNotify;
 
-    public Fault(String faultDescribe) {
+    public Fault(String faultDescribe, TechArea area, Specialist specialist, Assigner whoAssigned, Notifier whoNotify) {
         this.faultDescribe = faultDescribe;
-
+        this.area = area;
+        this.specialist = specialist;
+        this.whoAssigned = whoAssigned;
+        this.whoNotify = whoNotify;
     }
 
     @Override

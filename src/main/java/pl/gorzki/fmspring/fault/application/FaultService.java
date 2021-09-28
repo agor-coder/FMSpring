@@ -73,10 +73,9 @@ class FaultService implements FaultUseCase {
     }
 
     @Override
-    public void addFault(CreateFaultCommand command) {
-        Fault fault = new Fault(command.getFaultDescribe());
-        repository.save(fault);
-
+    public Fault addFault(CreateFaultCommand command) {
+        Fault fault = command.toFault();
+        return repository.save(fault);
     }
 
     @Override

@@ -31,10 +31,11 @@ public class ApplicationStartup implements CommandLineRunner {
 
 
     private void initData() {
-        faultService.addFault(new CreateFaultCommand("zwarcie"));
-        faultService.addFault(new CreateFaultCommand("brak"));
-        faultService.addFault(new CreateFaultCommand("nie ma"));
-        faultService.addFault(new CreateFaultCommand("spalony"));
+        faultService.addFault(new CreateFaultCommand("zwarcie",null,null,null,null));
+        faultService.addFault(new CreateFaultCommand("brak",null,null,null,null));
+        faultService.addFault(new CreateFaultCommand("nie ma",null,null,null,null));
+        faultService.addFault(new CreateFaultCommand("spalony",null,null,null,null));
+        faultService.addFault(new CreateFaultCommand("NOWA",null,null,null,null));
 
     }
 

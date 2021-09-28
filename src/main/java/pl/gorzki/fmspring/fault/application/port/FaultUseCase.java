@@ -28,7 +28,7 @@ public interface FaultUseCase {
 
     Optional<Fault> findOneByDesription(String text);
 
-    void addFault(CreateFaultCommand command);
+    Fault addFault(CreateFaultCommand command);
 
     void removeFaultById(Long id);
 
@@ -38,6 +38,14 @@ public interface FaultUseCase {
     @Value
     class CreateFaultCommand {
         String faultDescribe;
+        TechArea area;
+        Specialist specialist;
+        Assigner whoAssigned;
+        Notifier whoNotify;
+
+        public Fault toFault() {
+            return new Fault(faultDescribe, area, specialist, whoAssigned, whoNotify);
+        }
     }
 
     @Value

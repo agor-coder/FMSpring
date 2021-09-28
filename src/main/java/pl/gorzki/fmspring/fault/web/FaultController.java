@@ -1,6 +1,6 @@
 package pl.gorzki.fmspring.fault.web;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -58,21 +58,26 @@ public class FaultController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addFault(@RequestBody RestCreateFaultCommand command) {
-        service.addFault(command.toCommand());
+    public Fault addFault(@RequestBody RestCreateFaultCommand command) {
+        Fault fault=service.addFault(command.toCommand());
+        return fault;
     }
 
     @Data
     private static class RestCreateFaultCommand {
         private String faultDescribe;
-        private FaultStatus status;
         private TechArea area;
         private Specialist specialist;
         private Assigner whoAssigned;
         private Notifier whoNotify;
 
         CreateFaultCommand toCommand() {
-            return new CreateFaultCommand(faultDescribe);
+            return new CreateFaultCommand(
+                    faultDescribe,
+                    area,
+                    specialist,
+                    whoAssigned,
+                    whoNotify);
         }
     }
 }
