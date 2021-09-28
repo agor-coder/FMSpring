@@ -1,11 +1,19 @@
 package pl.gorzki.fmspring.fault.web;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.gorzki.fmspring.Assigner;
+import pl.gorzki.fmspring.Notifier;
+import pl.gorzki.fmspring.Specialist;
+import pl.gorzki.fmspring.TechArea;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
+import pl.gorzki.fmspring.fault.application.port.FaultUseCase.CreateFaultCommand;
 import pl.gorzki.fmspring.fault.domain.Fault;
+import pl.gorzki.fmspring.fault.domain.FaultStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,5 +54,25 @@ public class FaultController {
                 .fidById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addFault(@RequestBody RestCreateFaultCommand command) {
+        service.addFault(command.toCommand());
+    }
+
+    @Data
+    private static class RestCreateFaultCommand {
+        private String faultDescribe;
+        private FaultStatus status;
+        private TechArea area;
+        private Specialist specialist;
+        private Assigner whoAssigned;
+        private Notifier whoNotify;
+
+        CreateFaultCommand toCommand() {
+            return new CreateFaultCommand(faultDescribe);
+        }
     }
 }

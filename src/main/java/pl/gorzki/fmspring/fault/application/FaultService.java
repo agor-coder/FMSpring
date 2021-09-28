@@ -96,6 +96,4 @@ class FaultService implements FaultUseCase {
                 .orElseGet(() -> new UpdateFaultResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));
 
     }
-
-
 }
