@@ -1,5 +1,10 @@
 package pl.gorzki.fmspring.fault.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum FaultStatus {
     NOT_ASSIGNED("Nie przydzielona"),
     ASSIGNED("Przydzielona"),
@@ -7,12 +12,5 @@ public enum FaultStatus {
 
     private final String description;
 
-    FaultStatus(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 
 }
