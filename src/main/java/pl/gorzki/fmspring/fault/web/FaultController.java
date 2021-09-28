@@ -13,7 +13,6 @@ import pl.gorzki.fmspring.TechArea;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.CreateFaultCommand;
 import pl.gorzki.fmspring.fault.domain.Fault;
-import pl.gorzki.fmspring.fault.domain.FaultStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,8 +58,7 @@ public class FaultController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Fault addFault(@RequestBody RestCreateFaultCommand command) {
-        Fault fault=service.addFault(command.toCommand());
-        return fault;
+        return service.addFault(command.toCommand());
     }
 
     @Data
