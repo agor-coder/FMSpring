@@ -14,6 +14,10 @@ import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.CreateFaultCommand;
 import pl.gorzki.fmspring.fault.domain.Fault;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,12 +61,24 @@ public class FaultController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Fault addFault(@RequestBody RestCreateFaultCommand command) {
+    public Fault addFault(@Valid @RequestBody RestCreateFaultCommand command) {
         return service.addFault(command.toCommand());
     }
 
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
+        if (service.fidById(id).isPresent()) {
+            service.removeFaultById(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+
     @Data
     private static class RestCreateFaultCommand {
+        @NotBlank
         private String faultDescribe;
         private TechArea area;
         private Specialist specialist;
@@ -77,24 +93,5 @@ public class FaultController {
                     whoAssigned,
                     whoNotify);
         }
-    }
-
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> deleteById(@PathVariable Long id) {
-//        if (service.fidById(id).isPresent()) {
-//            service.removeFaultById(id);
-//            return ResponseEntity.ok().build();
-//        }
-//        return ResponseEntity.notFound().build();
-//    }
-
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Long id) {
-        if (service.fidById(id).isPresent()) {
-            service.removeFaultById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
     }
 }

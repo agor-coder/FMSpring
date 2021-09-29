@@ -13,9 +13,11 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>FMSpring</name>
     <description>faults</description>
+
     <properties>
         <java.version>16</java.version>
         <lombok.version>1.18.20</lombok.version>
+        <hibernate.validator.version>6.2.0.Final</hibernate.validator.version>
     </properties>
     <dependencies>
         <dependency>
@@ -30,6 +32,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
