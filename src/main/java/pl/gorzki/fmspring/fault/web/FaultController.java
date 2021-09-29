@@ -78,4 +78,10 @@ public class FaultController {
                     whoNotify);
         }
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void  deleteById(@PathVariable Long id){
+        service.removeFaultById(id);
+    }
 }
