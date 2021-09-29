@@ -78,7 +78,7 @@ public class FaultController {
 
     @Data
     private static class RestCreateFaultCommand {
-        @NotBlank
+        @NotBlank(message = "podaj opis")
         private String faultDescribe;
         private TechArea area;
         private Specialist specialist;
