@@ -79,9 +79,22 @@ public class FaultController {
         }
     }
 
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<?> deleteById(@PathVariable Long id) {
+//        if (service.fidById(id).isPresent()) {
+//            service.removeFaultById(id);
+//            return ResponseEntity.ok().build();
+//        }
+//        return ResponseEntity.notFound().build();
+//    }
+
+
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void  deleteById(@PathVariable Long id){
-        service.removeFaultById(id);
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
+        if (service.fidById(id).isPresent()) {
+            service.removeFaultById(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }
