@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import pl.gorzki.fmspring.Assigner;
 import pl.gorzki.fmspring.Notifier;
 import pl.gorzki.fmspring.Specialist;
@@ -53,6 +54,9 @@ public class FaultController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
+        if (id.equals(42L)) {
+            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "I'm a teapot - sorry");
+        }
         return service
                 .fidById(id)
                 .map(ResponseEntity::ok)

@@ -23,21 +23,22 @@ public class CustomGlobalExceptionHandler {
                 .stream()
                 .map(x -> x.getField() + " - " + x.getDefaultMessage())
                 .collect(Collectors.toList());
-        return handleError(HttpStatus.BAD_REQUEST, errors);
+        return handleError(HttpStatus.BAD_REQUEST, errors, ex);
     }
 
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handle(IllegalArgumentException ex) {
-        return handleError(HttpStatus.BAD_REQUEST, List.of(ex.getMessage()));
+        return handleError(HttpStatus.BAD_REQUEST, List.of(ex.getMessage()),ex);
     }
 
-    private ResponseEntity<Object> handleError(HttpStatus status, List<String> errors) {
+    private ResponseEntity<Object> handleError(HttpStatus status, List<String> errors, Throwable ex) {
         Map<String, Object> body = new LinkedHashMap<>();
+        body.put("exception", ex.getClass().getSimpleName());
         body.put("timestamp", new Date());
         body.put("status", status.value());
 //get all errors
         body.put("errors", errors);
-        return new ResponseEntity<>(body, status);
+        return new ResponseEntity<>(body,status);
     }
 }
