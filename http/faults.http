@@ -6,3 +6,10 @@ GET http://localhost:8080/faults/2
 GET http://localhost:8080/faults?descr=E
 ###
 GET http://localhost:8080/faults?stat=nie
+###
+POST http://localhost:8080/faults
+Content-Type: application/json
+
+{
+  "faultDescribe": "NOWA33"
+}

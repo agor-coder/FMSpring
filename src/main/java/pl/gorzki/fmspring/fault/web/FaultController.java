@@ -16,9 +16,7 @@ import pl.gorzki.fmspring.fault.application.port.FaultUseCase.CreateFaultCommand
 import pl.gorzki.fmspring.fault.domain.Fault;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
