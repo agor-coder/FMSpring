@@ -1,4 +1,4 @@
-package pl.gorzki.fmspring.fault.domain;
+package pl.gorzki.fmspring.fmModel.domain;
 
 import java.util.List;
 import java.util.Optional;

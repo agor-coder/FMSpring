@@ -1,8 +1,8 @@
-package pl.gorzki.fmspring.fault.infrastructure;
+package pl.gorzki.fmspring.fmModel.infrastructure;
 
 import org.springframework.stereotype.Repository;
-import pl.gorzki.fmspring.fault.domain.Fault;
-import pl.gorzki.fmspring.fault.domain.FaultRepository;
+import pl.gorzki.fmspring.fmModel.domain.Fault;
+import pl.gorzki.fmspring.fmModel.domain.FaultRepository;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package pl.gorzki.fmspring.fault.web;
+package pl.gorzki.fmspring.fmModel.web;
 
 
 import lombok.AllArgsConstructor;
@@ -7,16 +7,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import pl.gorzki.fmspring.Assigner;
-import pl.gorzki.fmspring.Notifier;
-import pl.gorzki.fmspring.Specialist;
-import pl.gorzki.fmspring.TechArea;
-import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
-import pl.gorzki.fmspring.fault.application.port.FaultUseCase.CreateFaultCommand;
-import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultCommand;
-import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultResponse;
-import pl.gorzki.fmspring.fault.domain.Fault;
-import pl.gorzki.fmspring.fault.domain.FaultStatus;
+import pl.gorzki.fmspring.fmModel.domain.Assigner;
+import pl.gorzki.fmspring.fmModel.domain.Notifier;
+import pl.gorzki.fmspring.fmModel.domain.Specialist;
+import pl.gorzki.fmspring.fmModel.domain.TechArea;
+import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase;
+import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase.CreateFaultCommand;
+import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase.UpdateFaultCommand;
+import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase.UpdateFaultResponse;
+import pl.gorzki.fmspring.fmModel.domain.Fault;
+import pl.gorzki.fmspring.fmModel.domain.FaultStatus;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -98,13 +98,10 @@ public class FaultController {
     private static class RestFaultCommand {
         @NotBlank(message = "podaj opis")
         private String faultDescribe;
-        @NotNull
         private FaultStatus status;
-        @NotNull
         private TechArea area;
         private Specialist specialist;
         private Assigner whoAssigned;
-        @NotNull
         private Notifier whoNotify;
 
         CreateFaultCommand toCreateCommand() {

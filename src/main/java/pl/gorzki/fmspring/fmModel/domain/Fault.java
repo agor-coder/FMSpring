@@ -1,19 +1,16 @@
-package pl.gorzki.fmspring.fault.domain;
+package pl.gorzki.fmspring.fmModel.domain;
 
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import pl.gorzki.fmspring.Assigner;
-import pl.gorzki.fmspring.Notifier;
-import pl.gorzki.fmspring.Specialist;
-import pl.gorzki.fmspring.TechArea;
+import pl.gorzki.fmspring.jpa.BaseEntity;
 
 
 @RequiredArgsConstructor
 @Getter
 @Setter
-public class Fault {
+public class Fault extends BaseEntity {
 
     private Long id;
     private String faultDescribe;

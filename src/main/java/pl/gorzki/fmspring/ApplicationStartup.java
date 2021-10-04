@@ -2,13 +2,13 @@ package pl.gorzki.fmspring;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
-import pl.gorzki.fmspring.fault.domain.Fault;
-import pl.gorzki.fmspring.fault.domain.FaultStatus;
+import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase;
+import pl.gorzki.fmspring.fmModel.domain.Fault;
+import pl.gorzki.fmspring.fmModel.domain.FaultStatus;
 
 import java.util.List;
 
-import static pl.gorzki.fmspring.fault.application.port.FaultUseCase.*;
+import static pl.gorzki.fmspring.fmModel.application.port.FaultUseCase.*;
 
 @Component
 public class ApplicationStartup implements CommandLineRunner {
