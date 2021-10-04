@@ -6,7 +6,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import pl.gorzki.fmspring.jpa.BaseEntity;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
+@Entity
 @RequiredArgsConstructor
 @Getter
 @Setter
@@ -15,9 +18,13 @@ public class Fault extends BaseEntity {
     private Long id;
     private String faultDescribe;
     private FaultStatus status = FaultStatus.NOT_ASSIGNED;
+    @ManyToOne
     private TechArea area;
+    @ManyToOne
     private Specialist specialist;
+    @ManyToOne
     private Assigner whoAssigned;
+    @ManyToOne
     private Notifier whoNotify;
 
     public Fault(String faultDescribe, TechArea area, Specialist specialist, Assigner whoAssigned, Notifier whoNotify) {

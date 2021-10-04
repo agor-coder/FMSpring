@@ -3,6 +3,12 @@ package pl.gorzki.fmspring.fmModel.domain;
 
 import lombok.*;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+
+@Entity
+@DiscriminatorValue("Zglaszajacy")
 @Getter
 @Setter
 @AllArgsConstructor

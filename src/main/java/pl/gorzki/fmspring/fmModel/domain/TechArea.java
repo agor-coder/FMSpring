@@ -6,6 +6,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import pl.gorzki.fmspring.jpa.BaseEntity;
 
+import javax.persistence.Entity;
+
+
+@Entity
 @RequiredArgsConstructor
 @Getter
 @Setter
