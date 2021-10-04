@@ -1,5 +1,6 @@
 package pl.gorzki.fmspring.fault.application.port;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 import pl.gorzki.fmspring.*;
@@ -50,6 +51,7 @@ public interface FaultUseCase {
 
     @Value
     @Builder
+    @AllArgsConstructor
     class UpdateFaultCommand {
         Long id;
         String faultDescribe;

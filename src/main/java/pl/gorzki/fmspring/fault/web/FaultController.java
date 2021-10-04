@@ -13,10 +13,14 @@ import pl.gorzki.fmspring.Specialist;
 import pl.gorzki.fmspring.TechArea;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.CreateFaultCommand;
+import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultCommand;
+import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultResponse;
 import pl.gorzki.fmspring.fault.domain.Fault;
+import pl.gorzki.fmspring.fault.domain.FaultStatus;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,8 +67,20 @@ public class FaultController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Fault addFault(@Valid @RequestBody RestCreateFaultCommand command) {
-        return service.addFault(command.toCommand());
+    public Fault addFault(@Valid @RequestBody RestFaultCommand command) {
+        return service.addFault(command.toCreateCommand());
+
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateFault(@PathVariable Long id, @RequestBody RestFaultCommand command) {
+        UpdateFaultResponse response = service.updateFault(command.toUpdateCommand(id));
+        if (!response.isSuccess()) {
+            String message = String.join(", ", response.getErrors());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+        }
+
     }
 
 
@@ -79,21 +95,37 @@ public class FaultController {
 
 
     @Data
-    private static class RestCreateFaultCommand {
+    private static class RestFaultCommand {
         @NotBlank(message = "podaj opis")
         private String faultDescribe;
+        @NotNull
+        private FaultStatus status;
+        @NotNull
         private TechArea area;
         private Specialist specialist;
         private Assigner whoAssigned;
+        @NotNull
         private Notifier whoNotify;
 
-        CreateFaultCommand toCommand() {
+        CreateFaultCommand toCreateCommand() {
             return new CreateFaultCommand(
                     faultDescribe,
                     area,
                     specialist,
                     whoAssigned,
                     whoNotify);
+        }
+
+        UpdateFaultCommand toUpdateCommand(Long id) {
+            return new UpdateFaultCommand(
+                    id,
+                    faultDescribe,
+                    status,
+                    area,
+                    specialist,
+                    whoAssigned,
+                    whoNotify
+            );
         }
     }
 }
