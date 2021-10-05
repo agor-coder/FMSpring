@@ -1,22 +1,23 @@
 package pl.gorzki.fmspring.fmModel.domain;
 
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import pl.gorzki.fmspring.jpa.BaseEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Fault extends BaseEntity {
 
     private Long id;
     private String faultDescribe;
+
+    @Enumerated(EnumType.STRING)
     private FaultStatus status = FaultStatus.NOT_ASSIGNED;
     @ManyToOne
     private TechArea area;

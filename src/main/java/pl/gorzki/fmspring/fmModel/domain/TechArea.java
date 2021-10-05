@@ -1,16 +1,15 @@
 package pl.gorzki.fmspring.fmModel.domain;
 
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pl.gorzki.fmspring.jpa.BaseEntity;
 
 import javax.persistence.Entity;
 
 
 @Entity
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class TechArea  extends BaseEntity {

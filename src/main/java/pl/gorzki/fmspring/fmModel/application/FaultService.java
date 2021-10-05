@@ -3,8 +3,8 @@ package pl.gorzki.fmspring.fmModel.application;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase;
+import pl.gorzki.fmspring.fmModel.db.FaultJpaRepository;
 import pl.gorzki.fmspring.fmModel.domain.Fault;
-import pl.gorzki.fmspring.fmModel.domain.FaultRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 class FaultService implements FaultUseCase {
 
-    private final FaultRepository repository;
+    private final FaultJpaRepository repository;
 
     @Override
     public List<Fault> findAll() {
@@ -80,7 +80,7 @@ class FaultService implements FaultUseCase {
 
     @Override
     public void removeFaultById(Long id) {
-        repository.removeById(id);
+        repository.deleteById(id);
     }
 
     @Override
