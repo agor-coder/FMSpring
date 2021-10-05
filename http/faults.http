@@ -12,7 +12,7 @@ POST http://localhost:8080/faults
 Content-Type: application/json
 
 {
-  "faultDescribe": "NOWA33"
+  "faultDescribe": "bardzoNOWA33"
 }
 
 ###
@@ -20,7 +20,7 @@ PATCH http://localhost:8080/faults/4
 Content-Type: application/json
 
 {
-  "faultDescribe": "NOWA_NOWA",
+  "faultDescribe": "mm",
   "status": "ASSIGNED"
 }
 
