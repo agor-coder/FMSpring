@@ -1,7 +1,14 @@
 ###
 GET http://localhost:8080/areas
 ###
-GET http://localhost:8080/areas/2
+GET http://localhost:8080/areas/6
 ###
 GET http://localhost:8080/areas/?name=m
+###
+POST http://localhost:8080/areas
+Content-Type: application/json
+
+{
+  "areaName": "bardzoNOWA33"
+}
 
