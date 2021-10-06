@@ -7,20 +7,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import pl.gorzki.fmspring.fmModel.domain.Assigner;
-import pl.gorzki.fmspring.fmModel.domain.Notifier;
-import pl.gorzki.fmspring.fmModel.domain.Specialist;
-import pl.gorzki.fmspring.fmModel.domain.TechArea;
 import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase.CreateFaultCommand;
 import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase.UpdateFaultCommand;
 import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase.UpdateFaultResponse;
-import pl.gorzki.fmspring.fmModel.domain.Fault;
-import pl.gorzki.fmspring.fmModel.domain.FaultStatus;
+import pl.gorzki.fmspring.fmModel.domain.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +44,7 @@ public class FaultController {
 //    @GetMapping(params = {"descr"})
 //    @ResponseStatus(HttpStatus.OK)
 //    public List<Fault> getAllFiltered(@RequestParam String descr) {
-//        return service.findByDesription(descr);
+//        return service.findByDescription(descr);
 //    }
 
 

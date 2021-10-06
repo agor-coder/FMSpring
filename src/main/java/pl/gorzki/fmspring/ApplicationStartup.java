@@ -59,7 +59,7 @@ public class ApplicationStartup implements CommandLineRunner {
     }
 
     private void findAndUpdate() {
-        faultService.findOneByDesription("z")
+        faultService.findOneByDescription("z")
                 .ifPresent(fault -> {
                     UpdateFaultCommand command = UpdateFaultCommand.builder()
                             .id(fault.getId())

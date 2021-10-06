@@ -49,7 +49,7 @@ class FaultService implements FaultUseCase {
 
 
     @Override
-    public Optional<Fault> findOneByDesription(String text) {
+    public Optional<Fault> findOneByDescription(String text) {
         return repository.findAll()
                 .stream()
                 .filter(fault -> fault.getFaultDescribe().toLowerCase().contains(text.toLowerCase()))

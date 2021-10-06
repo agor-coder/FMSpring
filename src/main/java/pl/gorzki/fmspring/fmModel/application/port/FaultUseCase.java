@@ -25,7 +25,7 @@ public interface FaultUseCase {
 
     List<Fault> findByDescriptionAndStatus(String descr, String status);
 
-    Optional<Fault> findOneByDesription(String text);
+    Optional<Fault> findOneByDescription(String text);
 
     Fault addFault(CreateFaultCommand command);
 
