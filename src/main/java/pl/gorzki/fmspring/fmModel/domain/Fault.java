@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Setter
 public class Fault extends BaseEntity {
 
-    private Long id;
+
     private String faultDescribe;
 
     @Enumerated(EnumType.STRING)
