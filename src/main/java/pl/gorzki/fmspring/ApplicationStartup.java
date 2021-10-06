@@ -42,6 +42,8 @@ public class ApplicationStartup implements CommandLineRunner {
         faultService.addFault(new CreateFaultCommand("NOWA",null,null,null,null));
 
         areaService.addArea(new CreateAreaCommand("maszynownia"));
+        areaService.addArea(new CreateAreaCommand("elektr"));
+        areaService.addArea(new CreateAreaCommand("kotlownia"));
 
     }
 

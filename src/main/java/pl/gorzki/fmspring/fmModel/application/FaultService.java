@@ -2,6 +2,7 @@ package pl.gorzki.fmspring.fmModel.application;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fmModel.db.FaultJpaRepository;
 import pl.gorzki.fmspring.fmModel.domain.Fault;
@@ -73,6 +74,7 @@ class FaultService implements FaultUseCase {
     }
 
     @Override
+    @Transactional
     public Fault addFault(CreateFaultCommand command) {
         Fault fault = command.toFault();
         return repository.save(fault);
@@ -84,12 +86,14 @@ class FaultService implements FaultUseCase {
     }
 
     @Override
+    @Transactional
     public UpdateFaultResponse updateFault(UpdateFaultCommand command) {
         return repository
                 .findById(command.getId())
                 .map(fault -> {
-                    Fault updatedFault = command.updateFields(fault);
-                    repository.save(updatedFault);
+                    command.updateFields(fault);
+//                    Fault updatedFault = command.updateFields(fault);  //bo @Transactional
+//                    repository.save(updatedFault);
                     return UpdateFaultResponse.SUCCESS;
                 })
                 .orElseGet(() -> new UpdateFaultResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));
