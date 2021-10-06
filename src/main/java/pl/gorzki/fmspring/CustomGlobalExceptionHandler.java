@@ -1,5 +1,6 @@
 package pl.gorzki.fmspring;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,8 +30,14 @@ public class CustomGlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handle(IllegalArgumentException ex) {
-        return handleError(HttpStatus.BAD_REQUEST, List.of(ex.getMessage()),ex);
+        return handleError(HttpStatus.BAD_REQUEST, List.of(ex.getMessage()), ex);
     }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Object> handle(ConstraintViolationException ex) {
+        return handleError(HttpStatus.CONFLICT, List.of(ex.getMessage()), ex);
+    }
+
 
     private ResponseEntity<Object> handleError(HttpStatus status, List<String> errors, Throwable ex) {
         Map<String, Object> body = new LinkedHashMap<>();
@@ -39,6 +46,6 @@ public class CustomGlobalExceptionHandler {
         body.put("status", status.value());
 //get all errors
         body.put("errors", errors);
-        return new ResponseEntity<>(body,status);
+        return new ResponseEntity<>(body, status);
     }
 }
