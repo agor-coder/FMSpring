@@ -1,6 +1,7 @@
 version: '3.1'
 
 services:
+
   db:
     container_name: fmspringdb
     image: postgres:12.8
@@ -10,4 +11,15 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: pass123
     ports:
-      - 7432:5432
+      - 9000:5432
+
+  db2:
+          image: postgres:12.8
+          restart: always
+          environment:
+            POSTGRES_DB: bookaro
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: pass123
+          ports:
+            - 7432:5432
+
