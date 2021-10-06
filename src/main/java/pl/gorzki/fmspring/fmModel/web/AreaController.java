@@ -6,8 +6,10 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import pl.gorzki.fmspring.fmModel.application.port.AreaUseCase;
 import pl.gorzki.fmspring.fmModel.application.port.AreaUseCase.CreateAreaCommand;
+import pl.gorzki.fmspring.fmModel.application.port.AreaUseCase.UpdateAreaResponse;
 import pl.gorzki.fmspring.fmModel.domain.TechArea;
 
 import javax.validation.Valid;
@@ -46,6 +48,18 @@ public class AreaController {
         return service.addArea(command.toCreateCommand());
     }
 
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateArea(@PathVariable Long id, @RequestBody RestAreaCommand command) {
+        UpdateAreaResponse response = service.updateArea(command.toUpdateCommand(id));
+        if (!response.isSuccess()) {
+            String message = String.join(", ", response.getErrors());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+        }
+    }
+
+
     @Data
     private static class RestAreaCommand {
         @NotBlank(message = "podaj nazwe")
@@ -54,5 +68,10 @@ public class AreaController {
         private CreateAreaCommand toCreateCommand() {
             return new CreateAreaCommand(areaName);
         }
+
+        private AreaUseCase.UpdateAreaCommand toUpdateCommand(Long id) {
+            return new AreaUseCase.UpdateAreaCommand(id, areaName);
+        }
     }
 }
+

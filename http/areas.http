@@ -12,3 +12,11 @@ Content-Type: application/json
   "areaName": "bardzoNOWA33"
 }
 
+###
+PATCH http://localhost:8080/areas/6
+Content-Type: application/json
+
+{
+  "areaName": "bardzoNOWA33"
+}
+

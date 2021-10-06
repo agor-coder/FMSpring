@@ -19,6 +19,8 @@ public interface AreaUseCase {
 
     TechArea addArea(CreateAreaCommand command);
 
+    UpdateAreaResponse updateArea(UpdateAreaCommand command);
+
 
 
     @Value
