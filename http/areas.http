@@ -13,10 +13,12 @@ Content-Type: application/json
 }
 
 ###
-PATCH http://localhost:8080/areas/6
+PATCH http://localhost:8080/areas/35
 Content-Type: application/json
 
 {
-  "areaName": "bardzoNOWA33"
+  "areaName": "kotłownia2"
 }
 
+###
+DELETE http://localhost:8080/areas/38

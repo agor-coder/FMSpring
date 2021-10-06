@@ -21,6 +21,8 @@ public interface AreaUseCase {
 
     UpdateAreaResponse updateArea(UpdateAreaCommand command);
 
+    void removeAreaById(Long id);
+
 
 
     @Value
@@ -38,13 +40,6 @@ public interface AreaUseCase {
     class UpdateAreaCommand {
         Long id;
         String areaName;
-
-        public TechArea updateFields(TechArea area) {
-            if (areaName != null) {
-                area.setAreaName(areaName);
-            }
-            return area;
-        }
     }
 
     @Value

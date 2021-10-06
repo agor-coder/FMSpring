@@ -47,6 +47,11 @@ public class AreaService implements AreaUseCase {
         return repository.save(area);
     }
 
+    @Override
+    public void removeAreaById(Long id) {
+        repository.deleteById(id);
+    }
+
 
     @Override
     @Transactional
@@ -54,9 +59,16 @@ public class AreaService implements AreaUseCase {
         return repository
                 .findById(command.getId())
                 .map(area -> {
-                    command.updateFields(area);
+                    updateFields(command, area);
                     return UpdateAreaResponse.SUCCESS;
                 })
                 .orElseGet(() -> new UpdateAreaResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));
+    }
+
+    private TechArea updateFields(UpdateAreaCommand command, TechArea area) {
+        if (command.getAreaName() != null) {
+            area.setAreaName(command.getAreaName());
+        }
+        return area;
     }
 }

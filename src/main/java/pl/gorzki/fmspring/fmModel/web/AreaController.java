@@ -59,6 +59,14 @@ public class AreaController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
+        if (service.fidById(id).isPresent()) {
+            service.removeAreaById(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 
     @Data
     private static class RestAreaCommand {

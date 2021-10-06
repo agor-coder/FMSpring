@@ -16,7 +16,7 @@ Content-Type: application/json
 }
 
 ###
-PATCH http://localhost:8080/faults/31
+PATCH http://localhost:8080/faults/34
 Content-Type: application/json
 
 {

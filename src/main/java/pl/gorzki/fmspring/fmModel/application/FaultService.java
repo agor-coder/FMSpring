@@ -91,12 +91,35 @@ class FaultService implements FaultUseCase {
         return repository
                 .findById(command.getId())
                 .map(fault -> {
-                    command.updateFields(fault);
+                    updateFields(command, fault);
 //                    Fault updatedFault = command.updateFields(fault);  //bo @Transactional
 //                    repository.save(updatedFault);
                     return UpdateFaultResponse.SUCCESS;
                 })
                 .orElseGet(() -> new UpdateFaultResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));
 
+    }
+
+
+    private Fault updateFields(UpdateFaultCommand command, Fault fault) {
+        if (command.getFaultDescribe() != null) {
+            fault.setFaultDescribe(command.getFaultDescribe());
+        }
+        if (command.getStatus() != null) {
+            fault.setStatus(command.getStatus());
+        }
+        if (command.getArea() != null) {
+            fault.setArea(command.getArea());
+        }
+        if (command.getSpecialist() != null) {
+            fault.setSpecialist(command.getSpecialist());
+        }
+        if (command.getWhoAssigned() != null) {
+            fault.setWhoAssigned(command.getWhoAssigned());
+        }
+        if (command.getWhoNotify() != null) {
+            fault.setWhoNotify(command.getWhoNotify());
+        }
+        return fault;
     }
 }

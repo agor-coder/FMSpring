@@ -58,28 +58,6 @@ public interface FaultUseCase {
         Specialist specialist;
         Assigner whoAssigned;
         Notifier whoNotify;
-
-        public Fault updateFields(Fault fault) {
-            if (faultDescribe != null) {
-                fault.setFaultDescribe(faultDescribe);
-            }
-            if (status != null) {
-                fault.setStatus(status);
-            }
-            if (area != null) {
-                fault.setArea(area);
-            }
-            if (specialist != null) {
-                fault.setSpecialist(specialist);
-            }
-            if (whoAssigned != null) {
-                fault.setWhoAssigned(whoAssigned);
-            }
-            if (whoNotify != null) {
-                fault.setWhoNotify(whoNotify);
-            }
-            return fault;
-        }
     }
 
     @Value
