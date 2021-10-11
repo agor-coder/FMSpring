@@ -1,4 +1,4 @@
-package pl.gorzki.fmspring.fmModel.domain;
+package pl.gorzki.fmspring.users.domain;
 
 
 import lombok.*;
@@ -13,7 +13,7 @@ import javax.persistence.Entity;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Assigner extends Account {
+public class Assigner extends UserEntity {
 
     private String department;
 }

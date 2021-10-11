@@ -1,4 +1,4 @@
-package pl.gorzki.fmspring.fmModel.web;
+package pl.gorzki.fmspring.area.web;
 
 
 import lombok.AllArgsConstructor;
@@ -7,10 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import pl.gorzki.fmspring.fmModel.application.port.AreaUseCase;
-import pl.gorzki.fmspring.fmModel.application.port.AreaUseCase.CreateAreaCommand;
-import pl.gorzki.fmspring.fmModel.application.port.AreaUseCase.UpdateAreaResponse;
-import pl.gorzki.fmspring.fmModel.domain.TechArea;
+import pl.gorzki.fmspring.area.application.port.AreaUseCase;
+import pl.gorzki.fmspring.area.application.port.AreaUseCase.CreateAreaCommand;
+import pl.gorzki.fmspring.area.application.port.AreaUseCase.UpdateAreaResponse;
+import pl.gorzki.fmspring.area.domain.TechArea;
+
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;

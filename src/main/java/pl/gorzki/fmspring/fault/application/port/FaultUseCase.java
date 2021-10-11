@@ -1,9 +1,13 @@
-package pl.gorzki.fmspring.fmModel.application.port;
+package pl.gorzki.fmspring.fault.application.port;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
-import pl.gorzki.fmspring.fmModel.domain.*;
+import pl.gorzki.fmspring.area.domain.TechArea;
+import pl.gorzki.fmspring.fault.domain.*;
+import pl.gorzki.fmspring.users.domain.Assigner;
+import pl.gorzki.fmspring.users.domain.Notifier;
+import pl.gorzki.fmspring.users.domain.Specialist;
 
 import java.util.List;
 import java.util.Optional;

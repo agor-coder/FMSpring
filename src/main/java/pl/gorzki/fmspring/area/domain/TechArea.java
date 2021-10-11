@@ -1,4 +1,4 @@
-package pl.gorzki.fmspring.fmModel.domain;
+package pl.gorzki.fmspring.area.domain;
 
 
 import lombok.*;

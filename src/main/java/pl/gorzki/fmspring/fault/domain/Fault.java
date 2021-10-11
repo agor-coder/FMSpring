@@ -1,11 +1,15 @@
-package pl.gorzki.fmspring.fmModel.domain;
+package pl.gorzki.fmspring.fault.domain;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.jpa.BaseEntity;
+import pl.gorzki.fmspring.users.domain.Assigner;
+import pl.gorzki.fmspring.users.domain.Notifier;
+import pl.gorzki.fmspring.users.domain.Specialist;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

@@ -2,15 +2,16 @@ package pl.gorzki.fmspring;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import pl.gorzki.fmspring.fmModel.application.port.AreaUseCase;
-import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase;
-import pl.gorzki.fmspring.fmModel.domain.Fault;
-import pl.gorzki.fmspring.fmModel.domain.FaultStatus;
+import pl.gorzki.fmspring.area.application.port.AreaUseCase;
+import pl.gorzki.fmspring.area.domain.TechArea;
+import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
+import pl.gorzki.fmspring.fault.domain.Fault;
+import pl.gorzki.fmspring.fault.domain.FaultStatus;
 
 import java.util.List;
 
-import static pl.gorzki.fmspring.fmModel.application.port.AreaUseCase.*;
-import static pl.gorzki.fmspring.fmModel.application.port.FaultUseCase.*;
+import static pl.gorzki.fmspring.area.application.port.AreaUseCase.*;
+import static pl.gorzki.fmspring.fault.application.port.FaultUseCase.*;
 
 @Component
 public class ApplicationStartup implements CommandLineRunner {
@@ -25,7 +26,7 @@ public class ApplicationStartup implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-//        initData();
+//     initData();
         findAllFaults();
         findByDescr();
         System.out.println("update_start");
@@ -35,15 +36,17 @@ public class ApplicationStartup implements CommandLineRunner {
 
 
     private void initData() {
-        faultService.addFault(new CreateFaultCommand("zwarcie",null,null,null,null));
-        faultService.addFault(new CreateFaultCommand("brak",null,null,null,null));
-        faultService.addFault(new CreateFaultCommand("nie ma",null,null,null,null));
-        faultService.addFault(new CreateFaultCommand("spalony",null,null,null,null));
-        faultService.addFault(new CreateFaultCommand("NOWA",null,null,null,null));
 
-        areaService.addArea(new CreateAreaCommand("maszynownia"));
-        areaService.addArea(new CreateAreaCommand("elektr"));
-        areaService.addArea(new CreateAreaCommand("kotlownia"));
+        TechArea area1 = areaService.addArea(new CreateAreaCommand("maszynownia"));
+        TechArea area2 = areaService.addArea(new CreateAreaCommand("elektr"));
+        TechArea area3 = areaService.addArea(new CreateAreaCommand("kotlownia"));
+
+        faultService.addFault(new CreateFaultCommand("zwarcie", area1, null, null, null));
+        faultService.addFault(new CreateFaultCommand("brak", area2, null, null, null));
+        faultService.addFault(new CreateFaultCommand("nie ma", area1, null, null, null));
+        faultService.addFault(new CreateFaultCommand("spalony", area2, null, null, null));
+        faultService.addFault(new CreateFaultCommand("NOWA", area3, null, null, null));
+
 
     }
 

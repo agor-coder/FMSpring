@@ -1,4 +1,4 @@
-package pl.gorzki.fmspring.fmModel.domain;
+package pl.gorzki.fmspring.fault.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

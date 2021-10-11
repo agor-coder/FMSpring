@@ -1,4 +1,4 @@
-package pl.gorzki.fmspring.fmModel.web;
+package pl.gorzki.fmspring.fault.web;
 
 
 import lombok.AllArgsConstructor;
@@ -7,11 +7,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase;
-import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase.CreateFaultCommand;
-import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase.UpdateFaultCommand;
-import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase.UpdateFaultResponse;
-import pl.gorzki.fmspring.fmModel.domain.*;
+import pl.gorzki.fmspring.area.domain.TechArea;
+import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
+import pl.gorzki.fmspring.fault.application.port.FaultUseCase.CreateFaultCommand;
+import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultCommand;
+import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultResponse;
+import pl.gorzki.fmspring.fault.domain.*;
+import pl.gorzki.fmspring.users.domain.Assigner;
+import pl.gorzki.fmspring.users.domain.Notifier;
+import pl.gorzki.fmspring.users.domain.Specialist;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;

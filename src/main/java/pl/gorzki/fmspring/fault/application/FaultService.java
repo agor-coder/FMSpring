@@ -1,11 +1,11 @@
-package pl.gorzki.fmspring.fmModel.application;
+package pl.gorzki.fmspring.fault.application;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gorzki.fmspring.fmModel.application.port.FaultUseCase;
-import pl.gorzki.fmspring.fmModel.db.FaultJpaRepository;
-import pl.gorzki.fmspring.fmModel.domain.Fault;
+import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
+import pl.gorzki.fmspring.fault.db.FaultJpaRepository;
+import pl.gorzki.fmspring.fault.domain.Fault;
 
 import java.util.Collections;
 import java.util.List;
