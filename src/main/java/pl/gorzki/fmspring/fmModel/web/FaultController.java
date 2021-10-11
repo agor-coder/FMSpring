@@ -31,11 +31,25 @@ public class FaultController {
             @RequestParam Optional<String> descr,
             @RequestParam Optional<String> stat) {
         if (descr.isPresent() && stat.isPresent()) {
-            return service.findByDescriptionAndStatus(descr.get(), stat.get());
+            List<Fault> byDescAndStat = service.findByDescriptionAndStatus(descr.get(), stat.get());
+            if (byDescAndStat.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such element");
+            }
+            return byDescAndStat;
+
         } else if (descr.isPresent()) {
-            return service.findByDescription(descr.get());
+            List<Fault> byDesc = service.findByDescription(descr.get());
+            if (byDesc.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such element");
+            }
+            return byDesc;
+
         } else if (stat.isPresent()) {
-            return service.findByStatus(stat.get());
+            List<Fault> byStat = service.findByStatus(stat.get());
+            if (byStat.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such element");
+            }
+            return byStat;
         }
         return service.findAll();
     }

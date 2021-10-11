@@ -3,7 +3,7 @@ GET http://localhost:8080/areas
 ###
 GET http://localhost:8080/areas/6
 ###
-GET http://localhost:8080/areas/?name=m
+GET http://localhost:8080/areas/?name=n
 ###
 POST http://localhost:8080/areas
 Content-Type: application/json

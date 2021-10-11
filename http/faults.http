@@ -20,9 +20,9 @@ PATCH http://localhost:8080/faults/34
 Content-Type: application/json
 
 {
-  "faultDescribe": "mm",
+  "faultDescribe": "nnn",
   "status": "ASSIGNED"
 }
 
 ###
-DELETE http://localhost:8080/faults/2
+DELETE http://localhost:8080/faults/422
