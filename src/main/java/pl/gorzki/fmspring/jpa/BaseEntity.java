@@ -17,7 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @EqualsAndHashCode(of= "uuid")
-public class   BaseEntity {
+public  abstract class   BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;

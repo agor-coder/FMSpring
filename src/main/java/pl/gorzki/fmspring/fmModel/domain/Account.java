@@ -14,10 +14,8 @@ import javax.persistence.InheritanceType;
 @DiscriminatorColumn(name = "type")
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class Account extends BaseEntity {
+public abstract class Account extends BaseEntity {
 
     private String firstName;
     private String lastName;
