@@ -61,7 +61,7 @@ public class AreaService implements AreaUseCase {
                     updateFields(command, area);
                     return UpdateAreaResponse.SUCCESS;
                 })
-                .orElseGet(() -> new UpdateAreaResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));
+                .orElseGet(() -> new UpdateAreaResponse(false, Collections.singletonList("Area not found with id: " + command.getId())));
     }
 
     private TechArea updateFields(UpdateAreaCommand command, TechArea area) {
