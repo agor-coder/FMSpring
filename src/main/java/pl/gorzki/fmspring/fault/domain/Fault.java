@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.jpa.BaseEntity;
-import pl.gorzki.fmspring.users.domain.Assigner;
-import pl.gorzki.fmspring.users.domain.Notifier;
-import pl.gorzki.fmspring.users.domain.Specialist;
+import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -31,13 +29,13 @@ public class Fault extends BaseEntity {
     @ManyToOne
     private TechArea area;
     @ManyToOne
-    private Specialist specialist;
+    private UserEntity specialist;
     @ManyToOne
-    private Assigner whoAssigned;
+    private UserEntity whoAssigned;
     @ManyToOne
-    private Notifier whoNotify;
+    private UserEntity whoNotify;
 
-    public Fault(String faultDescribe, TechArea area, Specialist specialist, Assigner whoAssigned, Notifier whoNotify) {
+    public Fault(String faultDescribe, TechArea area, UserEntity specialist, UserEntity whoAssigned, UserEntity whoNotify) {
         this.faultDescribe = faultDescribe;
         this.area = area;
         this.specialist = specialist;

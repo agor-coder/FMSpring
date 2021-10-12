@@ -12,10 +12,9 @@ import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.CreateFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultResponse;
-import pl.gorzki.fmspring.fault.domain.*;
-import pl.gorzki.fmspring.users.domain.Assigner;
-import pl.gorzki.fmspring.users.domain.Notifier;
-import pl.gorzki.fmspring.users.domain.Specialist;
+import pl.gorzki.fmspring.fault.domain.Fault;
+import pl.gorzki.fmspring.fault.domain.FaultStatus;
+import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -112,9 +111,9 @@ public class FaultController {
         private String faultDescribe;
         private FaultStatus status;
         private TechArea area;
-        private Specialist specialist;
-        private Assigner whoAssigned;
-        private Notifier whoNotify;
+        private UserEntity specialist;
+        private UserEntity whoAssigned;
+        private UserEntity whoNotify;
 
         CreateFaultCommand toCreateCommand() {
             return new CreateFaultCommand(

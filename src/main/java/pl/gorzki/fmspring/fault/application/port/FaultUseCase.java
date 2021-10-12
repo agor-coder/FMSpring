@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Value;
 import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.fault.domain.*;
-import pl.gorzki.fmspring.users.domain.Assigner;
-import pl.gorzki.fmspring.users.domain.Notifier;
-import pl.gorzki.fmspring.users.domain.Specialist;
+import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,9 +40,9 @@ public interface FaultUseCase {
     class CreateFaultCommand {
         String faultDescribe;
         TechArea area;
-        Specialist specialist;
-        Assigner whoAssigned;
-        Notifier whoNotify;
+        UserEntity specialist;
+        UserEntity whoAssigned;
+        UserEntity whoNotify;
 
         public Fault toFault() {
             return new Fault(faultDescribe, area, specialist, whoAssigned, whoNotify);
@@ -59,9 +57,9 @@ public interface FaultUseCase {
         String faultDescribe;
         FaultStatus status;
         TechArea area;
-        Specialist specialist;
-        Assigner whoAssigned;
-        Notifier whoNotify;
+        UserEntity specialist;
+        UserEntity whoAssigned;
+        UserEntity whoNotify;
     }
 
     @Value
