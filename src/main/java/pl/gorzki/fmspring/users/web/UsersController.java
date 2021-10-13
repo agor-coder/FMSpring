@@ -4,10 +4,9 @@ package pl.gorzki.fmspring.users.web;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import pl.gorzki.fmspring.users.application.port.UserRegistrationUseCase;
-import pl.gorzki.fmspring.users.application.port.UserRegistrationUseCase.CreateUserCommand;
+import pl.gorzki.fmspring.users.application.port.UserUseCase;
+import pl.gorzki.fmspring.users.application.port.UserUseCase.CreateUserCommand;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
 
@@ -18,12 +17,12 @@ import pl.gorzki.fmspring.users.domain.UserEntity;
 
 public class UsersController {
 
-    private final UserRegistrationUseCase userRegistrationService;
+    private final UserUseCase service;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserEntity registerUser(@RequestBody RestUserCommand command) {
-        return userRegistrationService.register(command.toCreateCommand());
+        return service.register(command.toCreateCommand());
 
     }
 

@@ -8,8 +8,8 @@ import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.domain.Fault;
 import pl.gorzki.fmspring.fault.domain.FaultStatus;
-import pl.gorzki.fmspring.users.application.port.UserRegistrationUseCase;
-import pl.gorzki.fmspring.users.application.port.UserRegistrationUseCase.CreateUserCommand;
+import pl.gorzki.fmspring.users.application.port.UserUseCase;
+import pl.gorzki.fmspring.users.application.port.UserUseCase.CreateUserCommand;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class ApplicationStartup implements CommandLineRunner {
 
     private final FaultUseCase faultService;
     private final AreaUseCase areaService;
-    private final UserRegistrationUseCase registrationService;
+    private final UserUseCase registrationService;
 
 
 

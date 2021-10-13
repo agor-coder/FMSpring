@@ -5,7 +5,7 @@ import lombok.Value;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
 
-public interface UserRegistrationUseCase {
+public interface UserUseCase {
 
     UserEntity register(CreateUserCommand command);
 

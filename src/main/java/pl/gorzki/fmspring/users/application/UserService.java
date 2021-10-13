@@ -3,14 +3,14 @@ package pl.gorzki.fmspring.users.application;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gorzki.fmspring.users.application.port.UserRegistrationUseCase;
+import pl.gorzki.fmspring.users.application.port.UserUseCase;
 import pl.gorzki.fmspring.users.db.UserEntityRepository;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
 
 @Service
 @AllArgsConstructor
-public class UserRegistrationService implements UserRegistrationUseCase {
+public class UserService implements UserUseCase {
 
     private final UserEntityRepository repository;
 
