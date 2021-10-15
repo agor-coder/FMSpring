@@ -49,10 +49,10 @@ public class Fault extends BaseEntity {
         sb.append("id=").append(id);
         sb.append(", faultDescribe='").append(faultDescribe).append('\'');
         sb.append(", status=").append(status.getDescription());
-        sb.append(", area=").append(area);
+        sb.append(", area=").append(area.getAreaName());
         sb.append(", specialist=").append(specialist);
         sb.append(", whoAssigned=").append(whoAssigned);
-        sb.append(", whoNotify=").append(whoNotify);
+        sb.append(", whoNotify=").append(whoNotify.getLastName());
         sb.append('}');
         return sb.toString();
     }
