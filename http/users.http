@@ -10,4 +10,15 @@ Content-Type: application/json
    "emailUserName": "agor2@2.pl",
    "role": "ROLE_ADMIN"
 }
+###
+POST http://localhost:8080/users/notifier
+Content-Type: application/json
+
+{
+   "password": "123",
+   "firstName": "Andy",
+   "lastName": "Notif",
+   "phone": "12345",
+   "emailUserName": "notif3@2.pl"
+}
 
