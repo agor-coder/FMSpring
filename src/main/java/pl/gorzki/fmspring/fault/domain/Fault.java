@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @AllArgsConstructor
@@ -21,18 +22,21 @@ import javax.persistence.ManyToOne;
 @Setter
 public class Fault extends BaseEntity {
 
-
+    @NotNull
     private String faultDescribe;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private FaultStatus status = FaultStatus.NOT_ASSIGNED;
     @ManyToOne
+    @NotNull
     private TechArea area;
     @ManyToOne
     private UserEntity specialist;
     @ManyToOne
     private UserEntity whoAssigned;
     @ManyToOne
+    @NotNull
     private UserEntity whoNotify;
 
     public Fault(String faultDescribe, TechArea area, UserEntity specialist, UserEntity whoAssigned, UserEntity whoNotify) {

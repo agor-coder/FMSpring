@@ -1,9 +1,12 @@
 ###
 GET http://localhost:8080/faults/
+
 ###
 GET http://localhost:8080/faults/2
+
 ###
 GET http://localhost:8080/faults?descr=E
+
 ###
 GET http://localhost:8080/faults?stat=nie
 
@@ -12,15 +15,22 @@ POST http://localhost:8080/faults
 Content-Type: application/json
 
 {
-  "faultDescribe": "bardzoNOWA33"
+  "faultDescribe": "bardzoNOWA35",
+  "status": "NOT_ASSIGNED",
+  "area": {
+    "id": "150"
+  },
+  "whoNotify": {
+    "id": "154"
+  }
 }
 
 ###
-PATCH http://localhost:8080/faults/34
+PATCH http://localhost:8080/faults/156
 Content-Type: application/json
 
 {
-  "faultDescribe": "nnn",
+  "faultDescribe": "wyłączony",
   "status": "ASSIGNED"
 }
 
