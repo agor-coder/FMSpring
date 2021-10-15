@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.CreateFaultCommand;
@@ -18,6 +19,7 @@ import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,10 +79,13 @@ public class FaultController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Fault addFault(@Valid @RequestBody RestFaultCommand command) {
-        return service.addFault(command.toCreateCommand());
+    public ResponseEntity<?> addFault(@Valid @RequestBody RestFaultCommand command) {
+        Fault fault = service.addFault(command.toCreateCommand());
+        return ResponseEntity.created(createdFaultUri(fault)).build();
+    }
 
+    private URI createdFaultUri(Fault fault) {
+        return ServletUriComponentsBuilder.fromCurrentRequestUri().path("/" + fault.getId().toString()).build().toUri();
     }
 
     @PatchMapping("/{id}")

@@ -15,8 +15,7 @@ POST http://localhost:8080/faults
 Content-Type: application/json
 
 {
-  "faultDescribe": "bardzoNOWA35",
-  "status": "NOT_ASSIGNED",
+  "faultDescribe": "NOWA37",
   "area": {
     "id": "150"
   },
