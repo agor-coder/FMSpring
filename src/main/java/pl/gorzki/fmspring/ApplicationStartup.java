@@ -29,7 +29,7 @@ public class ApplicationStartup implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-//    initData();
+//   initData();
         findAllFaults();
         findByDescr();
         System.out.println("update_start");
@@ -48,7 +48,19 @@ public class ApplicationStartup implements CommandLineRunner {
                 "123","Peter", "Novak", "12345", "peter@2.pl","ROLE_NOTIFIER"
         ));
         UserEntity notifier2 = registrationService.register(new CreateUserCommand(
-                "123","Peter", "Smith", "12345", "john@2.pl","ROLE_NOTIFIER"
+                "123","Peter", "Smith", "12345", "peter2@2.pl","ROLE_NOTIFIER"
+        ));
+        UserEntity assigner1 = registrationService.register(new CreateUserCommand(
+                "123","Andy", "Gor", "12345", "andy@2.pl","ROLE_ASSIGNER"
+        ));
+        UserEntity specialist1 = registrationService.register(new CreateUserCommand(
+                "123","John", "Baker", "12345", "john@2.pl","ROLE_SPECIALIST"
+        ));
+        UserEntity specialist2 = registrationService.register(new CreateUserCommand(
+                "123","Stan", "Pure", "12345", "stan@2.pl","ROLE_SPECIALIST"
+        ));
+        UserEntity admin1 = registrationService.register(new CreateUserCommand(
+                "123","Kay", "Lenz", "12345", "kay@2.pl","ROLE_ADMIN"
         ));
 
         faultService.addFault(new CreateFaultCommand("zwarcie", area1, null, null, notifier1));

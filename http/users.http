@@ -7,7 +7,7 @@ Content-Type: application/json
    "firstName": "Andy",
    "lastName": "Gor",
    "phone": "12345",
-   "emailUserName": "agor@2.pl",
+   "emailUserName": "agor2@2.pl",
    "role": "ROLE_ADMIN"
 }
 
