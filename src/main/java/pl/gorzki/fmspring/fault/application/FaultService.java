@@ -88,8 +88,8 @@ class FaultService implements FaultUseCase {
 
     //TODO - getAuthority()
     private Fault toFault(CreateFaultCommand command) {
-        TechArea area = areaRepository.getById(command.getAreaId());
-        UserEntity notif = userRepository.getById(command.getWhoNotifyId());
+        TechArea area = areaRepository.findById(command.getAreaId()).get();
+        UserEntity notif = userRepository.findById(command.getWhoNotifyId()).get();
         return new Fault(command.getFaultDescribe(), area, notif);
 
     }
@@ -123,16 +123,20 @@ class FaultService implements FaultUseCase {
             fault.setStatus(command.getStatus());
         }
         if (command.getAreaId() != null) {
-            fault.setArea(areaRepository.getById(command.getAreaId()));
+            fault.setArea(areaRepository.findById(command.getAreaId())
+                    .orElseThrow(() -> new IllegalStateException("Cannot find such area ")));
         }
         if (command.getSpecialistId() != null) {
-            fault.setSpecialist(userRepository.getById(command.getSpecialistId()));
+            fault.setSpecialist(userRepository.findById(command.getSpecialistId())
+                    .orElseThrow(() -> new IllegalStateException("Cannot find specialist ")));
         }
         if (command.getWhoAssignedId() != null) {
-            fault.setWhoAssigned(userRepository.getById(command.getWhoAssignedId()));
+            fault.setWhoAssigned(userRepository.findById(command.getWhoAssignedId())
+                    .orElseThrow(() -> new IllegalStateException("Cannot find assigner ")));
         }
         if (command.getWhoNotifyId() != null) {
-            fault.setWhoNotify(userRepository.getById(command.getWhoNotifyId()));
+            fault.setWhoNotify(userRepository.findById(command.getWhoNotifyId())
+                    .orElseThrow(() -> new IllegalStateException("Cannot find notifier ")));
         }
         return fault;
     }

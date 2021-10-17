@@ -29,7 +29,7 @@ public class ApplicationStartup implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-   initData();
+//   initData();
         findAllFaults();
         findByDescr();
         System.out.println("update_start");
