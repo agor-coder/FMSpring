@@ -5,7 +5,7 @@ import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import java.util.Optional;
 
-public interface UserEntityRepository extends JpaRepository<UserEntity, Long> {
+public interface UserJpaRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByEmailUserNameIgnoreCase(String username);
 

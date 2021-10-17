@@ -4,15 +4,17 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gorzki.fmspring.users.application.port.UserUseCase;
-import pl.gorzki.fmspring.users.db.UserEntityRepository;
+import pl.gorzki.fmspring.users.db.UserJpaRepository;
 import pl.gorzki.fmspring.users.domain.UserEntity;
+
+import java.util.Optional;
 
 
 @Service
 @AllArgsConstructor
 public class UserService implements UserUseCase {
 
-    private final UserEntityRepository repository;
+    private final UserJpaRepository repository;
 
 
     @Override
@@ -27,5 +29,10 @@ public class UserService implements UserUseCase {
                 command.getRole()
         );
         return repository.save(user);
+    }
+
+    @Override
+    public Optional<UserEntity> findById(Long id) {
+        return repository.findById(id);
     }
 }

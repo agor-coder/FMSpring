@@ -29,7 +29,7 @@ public class ApplicationStartup implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-//   initData();
+   initData();
         findAllFaults();
         findByDescr();
         System.out.println("update_start");
@@ -63,11 +63,11 @@ public class ApplicationStartup implements CommandLineRunner {
                 "123","Kay", "Lenz", "12345", "kay@2.pl","ROLE_ADMIN"
         ));
 
-        faultService.addFault(new CreateFaultCommand("zwarcie", area1, null, null, notifier1));
-        faultService.addFault(new CreateFaultCommand("brak", area2, null, null, notifier2));
-        faultService.addFault(new CreateFaultCommand("nie ma", area1, null, null, notifier1));
-        faultService.addFault(new CreateFaultCommand("spalony", area2, null, null, notifier2));
-        faultService.addFault(new CreateFaultCommand("NOWA", area3, null, null, notifier2));
+        faultService.addFault(new CreateFaultCommand("zwarcie", area1.getId(),notifier1.getId()));
+        faultService.addFault(new CreateFaultCommand("brak", area2.getId(),  notifier2.getId()));
+        faultService.addFault(new CreateFaultCommand("nie ma", area1.getId(),  notifier1.getId()));
+        faultService.addFault(new CreateFaultCommand("spalony", area2.getId(),  notifier2.getId()));
+        faultService.addFault(new CreateFaultCommand("NOWA", area3.getId(),  notifier2.getId()));
 
 
     }
@@ -89,7 +89,7 @@ public class ApplicationStartup implements CommandLineRunner {
                     UpdateFaultCommand command = UpdateFaultCommand.builder()
                             .id(fault.getId())
                             .faultDescribe("zwarcie_update")
-                            .status(FaultStatus.ASSIGNED)
+                            .status(FaultStatus.END)
                             .build();
                     UpdateFaultResponse response = faultService.updateFault(command);
                     System.out.println("Update result: " + response.isSuccess());

@@ -8,14 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.CreateFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultResponse;
 import pl.gorzki.fmspring.fault.domain.Fault;
 import pl.gorzki.fmspring.fault.domain.FaultStatus;
-import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -115,18 +113,16 @@ public class FaultController {
         @NotBlank(message = "podaj opis")
         private String faultDescribe;
         private FaultStatus status;
-        private TechArea area;
-        private UserEntity specialist;
-        private UserEntity whoAssigned;
-        private UserEntity whoNotify;
+        private Long areaId;
+        private Long specialistId;
+        private Long whoAssignedId;
+        private Long whoNotifyId;
 
         CreateFaultCommand toCreateCommand() {
             return new CreateFaultCommand(
                     faultDescribe,
-                    area,
-                    specialist,
-                    whoAssigned,
-                    whoNotify);
+                    areaId,
+                    whoNotifyId);
         }
 
         UpdateFaultCommand toUpdateCommand(Long id) {
@@ -134,11 +130,10 @@ public class FaultController {
                     id,
                     faultDescribe,
                     status,
-                    area,
-                    specialist,
-                    whoAssigned,
-                    whoNotify
-            );
+                    areaId,
+                    specialistId,
+                    whoAssignedId,
+                    whoNotifyId);
         }
     }
 }

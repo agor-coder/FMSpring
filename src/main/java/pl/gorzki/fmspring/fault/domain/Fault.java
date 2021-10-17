@@ -39,11 +39,9 @@ public class Fault extends BaseEntity {
     @NotNull
     private UserEntity whoNotify;
 
-    public Fault(String faultDescribe, TechArea area, UserEntity specialist, UserEntity whoAssigned, UserEntity whoNotify) {
+    public Fault(String faultDescribe, TechArea area,  UserEntity whoNotify) {
         this.faultDescribe = faultDescribe;
         this.area = area;
-        this.specialist = specialist;
-        this.whoAssigned = whoAssigned;
         this.whoNotify = whoNotify;
     }
 

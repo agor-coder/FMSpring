@@ -39,15 +39,11 @@ public interface FaultUseCase {
     @Value
     class CreateFaultCommand {
         String faultDescribe;
-        TechArea area;
-        UserEntity specialist;
-        UserEntity whoAssigned;
-        UserEntity whoNotify;
+        Long areaId;
+        Long whoNotifyId;
 
-        public Fault toFault() {
-            return new Fault(faultDescribe, area, specialist, whoAssigned, whoNotify);
-        }
     }
+
 
     @Value
     @Builder
@@ -56,10 +52,10 @@ public interface FaultUseCase {
         Long id;
         String faultDescribe;
         FaultStatus status;
-        TechArea area;
-        UserEntity specialist;
-        UserEntity whoAssigned;
-        UserEntity whoNotify;
+        Long areaId;
+        Long specialistId;
+        Long whoAssignedId;
+        Long whoNotifyId;
     }
 
     @Value

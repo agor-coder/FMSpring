@@ -3,9 +3,13 @@ package pl.gorzki.fmspring.fault.application;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gorzki.fmspring.area.db.AreaJpaRepository;
+import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.db.FaultJpaRepository;
 import pl.gorzki.fmspring.fault.domain.Fault;
+import pl.gorzki.fmspring.users.db.UserJpaRepository;
+import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +21,8 @@ import java.util.stream.Collectors;
 class FaultService implements FaultUseCase {
 
     private final FaultJpaRepository repository;
+    private final AreaJpaRepository areaRepository;
+    private final UserJpaRepository userRepository;
 
     @Override
     public List<Fault> findAll() {
@@ -76,8 +82,16 @@ class FaultService implements FaultUseCase {
     @Override
     @Transactional
     public Fault addFault(CreateFaultCommand command) {
-        Fault fault = command.toFault();
+        Fault fault = toFault(command);
         return repository.save(fault);
+    }
+
+    //TODO - getAuthority()
+    private Fault toFault(CreateFaultCommand command) {
+        TechArea area = areaRepository.getById(command.getAreaId());
+        UserEntity notif = userRepository.getById(command.getWhoNotifyId());
+        return new Fault(command.getFaultDescribe(), area, notif);
+
     }
 
     @Override
@@ -108,17 +122,17 @@ class FaultService implements FaultUseCase {
         if (command.getStatus() != null) {
             fault.setStatus(command.getStatus());
         }
-        if (command.getArea() != null) {
-            fault.setArea(command.getArea());
+        if (command.getAreaId() != null) {
+            fault.setArea(areaRepository.getById(command.getAreaId()));
         }
-        if (command.getSpecialist() != null) {
-            fault.setSpecialist(command.getSpecialist());
+        if (command.getSpecialistId() != null) {
+            fault.setSpecialist(userRepository.getById(command.getSpecialistId()));
         }
-        if (command.getWhoAssigned() != null) {
-            fault.setWhoAssigned(command.getWhoAssigned());
+        if (command.getWhoAssignedId() != null) {
+            fault.setWhoAssigned(userRepository.getById(command.getWhoAssignedId()));
         }
-        if (command.getWhoNotify() != null) {
-            fault.setWhoNotify(command.getWhoNotify());
+        if (command.getWhoNotifyId() != null) {
+            fault.setWhoNotify(userRepository.getById(command.getWhoNotifyId()));
         }
         return fault;
     }
