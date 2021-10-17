@@ -7,6 +7,7 @@ import pl.gorzki.fmspring.users.application.port.UserUseCase;
 import pl.gorzki.fmspring.users.db.UserJpaRepository;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -34,5 +35,10 @@ public class UserService implements UserUseCase {
     @Override
     public Optional<UserEntity> findById(Long id) {
         return repository.findById(id);
+    }
+
+    @Override
+    public List<UserEntity> findSpecialists() {
+        return repository.findByRole("ROLE_SPECIALIST");
     }
 }

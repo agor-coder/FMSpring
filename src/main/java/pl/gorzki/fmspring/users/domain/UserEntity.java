@@ -11,22 +11,23 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
+@Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserEntity extends BaseEntity {
 
     private String password;
-    @Getter
+
     private String firstName;
-    @Getter
+
     private String lastName;
-    @Getter
+
     private String phone;
-    @Getter
+
     @Column(unique = true)
     private String emailUserName;
-    @Getter
+
     private String role;
 
 }

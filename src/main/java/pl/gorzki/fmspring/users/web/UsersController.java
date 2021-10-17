@@ -9,6 +9,8 @@ import pl.gorzki.fmspring.users.application.port.UserUseCase;
 import pl.gorzki.fmspring.users.application.port.UserUseCase.CreateUserCommand;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
+import java.util.List;
+
 
 @RestController
 @AllArgsConstructor
@@ -17,6 +19,13 @@ import pl.gorzki.fmspring.users.domain.UserEntity;
 public class UsersController {
 
     private final UserUseCase service;
+
+    @GetMapping("/spec")
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserEntity> getSpecialists() {
+        return service.findSpecialists();
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
