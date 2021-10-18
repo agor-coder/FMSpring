@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
+import pl.gorzki.fmspring.fault.application.port.FaultUseCase.AssignFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.CreateFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultResponse;
@@ -17,6 +18,7 @@ import pl.gorzki.fmspring.fault.domain.FaultStatus;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -86,7 +88,7 @@ public class FaultController {
         return ServletUriComponentsBuilder.fromCurrentRequestUri().path("/" + fault.getId().toString()).build().toUri();
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateFault(@PathVariable Long id, @RequestBody RestFaultCommand command) {
         UpdateFaultResponse response = service.updateFault(command.toUpdateCommand(id));
@@ -94,7 +96,16 @@ public class FaultController {
             String message = String.join(", ", response.getErrors());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
         }
+    }
 
+    @PatchMapping("/assign/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void assignFault(@PathVariable Long id, @Valid @RequestBody RestAssignFaultCommand command) {
+        UpdateFaultResponse response = service.assignFault(command.toAssignCommand(id));
+        if (!response.isSuccess()) {
+            String message = String.join(", ", response.getErrors());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+        }
     }
 
 
@@ -134,6 +145,21 @@ public class FaultController {
                     specialistId,
                     whoAssignedId,
                     whoNotifyId);
+        }
+    }
+
+    @Data
+    private static class RestAssignFaultCommand {
+        @NotNull
+        private Long specialistId;
+        @NotNull
+        private Long whoAssignedId;
+
+        AssignFaultCommand toAssignCommand(Long id) {
+            return new AssignFaultCommand(
+                    id,
+                    specialistId,
+                    whoAssignedId);
         }
     }
 }

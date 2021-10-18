@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static pl.gorzki.fmspring.fault.domain.FaultStatus.ASSIGNED;
+
 @Service
 @AllArgsConstructor
 class FaultService implements FaultUseCase {
@@ -87,10 +89,10 @@ class FaultService implements FaultUseCase {
         return repository.save(fault);
     }
 
-    //TODO - getAuthority()
+
     private Fault toFault(CreateFaultCommand command) {
         TechArea area = areaRepository.findById(command.getAreaId()).get();
-        UserEntity notif = userRepository.findById(command.getWhoNotifyId()).get();
+        UserEntity notif = userRepository.findById(command.getWhoNotifyId()).get(); //TODO - getAuthority()
         return new Fault(command.getFaultDescribe(), area, notif);
 
     }
@@ -116,9 +118,25 @@ class FaultService implements FaultUseCase {
     }
 
     @Override
+    @Transactional
+    public UpdateFaultResponse assignFault(AssignFaultCommand command) {
+        return repository
+                .findById(command.getId())
+                .map(fault -> {
+                    UserEntity spec = userRepository.findById(command.getSpecialistId()).get();
+                    UserEntity assign = userRepository.findById(command.getWhoAssignedId()).get();//TODO - getAuthority()
+                    fault.setWhoAssigned(assign);
+                    fault.setSpecialist(spec);
+                    fault.setStatus(ASSIGNED);
+                    return UpdateFaultResponse.SUCCESS;
+                })
+                .orElseGet(() -> new UpdateFaultResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));
+    }
+
+    @Override
     public int countOfspecFaults(Long id) {
         UserEntity spec = userRepository.findById(id).get();
-        return repository.countOfSpecialist(spec, FaultStatus.ASSIGNED);
+        return repository.countOfSpecialist(spec, ASSIGNED);
 
     }
 

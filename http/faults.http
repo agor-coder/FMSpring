@@ -21,7 +21,7 @@ Content-Type: application/json
 }
 
 ###
-PATCH http://localhost:8080/faults/4
+PATCH http://localhost:8080/faults/update/4
 Content-Type: application/json
 
 {
@@ -29,13 +29,22 @@ Content-Type: application/json
   "status": "END"
 }
 ###
-PATCH http://localhost:8080/faults/4
+PATCH http://localhost:8080/faults/update/5
 Content-Type: application/json
 
 {
   "specialistId": "4",
   "whoAssignedId": "3",
   "status": "ASSIGNED"
+}
+
+###assign
+PATCH http://localhost:8080/faults/assign/4
+Content-Type: application/json
+
+{
+  "specialistId": "4",
+  "whoAssignedId": "3"
 }
 
 ###

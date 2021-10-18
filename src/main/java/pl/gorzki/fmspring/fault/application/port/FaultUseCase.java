@@ -35,6 +35,8 @@ public interface FaultUseCase {
 
     UpdateFaultResponse updateFault(UpdateFaultCommand command);
 
+    UpdateFaultResponse assignFault(AssignFaultCommand command);
+
     int countOfspecFaults(Long id);
     @Value
     class CreateFaultCommand {
@@ -56,6 +58,15 @@ public interface FaultUseCase {
         Long specialistId;
         Long whoAssignedId;
         Long whoNotifyId;
+    }
+
+    @Value
+    @AllArgsConstructor
+    class AssignFaultCommand {
+        Long id;
+        Long specialistId;
+        Long whoAssignedId;
+
     }
 
     @Value
