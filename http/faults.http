@@ -29,7 +29,7 @@ Content-Type: application/json
   "status": "END"
 }
 ###
-PATCH http://localhost:8080/faults/update/5
+PATCH http://localhost:8080/faults/update/4
 Content-Type: application/json
 
 {

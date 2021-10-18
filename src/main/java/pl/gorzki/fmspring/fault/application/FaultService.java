@@ -1,6 +1,7 @@
 package pl.gorzki.fmspring.fault.application;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gorzki.fmspring.area.db.AreaJpaRepository;
@@ -19,11 +20,21 @@ import java.util.stream.Collectors;
 import static pl.gorzki.fmspring.fault.domain.FaultStatus.ASSIGNED;
 
 @Service
-@AllArgsConstructor
 class FaultService implements FaultUseCase {
     private final FaultJpaRepository repository;
     private final AreaJpaRepository areaRepository;
     private final UserJpaRepository userRepository;
+    private final  Long limit;
+
+    public FaultService(FaultJpaRepository repository,
+                        AreaJpaRepository areaRepository,
+                        UserJpaRepository userRepository,
+                        @Value("${fmspring.faults.limit}")Long limit) {
+        this.repository = repository;
+        this.areaRepository = areaRepository;
+        this.userRepository = userRepository;
+        this.limit = limit;
+    }
 
     @Override
     public List<Fault> findAll() {
@@ -119,7 +130,7 @@ class FaultService implements FaultUseCase {
     @Transactional
     public UpdateFaultResponse assignFault(AssignFaultCommand command) {
         UserEntity spec = userRepository.findById(command.getSpecialistId()).get();
-        if (countOfSpecFaults(spec) >= 2) {
+        if (countOfSpecFaults(spec) >= limit) {
             return new UpdateFaultResponse(false, Collections.singletonList("Specialist - fault limit reached"));
         }
         return repository
