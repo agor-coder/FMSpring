@@ -1,11 +1,11 @@
 package pl.gorzki.fmspring.fault.application;
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gorzki.fmspring.area.db.AreaJpaRepository;
 import pl.gorzki.fmspring.area.domain.TechArea;
+import pl.gorzki.fmspring.commons.UpdateResponse;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.db.FaultJpaRepository;
 import pl.gorzki.fmspring.fault.domain.Fault;
@@ -113,42 +113,40 @@ class FaultService implements FaultUseCase {
 
     @Override
     @Transactional
-    public UpdateFaultResponse updateFault(UpdateFaultCommand command) {
+    public UpdateResponse updateFault(UpdateFaultCommand command) {
         return repository
                 .findById(command.getId())
                 .map(fault -> {
                     updateFields(command, fault);
 //                    Fault updatedFault = command.updateFields(fault);  //bo @Transactional
 //                    repository.save(updatedFault);
-                    return UpdateFaultResponse.SUCCESS;
+                    return UpdateResponse.SUCCESS;
                 })
-                .orElseGet(() -> new UpdateFaultResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));
+                .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));
 
     }
 
     @Override
     @Transactional
-    public UpdateFaultResponse assignFault(AssignFaultCommand command) {
-        UserEntity spec = userRepository.findById(command.getSpecialistId()).get();
-
-        if (countOfSpecFaults(spec) >= limit) {
-            return new UpdateFaultResponse(false, Collections.singletonList("Specialist - fault limit reached"));
-        }
-
+    public UpdateResponse assignFault(AssignFaultCommand command) {
         return repository
                 .findById(command.getId())
                 .map(fault -> {
+                    UserEntity spec = userRepository.findById(command.getSpecialistId()).get();
+                    if (countOfSpecFaults(spec) >= limit) {
+                        return new UpdateResponse(false, Collections.singletonList("Specialist - fault limit reached"));
+                    }
                     if (checkSpec(spec, fault)) {
-                        return new UpdateFaultResponse(false, Collections.singletonList("Specialist - the same"));
+                        return new UpdateResponse(false, Collections.singletonList("Specialist - the same"));
                     }
                     UserEntity assign = userRepository.findById(command.getWhoAssignedId()).get();//TODO - getAuthority()
                     fault.setWhoAssigned(assign);
                     fault.setSpecialist(spec);
                     fault.setStatus(ASSIGNED);
-                    return UpdateFaultResponse.SUCCESS;
+                    return UpdateResponse.SUCCESS;
                 })
 
-                .orElseGet(() -> new UpdateFaultResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));
+                .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));
     }
 
     private boolean checkSpec(UserEntity spec, Fault fault) {

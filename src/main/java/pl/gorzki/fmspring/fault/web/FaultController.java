@@ -3,17 +3,17 @@ package pl.gorzki.fmspring.fault.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.gorzki.fmspring.commons.UpdateResponse;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.AssignFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.CreateFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultCommand;
-import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultResponse;
+
 import pl.gorzki.fmspring.fault.domain.Fault;
 import pl.gorzki.fmspring.fault.domain.FaultStatus;
 
@@ -92,7 +92,7 @@ public class FaultController {
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateFault(@PathVariable Long id, @RequestBody RestFaultCommand command) {
-        UpdateFaultResponse response = service.updateFault(command.toUpdateCommand(id));
+        UpdateResponse response = service.updateFault(command.toUpdateCommand(id));
         if (!response.isSuccess()) {
             String message = String.join(", ", response.getErrors());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
@@ -102,7 +102,7 @@ public class FaultController {
     @PatchMapping("/assign/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void assignFault(@PathVariable Long id, @Valid @RequestBody RestAssignFaultCommand command) {
-        UpdateFaultResponse response = service.assignFault(command.toAssignCommand(id));
+        UpdateResponse response = service.assignFault(command.toAssignCommand(id));
         if (!response.isSuccess()) {
             String message = String.join(", ", response.getErrors());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);

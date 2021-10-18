@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 import pl.gorzki.fmspring.area.domain.TechArea;
+import pl.gorzki.fmspring.commons.UpdateResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,7 @@ public interface AreaUseCase {
 
     TechArea addArea(CreateAreaCommand command);
 
-    UpdateAreaResponse updateArea(UpdateAreaCommand command);
+    UpdateResponse updateArea(UpdateAreaCommand command);
 
     void removeAreaById(Long id);
 
@@ -40,13 +41,6 @@ public interface AreaUseCase {
     class UpdateAreaCommand {
         Long id;
         String areaName;
-    }
-
-    @Value
-    class UpdateAreaResponse {
-        public static UpdateAreaResponse SUCCESS = new UpdateAreaResponse(true, emptyList());
-        boolean success;
-        List<String> errors;
     }
 
 }

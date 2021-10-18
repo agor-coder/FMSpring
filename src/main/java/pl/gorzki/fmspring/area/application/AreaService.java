@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase;
 import pl.gorzki.fmspring.area.db.AreaJpaRepository;
 import pl.gorzki.fmspring.area.domain.TechArea;
+import pl.gorzki.fmspring.commons.UpdateResponse;
 
 import java.util.Collections;
 import java.util.List;
@@ -54,14 +55,14 @@ public class AreaService implements AreaUseCase {
 
     @Override
     @Transactional
-    public UpdateAreaResponse updateArea(UpdateAreaCommand command) {
+    public UpdateResponse updateArea(UpdateAreaCommand command) {
         return repository
                 .findById(command.getId())
                 .map(area -> {
                     updateFields(command, area);
-                    return UpdateAreaResponse.SUCCESS;
+                    return UpdateResponse.SUCCESS;
                 })
-                .orElseGet(() -> new UpdateAreaResponse(false, Collections.singletonList("Area not found with id: " + command.getId())));
+                .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("Area not found with id: " + command.getId())));
     }
 
     private TechArea updateFields(UpdateAreaCommand command, TechArea area) {

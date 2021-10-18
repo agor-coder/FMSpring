@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase.CreateAreaCommand;
-import pl.gorzki.fmspring.area.application.port.AreaUseCase.UpdateAreaResponse;
 import pl.gorzki.fmspring.area.domain.TechArea;
+import pl.gorzki.fmspring.commons.UpdateResponse;
 
 
 import javax.validation.Valid;
@@ -53,7 +53,7 @@ public class AreaController {
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateArea(@PathVariable Long id, @RequestBody RestAreaCommand command) {
-        UpdateAreaResponse response = service.updateArea(command.toUpdateCommand(id));
+        UpdateResponse response = service.updateArea(command.toUpdateCommand(id));
         if (!response.isSuccess()) {
             String message = String.join(", ", response.getErrors());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);

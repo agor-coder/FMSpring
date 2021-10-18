@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase;
 import pl.gorzki.fmspring.area.domain.TechArea;
+import pl.gorzki.fmspring.commons.UpdateResponse;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.domain.Fault;
 import pl.gorzki.fmspring.fault.domain.FaultStatus;
@@ -90,7 +91,7 @@ public class ApplicationStartup implements CommandLineRunner {
                             .faultDescribe("zwarcie_update")
                             .status(FaultStatus.END)
                             .build();
-                    UpdateFaultResponse response = faultService.updateFault(command);
+                    UpdateResponse response = faultService.updateFault(command);
                     System.out.println("Update result: " + response.isSuccess());
                     System.out.println(response.getErrors());
 

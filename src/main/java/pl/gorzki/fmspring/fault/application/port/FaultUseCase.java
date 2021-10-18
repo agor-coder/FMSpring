@@ -3,9 +3,8 @@ package pl.gorzki.fmspring.fault.application.port;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
-import pl.gorzki.fmspring.area.domain.TechArea;
+import pl.gorzki.fmspring.commons.UpdateResponse;
 import pl.gorzki.fmspring.fault.domain.*;
-import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,9 +32,9 @@ public interface FaultUseCase {
 
     void removeFaultById(Long id);
 
-    UpdateFaultResponse updateFault(UpdateFaultCommand command);
+    UpdateResponse updateFault(UpdateFaultCommand command);
 
-    UpdateFaultResponse assignFault(AssignFaultCommand command);
+    UpdateResponse assignFault(AssignFaultCommand command);
 
 
 
@@ -70,10 +69,4 @@ public interface FaultUseCase {
 
     }
 
-    @Value
-    class UpdateFaultResponse {
-        public static UpdateFaultResponse SUCCESS = new UpdateFaultResponse(true, emptyList());
-        boolean success;
-        List<String> errors;
-    }
 }
