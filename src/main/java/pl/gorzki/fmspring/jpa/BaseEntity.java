@@ -19,7 +19,7 @@ import java.util.UUID;
 @EqualsAndHashCode(of= "uuid")
 public  abstract class   BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     protected String uuid = UUID.randomUUID().toString();

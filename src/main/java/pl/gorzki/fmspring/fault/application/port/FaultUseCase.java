@@ -35,7 +35,7 @@ public interface FaultUseCase {
 
     UpdateFaultResponse updateFault(UpdateFaultCommand command);
 
-
+    int countOfspecFaults(Long id);
     @Value
     class CreateFaultCommand {
         String faultDescribe;

@@ -16,18 +16,27 @@ Content-Type: application/json
 
 {
   "faultDescribe": "NOWA41",
-  "areaId": "228",
-  "whoNotifyId": "232"
+  "areaId": "2",
+  "whoNotifyId": "2"
 }
 
 ###
-PATCH http://localhost:8080/faults/246
+PATCH http://localhost:8080/faults/4
 Content-Type: application/json
 
 {
   "faultDescribe": "wyłączony",
   "status": "END"
 }
+###
+PATCH http://localhost:8080/faults/4
+Content-Type: application/json
+
+{
+  "specialistId": "4",
+  "whoAssignedId": "3",
+  "status": "ASSIGNED"
+}
 
 ###
-DELETE http://localhost:8080/faults/246
+DELETE http://localhost:8080/faults/2

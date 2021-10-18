@@ -8,6 +8,7 @@ import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.db.FaultJpaRepository;
 import pl.gorzki.fmspring.fault.domain.Fault;
+import pl.gorzki.fmspring.fault.domain.FaultStatus;
 import pl.gorzki.fmspring.users.db.UserJpaRepository;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
@@ -114,6 +115,13 @@ class FaultService implements FaultUseCase {
 
     }
 
+    @Override
+    public int countOfspecFaults(Long id) {
+        UserEntity spec = userRepository.findById(id).get();
+        return repository.countOfSpecialist(spec, FaultStatus.ASSIGNED);
+
+    }
+
 
     private Fault updateFields(UpdateFaultCommand command, Fault fault) {
         if (command.getFaultDescribe() != null) {
@@ -140,4 +148,6 @@ class FaultService implements FaultUseCase {
         }
         return fault;
     }
+
+
 }
