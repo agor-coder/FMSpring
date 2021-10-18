@@ -19,6 +19,11 @@ public class UserService implements UserUseCase {
 
 
     @Override
+    public List<UserEntity> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
     @Transactional
     public UserEntity register(CreateUserCommand command) {
         UserEntity user = new UserEntity(

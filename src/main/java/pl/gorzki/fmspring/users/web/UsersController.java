@@ -20,6 +20,12 @@ public class UsersController {
 
     private final UserUseCase service;
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserEntity> getAll() {
+        return service.findAll();
+    }
+
     @GetMapping("/spec")
     @ResponseStatus(HttpStatus.OK)
     public List<UserEntity> getSpecialists() {

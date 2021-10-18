@@ -22,3 +22,8 @@ Content-Type: application/json
    "emailUserName": "notif3@2.pl"
 }
 
+###
+GET http://localhost:8080/users/spec
+###
+GET http://localhost:8080/users
+
