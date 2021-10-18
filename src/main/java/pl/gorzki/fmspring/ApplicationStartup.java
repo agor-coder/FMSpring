@@ -99,7 +99,7 @@ public class ApplicationStartup implements CommandLineRunner {
     }
 
     private void countSpecFaults() {
-        int counted = faultService.countOfspecFaults(4L);
+        int counted = faultService.countOfSpecFaults(registrationService.findById(4L).get());
         System.out.println(counted);
 
     }

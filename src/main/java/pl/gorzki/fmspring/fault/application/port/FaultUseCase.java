@@ -37,7 +37,9 @@ public interface FaultUseCase {
 
     UpdateFaultResponse assignFault(AssignFaultCommand command);
 
-    int countOfspecFaults(Long id);
+    int countOfSpecFaults(UserEntity spec);
+
+
     @Value
     class CreateFaultCommand {
         String faultDescribe;

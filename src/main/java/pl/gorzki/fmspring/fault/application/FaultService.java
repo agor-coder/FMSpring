@@ -8,7 +8,6 @@ import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.db.FaultJpaRepository;
 import pl.gorzki.fmspring.fault.domain.Fault;
-import pl.gorzki.fmspring.fault.domain.FaultStatus;
 import pl.gorzki.fmspring.users.db.UserJpaRepository;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
@@ -22,7 +21,6 @@ import static pl.gorzki.fmspring.fault.domain.FaultStatus.ASSIGNED;
 @Service
 @AllArgsConstructor
 class FaultService implements FaultUseCase {
-
     private final FaultJpaRepository repository;
     private final AreaJpaRepository areaRepository;
     private final UserJpaRepository userRepository;
@@ -120,10 +118,13 @@ class FaultService implements FaultUseCase {
     @Override
     @Transactional
     public UpdateFaultResponse assignFault(AssignFaultCommand command) {
+        UserEntity spec = userRepository.findById(command.getSpecialistId()).get();
+        if (countOfSpecFaults(spec) >= 2) {
+            return new UpdateFaultResponse(false, Collections.singletonList("Specialist - fault limit reached"));
+        }
         return repository
                 .findById(command.getId())
                 .map(fault -> {
-                    UserEntity spec = userRepository.findById(command.getSpecialistId()).get();
                     UserEntity assign = userRepository.findById(command.getWhoAssignedId()).get();//TODO - getAuthority()
                     fault.setWhoAssigned(assign);
                     fault.setSpecialist(spec);
@@ -134,8 +135,7 @@ class FaultService implements FaultUseCase {
     }
 
     @Override
-    public int countOfspecFaults(Long id) {
-        UserEntity spec = userRepository.findById(id).get();
+    public int countOfSpecFaults(UserEntity spec) {
         return repository.countOfSpecialist(spec, ASSIGNED);
 
     }
