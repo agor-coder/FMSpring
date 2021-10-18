@@ -34,7 +34,6 @@ public class ApplicationStartup implements CommandLineRunner {
         System.out.println("update_start");
         findAndUpdate();
         findByDescr();
-        countSpecFaults();
     }
 
 
@@ -98,9 +97,5 @@ public class ApplicationStartup implements CommandLineRunner {
                 });
     }
 
-    private void countSpecFaults() {
-        int counted = faultService.countOfSpecFaults(registrationService.findById(4L).get());
-        System.out.println(counted);
 
-    }
 }

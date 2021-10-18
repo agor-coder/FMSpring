@@ -37,7 +37,6 @@ public interface FaultUseCase {
 
     UpdateFaultResponse assignFault(AssignFaultCommand command);
 
-    int countOfSpecFaults(UserEntity spec);
 
 
     @Value

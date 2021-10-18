@@ -39,11 +39,11 @@ Content-Type: application/json
 }
 
 ###assign
-PATCH http://localhost:8080/faults/assign/4
+PATCH http://localhost:8080/faults/assign/3
 Content-Type: application/json
 
 {
-  "specialistId": "4",
+  "specialistId": "5",
   "whoAssignedId": "3"
 }
 

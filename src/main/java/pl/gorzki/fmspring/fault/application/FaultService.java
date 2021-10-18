@@ -24,12 +24,12 @@ class FaultService implements FaultUseCase {
     private final FaultJpaRepository repository;
     private final AreaJpaRepository areaRepository;
     private final UserJpaRepository userRepository;
-    private final  Long limit;
+    private final Long limit;
 
     public FaultService(FaultJpaRepository repository,
                         AreaJpaRepository areaRepository,
                         UserJpaRepository userRepository,
-                        @Value("${fmspring.faults.limit}")Long limit) {
+                        @Value("${fmspring.faults.limit}") Long limit) {
         this.repository = repository;
         this.areaRepository = areaRepository;
         this.userRepository = userRepository;
@@ -130,23 +130,33 @@ class FaultService implements FaultUseCase {
     @Transactional
     public UpdateFaultResponse assignFault(AssignFaultCommand command) {
         UserEntity spec = userRepository.findById(command.getSpecialistId()).get();
+
         if (countOfSpecFaults(spec) >= limit) {
             return new UpdateFaultResponse(false, Collections.singletonList("Specialist - fault limit reached"));
         }
+
         return repository
                 .findById(command.getId())
                 .map(fault -> {
+                    if (checkSpec(spec, fault)) {
+                        return new UpdateFaultResponse(false, Collections.singletonList("Specialist - the same"));
+                    }
                     UserEntity assign = userRepository.findById(command.getWhoAssignedId()).get();//TODO - getAuthority()
                     fault.setWhoAssigned(assign);
                     fault.setSpecialist(spec);
                     fault.setStatus(ASSIGNED);
                     return UpdateFaultResponse.SUCCESS;
                 })
+
                 .orElseGet(() -> new UpdateFaultResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));
     }
 
-    @Override
-    public int countOfSpecFaults(UserEntity spec) {
+    private boolean checkSpec(UserEntity spec, Fault fault) {
+        return null != fault.getSpecialist() && fault.getSpecialist().getUuid().equals(spec.getUuid());
+    }
+
+
+    private int countOfSpecFaults(UserEntity spec) {
         return repository.countOfSpecialist(spec, ASSIGNED);
 
     }
