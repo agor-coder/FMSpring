@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static pl.gorzki.fmspring.fault.domain.FaultStatus.ASSIGNED;
+import static pl.gorzki.fmspring.fault.domain.FaultStatus.END;
 
 @Service
 class FaultService implements FaultUseCase {
@@ -148,6 +149,20 @@ class FaultService implements FaultUseCase {
 
                 .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));
     }
+
+    @Override
+    @Transactional
+    public UpdateResponse endFault(Long id) {
+        return repository
+                .findById(id)
+                .map(fault -> {
+                    fault.setStatus(END);
+                    return UpdateResponse.SUCCESS;
+                })
+                .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("Fault not found with id: " + id)));
+    }
+
+
 
     private boolean checkSpec(UserEntity spec, Fault fault) {
         return null != fault.getSpecialist() && fault.getSpecialist().getUuid().equals(spec.getUuid());

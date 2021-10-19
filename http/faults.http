@@ -1,3 +1,6 @@
+
+
+###
 ###
 GET http://localhost:8080/faults/
 
@@ -21,31 +24,27 @@ Content-Type: application/json
 }
 
 ###
-PATCH http://localhost:8080/faults/update/4
+PATCH http://localhost:8080/faults/update/3
 Content-Type: application/json
 
 {
   "faultDescribe": "wyłączony",
-  "status": "END"
-}
-###
-PATCH http://localhost:8080/faults/update/4
-Content-Type: application/json
-
-{
   "specialistId": "4",
   "whoAssignedId": "3",
   "status": "ASSIGNED"
 }
 
 ###assign
-PATCH http://localhost:8080/faults/assign/3
+PATCH http://localhost:8080/faults/assign/2
 Content-Type: application/json
 
 {
-  "specialistId": "5",
+  "specialistId": "4",
   "whoAssignedId": "3"
 }
+
+###END
+PATCH http://localhost:8080/faults/end/5
 
 ###
 DELETE http://localhost:8080/faults/2

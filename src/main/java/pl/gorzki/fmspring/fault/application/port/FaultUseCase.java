@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 import pl.gorzki.fmspring.commons.UpdateResponse;
-import pl.gorzki.fmspring.fault.domain.*;
+import pl.gorzki.fmspring.fault.domain.Fault;
+import pl.gorzki.fmspring.fault.domain.FaultStatus;
 
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Collections.emptyList;
+import static pl.gorzki.fmspring.fault.domain.FaultStatus.END;
 
 public interface FaultUseCase {
     List<Fault> findAll();
@@ -36,6 +37,7 @@ public interface FaultUseCase {
 
     UpdateResponse assignFault(AssignFaultCommand command);
 
+    UpdateResponse endFault(Long id);
 
 
     @Value
@@ -68,5 +70,4 @@ public interface FaultUseCase {
         Long whoAssignedId;
 
     }
-
 }

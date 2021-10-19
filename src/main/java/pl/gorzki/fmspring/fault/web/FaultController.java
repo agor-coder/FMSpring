@@ -13,7 +13,6 @@ import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.AssignFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.CreateFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultCommand;
-
 import pl.gorzki.fmspring.fault.domain.Fault;
 import pl.gorzki.fmspring.fault.domain.FaultStatus;
 
@@ -109,6 +108,15 @@ public class FaultController {
         }
     }
 
+    @PatchMapping("/end/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void endFault(@PathVariable Long id) {
+        UpdateResponse response = service.endFault(id);
+        if (!response.isSuccess()) {
+            String message = String.join(", ", response.getErrors());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+        }
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
