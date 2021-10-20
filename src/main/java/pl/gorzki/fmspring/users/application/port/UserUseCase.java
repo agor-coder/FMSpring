@@ -1,7 +1,9 @@
 package pl.gorzki.fmspring.users.application.port;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Value;
+import pl.gorzki.fmspring.commons.UpdateResponse;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import java.util.List;
@@ -20,6 +22,8 @@ public interface UserUseCase {
 
     List<UserEntity> findSpecialists();
 
+    UpdateResponse updateUser(UpdateUserCommand command);
+
 
     @Value
 
@@ -34,5 +38,17 @@ public interface UserUseCase {
         public UserEntity toUser() {
             return new UserEntity(password, firstName, lastName, phone, emailUserName, role);
         }
+    }
+
+    @Value
+    @AllArgsConstructor
+    class UpdateUserCommand {
+        Long id;
+        String password;
+        String firstName;
+        String lastName;
+        String phone;
+        String role;
+
     }
 }

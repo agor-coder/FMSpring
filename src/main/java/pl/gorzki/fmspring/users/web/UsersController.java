@@ -5,8 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import pl.gorzki.fmspring.commons.UpdateResponse;
 import pl.gorzki.fmspring.users.application.port.UserUseCase;
 import pl.gorzki.fmspring.users.application.port.UserUseCase.CreateUserCommand;
+import pl.gorzki.fmspring.users.application.port.UserUseCase.UpdateUserCommand;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import java.util.List;
@@ -46,6 +49,15 @@ public class UsersController {
         return service.register(command.toCreateNotifierCommand());
     }
 
+    @PatchMapping("/update/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateUser(@PathVariable Long id, @RequestBody RestUserCommand command) {
+        UpdateResponse response = service.updateUser(command.toUpdateCommand(id));
+        if (!response.isSuccess()) {
+            String message = String.join(", ", response.getErrors());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+        }
+    }
 
     @Data
     private static class RestUserCommand {
@@ -58,6 +70,17 @@ public class UsersController {
 
         CreateUserCommand toCreateCommand() {
             return new CreateUserCommand(password, firstName, lastName, phone, emailUserName, role);
+        }
+
+        UpdateUserCommand toUpdateCommand(Long id) {
+            return new UpdateUserCommand(
+                    id,
+                    password,
+                    firstName,
+                    lastName,
+                    phone,
+                    role
+            );
         }
     }
 

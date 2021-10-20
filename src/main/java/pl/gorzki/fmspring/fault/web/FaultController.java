@@ -92,30 +92,22 @@ public class FaultController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateFault(@PathVariable Long id, @RequestBody RestFaultCommand command) {
         UpdateResponse response = service.updateFault(command.toUpdateCommand(id));
-        if (!response.isSuccess()) {
-            String message = String.join(", ", response.getErrors());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
-        }
+        checkResponseSuccess(response);
     }
 
     @PatchMapping("/assign/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void assignFault(@PathVariable Long id, @Valid @RequestBody RestAssignFaultCommand command) {
         UpdateResponse response = service.assignFault(command.toAssignCommand(id));
-        if (!response.isSuccess()) {
-            String message = String.join(", ", response.getErrors());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
-        }
+        checkResponseSuccess(response);
     }
+
 
     @PatchMapping("/end/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void endFault(@PathVariable Long id) {
         UpdateResponse response = service.endFault(id);
-        if (!response.isSuccess()) {
-            String message = String.join(", ", response.getErrors());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
-        }
+        checkResponseSuccess(response);
     }
 
     @DeleteMapping("/{id}")
@@ -127,6 +119,13 @@ public class FaultController {
         return ResponseEntity.notFound().build();
     }
 
+
+    private void checkResponseSuccess(UpdateResponse response) {
+        if (!response.isSuccess()) {
+            String message = String.join(", ", response.getErrors());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+        }
+    }
 
     @Data
     private static class RestFaultCommand {

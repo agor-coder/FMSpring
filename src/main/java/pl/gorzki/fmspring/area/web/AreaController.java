@@ -50,7 +50,7 @@ public class AreaController {
     }
 
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateArea(@PathVariable Long id, @RequestBody RestAreaCommand command) {
         UpdateResponse response = service.updateArea(command.toUpdateCommand(id));

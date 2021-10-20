@@ -7,8 +7,8 @@ Content-Type: application/json
    "firstName": "Andy",
    "lastName": "Gor",
    "phone": "12345",
-   "emailUserName": "agor2@2.pl",
-   "role": "ROLE_ADMIN"
+   "emailUserName": "agor332@2.pl",
+   "role": "ROLE_ASSIGN"
 }
 ###
 POST http://localhost:8080/users/notifier
@@ -27,3 +27,13 @@ GET http://localhost:8080/users/spec
 ###
 GET http://localhost:8080/users
 
+###
+PATCH http://localhost:8080/users/update/1
+Content-Type: application/json
+
+{
+  "passwordddd": "123",
+  "firstName": "Andy",
+  "lastName": "Notif",
+  "phone": "123456"
+}
