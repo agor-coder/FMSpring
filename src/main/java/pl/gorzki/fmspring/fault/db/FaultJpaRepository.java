@@ -17,4 +17,6 @@ public interface FaultJpaRepository extends JpaRepository<Fault, Long> {
                     " AND i.status=:status "
     )
     int countOfSpecialist(@Param("specialist") UserEntity specialist, @Param("status") FaultStatus status);
+
+    int countBySpecialistAndStatus(UserEntity spec, FaultStatus status);
 }

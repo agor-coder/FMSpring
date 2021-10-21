@@ -19,7 +19,7 @@ public interface FaultUseCase {
 
     List<Fault> findByNotifier(String notifier);
 
-    List<Fault> findByAssigner(String assigner);
+    List<Fault> findBySpecialist(String assigner);
 
     List<Fault> findByDescription(String text);
 

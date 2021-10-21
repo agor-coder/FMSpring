@@ -84,12 +84,12 @@ public class ApplicationStartup implements CommandLineRunner {
     }
 
     private void findAndUpdate() {
-        faultService.findOneByDescription("z")
+        faultService.findOneByDescription("w")
                 .ifPresent(fault -> {
                     UpdateFaultCommand command = UpdateFaultCommand.builder()
                             .id(fault.getId())
                             .faultDescribe("zwarcie_update")
-                            .status(FaultStatus.END)
+                            .status(FaultStatus.ASSIGNED)
                             .build();
                     UpdateResponse response = faultService.updateFault(command);
                     System.out.println("Update result: " + response.isSuccess());

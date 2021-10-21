@@ -18,8 +18,8 @@ POST http://localhost:8080/faults
 Content-Type: application/json
 
 {
-  "faultDescribe": "NOWA41",
-  "areaId": "2",
+  "faultDescribe": "jeszcze jedna",
+  "areaId": "3",
   "whoNotifyId": "2"
 }
 
@@ -35,11 +35,11 @@ Content-Type: application/json
 }
 
 ###assign
-PATCH http://localhost:8080/faults/assign/2
+PATCH http://localhost:8080/faults/assign/3
 Content-Type: application/json
 
 {
-  "specialistId": "4",
+  "specialistId": "5",
   "whoAssignedId": "3"
 }
 

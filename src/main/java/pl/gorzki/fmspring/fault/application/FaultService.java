@@ -53,7 +53,7 @@ class FaultService implements FaultUseCase {
     }
 
     @Override
-    public List<Fault> findByAssigner(String assigner) {
+    public List<Fault> findBySpecialist(String assigner) {
         return null;
     }
 
@@ -170,7 +170,7 @@ class FaultService implements FaultUseCase {
 
 
     private int countOfSpecFaults(UserEntity spec) {
-        return repository.countOfSpecialist(spec, ASSIGNED);
+        return repository.countBySpecialistAndStatus(spec, ASSIGNED);
 
     }
 
