@@ -55,9 +55,12 @@ class FaultService implements FaultUseCase {
 
     @Override
     public List<Fault> findAllByUser(UserEntity user) {
-        return repository.findAllBySpecialist(user);
-
-
+        return switch (user.getRole()) {
+            case "ROLE_SPECIALIST" -> repository.findAllBySpecialist(user);
+            case "ROLE_ASSIGNER" -> repository.findAllByWhoAssigned(user);
+            case "ROLE_NOTIFIER" -> repository.findAllByWhoNotify(user);
+            default -> Collections.emptyList();
+        };
     }
 
 
@@ -105,7 +108,7 @@ class FaultService implements FaultUseCase {
 
     private Fault toFault(CreateFaultCommand command) {
         TechArea area = areaRepository.findById(command.getAreaId()).get();
-        UserEntity notif = userRepository.findById(command.getWhoNotifyId()).get(); //TODO - getAuthority()
+        UserEntity notif = userRepository.findById(command.getWhoNotifyId()).get(); //TODO - get id from user
         return new Fault(command.getFaultDescribe(), area, notif);
 
     }
@@ -143,7 +146,7 @@ class FaultService implements FaultUseCase {
                     if (checkSpec(spec, fault)) {
                         return new UpdateResponse(false, Collections.singletonList("Specialist - the same"));
                     }
-                    UserEntity assign = userRepository.findById(command.getWhoAssignedId()).get();//TODO - getAuthority()
+                    UserEntity assign = userRepository.findById(command.getWhoAssignedId()).get();//TODO - get id from user
                     fault.setWhoAssigned(assign);
                     fault.setSpecialist(spec);
                     fault.setStatus(ASSIGNED);

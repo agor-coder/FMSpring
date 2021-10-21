@@ -28,7 +28,7 @@ class FaultServiceTestIT {
 //        given
 
 //        when
-        List<Fault> list1=service.findAllByUser(userJpaRepository.findById(4L).get());
+        List<Fault> list1 = service.findAllByUser(userJpaRepository.findById(5L).get());
 //        then
         System.out.println(list1);
         assertEquals(2,list1.size());
