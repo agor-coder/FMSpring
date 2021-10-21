@@ -16,8 +16,6 @@ public interface UserUseCase {
 
     UserEntity register(CreateUserCommand command);
 
-
-
     Optional<UserEntity> findById(Long id);
 
     List<UserEntity> findSpecialists();

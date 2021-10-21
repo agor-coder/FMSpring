@@ -15,6 +15,8 @@ import pl.gorzki.fmspring.fault.application.port.FaultUseCase.CreateFaultCommand
 import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultCommand;
 import pl.gorzki.fmspring.fault.domain.Fault;
 import pl.gorzki.fmspring.fault.domain.FaultStatus;
+import pl.gorzki.fmspring.users.application.port.UserUseCase;
+import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -23,11 +25,14 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+
 @RestController
 @RequestMapping("/faults")
 @AllArgsConstructor
 public class FaultController {
     private final FaultUseCase service;
+    private final UserUseCase userService;
 
 
     @GetMapping
@@ -76,6 +81,14 @@ public class FaultController {
                 .fidById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/user/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Fault> getAllByUser(@PathVariable Long id) {
+        UserEntity user = userService.findById(id)//TODO - getAuthority()
+                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Spec not found with id: "+ id));
+        return service.findAllByUser(user);
     }
 
     @PostMapping

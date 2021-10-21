@@ -39,7 +39,7 @@ public class Fault extends BaseEntity {
     @NotNull
     private UserEntity whoNotify;
 
-    public Fault(String faultDescribe, TechArea area,  UserEntity whoNotify) {
+    public Fault(String faultDescribe, TechArea area, UserEntity whoNotify) {
         this.faultDescribe = faultDescribe;
         this.area = area;
         this.whoNotify = whoNotify;
@@ -52,8 +52,12 @@ public class Fault extends BaseEntity {
         sb.append(", faultDescribe='").append(faultDescribe).append('\'');
         sb.append(", status=").append(status.getDescription());
         sb.append(", area=").append(area.getAreaName());
-        sb.append(", specialist=").append(specialist);
-        sb.append(", whoAssigned=").append(whoAssigned);
+        if (null != specialist) {
+            sb.append(", specialist=").append(specialist.getLastName());
+        }
+        if (null != whoAssigned) {
+            sb.append(", whoAssigned=").append(whoAssigned.getLastName());
+        }
         sb.append(", whoNotify=").append(whoNotify.getLastName());
         sb.append('}');
         return sb.toString();

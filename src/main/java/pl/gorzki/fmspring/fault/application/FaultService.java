@@ -52,9 +52,12 @@ class FaultService implements FaultUseCase {
         return null;
     }
 
+
     @Override
-    public List<Fault> findBySpecialist(String assigner) {
-        return null;
+    public List<Fault> findAllByUser(UserEntity user) {
+        return repository.findAllBySpecialist(user);
+
+
     }
 
 
@@ -161,7 +164,6 @@ class FaultService implements FaultUseCase {
                 })
                 .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("Fault not found with id: " + id)));
     }
-
 
 
     private boolean checkSpec(UserEntity spec, Fault fault) {
