@@ -16,9 +16,10 @@
 
     <properties>
         <java.version>16</java.version>
-        <lombok.version>1.18.20</lombok.version>
+        <lombok.version>1.18.22</lombok.version>
         <postgres.version>42.2.24.jre7</postgres.version>
-        <hibernate.validator.version>6.2.0.Final</hibernate.validator.version>
+        <hibernate.validator.version>7.0.1.Final</hibernate.validator.version>
+        <springdoc-openapi-ui.version>1.5.11</springdoc-openapi-ui.version>
     </properties>
 
     <dependencies>
@@ -62,7 +63,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.5.10</version>
+            <version>${springdoc-openapi-ui.version}</version>
         </dependency>
     </dependencies>
 
