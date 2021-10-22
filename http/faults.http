@@ -51,4 +51,4 @@ Content-Type: application/json
 PATCH http://localhost:8080/faults/end/5
 
 ###
-DELETE http://localhost:8080/faults/2
+DELETE http://localhost:8080/faults/7

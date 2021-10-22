@@ -14,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 //////////////na aktywnej bazie
-@SpringBootTest
-class FaultServiceTestIT {
+//@SpringBootTest
+class FaultServiceTestIT_OnActiveDb {
 
     @Autowired
     FaultUseCase service;
@@ -23,7 +23,7 @@ class FaultServiceTestIT {
     UserJpaRepository userJpaRepository;
 
 
-    @Test
+//    @Test
     public void findAllByUser() {
 //        given
 
