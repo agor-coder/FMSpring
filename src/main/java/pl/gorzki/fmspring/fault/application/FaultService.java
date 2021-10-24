@@ -108,7 +108,8 @@ class FaultService implements FaultUseCase {
 
     private Fault toFault(CreateFaultCommand command) {
         TechArea area = areaRepository.findById(command.getAreaId()).get();
-        UserEntity notif = userRepository.findById(command.getWhoNotifyId()).get(); //TODO - get id from user
+        //TODO - get id from user
+        UserEntity notif = userRepository.findById(command.getWhoNotifyId()).get();
         return new Fault(command.getFaultDescribe(), area, notif);
 
     }
@@ -146,14 +147,15 @@ class FaultService implements FaultUseCase {
                     if (checkSpec(spec, fault)) {
                         return new UpdateResponse(false, Collections.singletonList("Specialist - the same"));
                     }
-                    UserEntity assign = userRepository.findById(command.getWhoAssignedId()).get();//TODO - get id from user
+                    //TODO - get id from user
+                    UserEntity assign = userRepository.findById(command.getWhoAssignedId()).get();
                     fault.setWhoAssigned(assign);
                     fault.setSpecialist(spec);
                     fault.setStatus(ASSIGNED);
                     return UpdateResponse.SUCCESS;
                 })
-
-                .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));
+                .orElseGet(() -> new UpdateResponse(
+                        false, Collections.singletonList("Fault not found with id: " + command.getId())));
     }
 
     @Override
@@ -165,7 +167,8 @@ class FaultService implements FaultUseCase {
                     fault.setStatus(END);
                     return UpdateResponse.SUCCESS;
                 })
-                .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("Fault not found with id: " + id)));
+                .orElseGet(() -> new UpdateResponse(
+                        false, Collections.singletonList("Fault not found with id: " + id)));
     }
 
 

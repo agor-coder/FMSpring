@@ -4,6 +4,7 @@ package pl.gorzki.fmspring.users.web;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.gorzki.fmspring.commons.UpdateResponse;
@@ -27,6 +28,17 @@ public class UsersController {
     @ResponseStatus(HttpStatus.OK)
     public List<UserEntity> getAll() {
         return service.findAll();
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+
+        return service
+                //TODO - get id from user
+                .findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/spec")

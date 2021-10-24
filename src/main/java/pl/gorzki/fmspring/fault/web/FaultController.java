@@ -86,8 +86,9 @@ public class FaultController {
     @GetMapping("/user/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<Fault> getAllByUser(@PathVariable Long id) {
-        UserEntity user = userService.findById(id)//TODO - get id from user
-                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Spec not found with id: "+ id));
+        //TODO - get id from user
+        UserEntity user = userService.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "User not found with id: "+ id));
         return service.findAllByUser(user);
     }
 
