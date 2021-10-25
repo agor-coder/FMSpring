@@ -9,10 +9,7 @@ import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.jpa.BaseEntity;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -28,14 +25,18 @@ public class Fault extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @NotNull
     private FaultStatus status = FaultStatus.NOT_ASSIGNED;
+
     @ManyToOne
     @NotNull
     private TechArea area;
-    @ManyToOne
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
     private UserEntity specialist;
-    @ManyToOne
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private UserEntity whoAssigned;
-    @ManyToOne
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @NotNull
     private UserEntity whoNotify;
 
