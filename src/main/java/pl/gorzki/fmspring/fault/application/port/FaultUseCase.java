@@ -11,8 +11,6 @@ import pl.gorzki.fmspring.users.domain.UserEntity;
 import java.util.List;
 import java.util.Optional;
 
-import static pl.gorzki.fmspring.fault.domain.FaultStatus.END;
-
 public interface FaultUseCase {
     List<Fault> findAll();
 

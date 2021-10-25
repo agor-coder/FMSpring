@@ -1,4 +1,4 @@
-###
+###addUser
 POST http://localhost:8080/users
 Content-Type: application/json
 
@@ -10,6 +10,8 @@ Content-Type: application/json
    "emailUserName": "agor332@2.pl",
    "role": "ROLE_ASSIGN"
 }
+
+
 ###
 POST http://localhost:8080/users/notifier
 Content-Type: application/json

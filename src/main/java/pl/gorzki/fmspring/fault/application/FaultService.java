@@ -148,8 +148,8 @@ class FaultService implements FaultUseCase {
                         return new UpdateResponse(false, Collections.singletonList("Specialist - the same"));
                     }
                     //TODO - get id from user
-                    UserEntity assign = userRepository.findById(command.getWhoAssignedId()).get();
-                    fault.setWhoAssigned(assign);
+                    UserEntity assigner = userRepository.findById(command.getWhoAssignedId()).get();
+                    fault.setWhoAssigned(assigner);
                     fault.setSpecialist(spec);
                     fault.setStatus(ASSIGNED);
                     return UpdateResponse.SUCCESS;
