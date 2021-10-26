@@ -127,12 +127,10 @@ public class FaultController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Long id) {
-        if (queryFaultService.fidById(id).isPresent()) {
-            manipulateFaultService.removeFaultById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) {
+        UpdateResponse response = manipulateFaultService.removeFaultById(id);
+        checkResponseSuccess(response);
     }
 
 

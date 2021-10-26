@@ -11,8 +11,6 @@ public interface QueryFaultUseCase {
 
     Optional<Fault> fidById(Long id);
 
-    List<Fault> findByNotifier(String notifier);
-
     List<Fault> findAllByUser(UserEntity specialist);
 
     List<Fault> findByDescription(String text);

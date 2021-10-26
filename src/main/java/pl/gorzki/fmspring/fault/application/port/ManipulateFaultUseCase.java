@@ -11,7 +11,7 @@ public interface ManipulateFaultUseCase {
 
     Fault addFault(CreateFaultCommand command);
 
-    void removeFaultById(Long id);
+    UpdateResponse removeFaultById(Long id);
 
     UpdateResponse updateFault(UpdateFaultCommand command);
 

@@ -31,12 +31,6 @@ class QueryFaultService implements QueryFaultUseCase {
     }
 
     @Override
-    public List<Fault> findByNotifier(String notifier) {
-        return null;
-    }
-
-
-    @Override
     public List<Fault> findAllByUser(UserEntity user) {
         return switch (user.getRole()) {
             case "ROLE_SPECIALIST" -> repository.findAllBySpecialist(user);
