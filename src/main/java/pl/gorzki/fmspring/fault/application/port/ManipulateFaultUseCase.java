@@ -6,27 +6,8 @@ import lombok.Value;
 import pl.gorzki.fmspring.commons.UpdateResponse;
 import pl.gorzki.fmspring.fault.domain.Fault;
 import pl.gorzki.fmspring.fault.domain.FaultStatus;
-import pl.gorzki.fmspring.users.domain.UserEntity;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface FaultUseCase {
-    List<Fault> findAll();
-
-    Optional<Fault> fidById(Long id);
-
-    List<Fault> findByNotifier(String notifier);
-
-    List<Fault> findAllByUser(UserEntity specialist);
-
-    List<Fault> findByDescription(String text);
-
-    List<Fault> findByStatus(String text);
-
-    List<Fault> findByDescriptionAndStatus(String descr, String status);
-
-    Optional<Fault> findOneByDescription(String text);
+public interface ManipulateFaultUseCase {
 
     Fault addFault(CreateFaultCommand command);
 

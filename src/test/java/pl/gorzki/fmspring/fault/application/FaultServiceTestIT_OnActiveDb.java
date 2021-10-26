@@ -1,9 +1,7 @@
 package pl.gorzki.fmspring.fault.application;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
+import pl.gorzki.fmspring.fault.application.port.QueryFaultUseCase;
 import pl.gorzki.fmspring.fault.domain.Fault;
 import pl.gorzki.fmspring.users.db.UserJpaRepository;
 
@@ -18,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class FaultServiceTestIT_OnActiveDb {
 
     @Autowired
-    FaultUseCase service;
+    QueryFaultUseCase service;
     @Autowired
     UserJpaRepository userJpaRepository;
 

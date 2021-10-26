@@ -6,7 +6,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase;
 import pl.gorzki.fmspring.area.domain.TechArea;
-import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
+import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase;
+import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.CreateFaultCommand;
+import pl.gorzki.fmspring.fault.application.port.QueryFaultUseCase;
 import pl.gorzki.fmspring.fault.domain.Fault;
 import pl.gorzki.fmspring.users.application.port.UserUseCase;
 import pl.gorzki.fmspring.users.db.UserJpaRepository;
@@ -21,7 +23,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase// with h2
 class FaultServiceTest {
     @Autowired
-    FaultUseCase faultService;
+    ManipulateFaultUseCase manipulateFaultService;
+    @Autowired
+    QueryFaultUseCase queryFaultService;
     @Autowired
     UserJpaRepository userJpaRepository;
     @Autowired
@@ -45,13 +49,13 @@ class FaultServiceTest {
         ));
 
 
-        faultService.addFault(new FaultUseCase.CreateFaultCommand("zwarcie", area1.getId(), notifier1.getId()));
-        faultService.addFault(new FaultUseCase.CreateFaultCommand("brak", area2.getId(), notifier2.getId()));
-        faultService.addFault(new FaultUseCase.CreateFaultCommand("nie ma", area1.getId(), notifier1.getId()));
-        faultService.addFault(new FaultUseCase.CreateFaultCommand("spalony", area2.getId(), notifier2.getId()));
-        faultService.addFault(new FaultUseCase.CreateFaultCommand("NOWA", area3.getId(), notifier2.getId()));
+        manipulateFaultService.addFault(new CreateFaultCommand("zwarcie", area1.getId(), notifier1.getId()));
+        manipulateFaultService.addFault(new CreateFaultCommand("brak", area2.getId(), notifier2.getId()));
+        manipulateFaultService.addFault(new CreateFaultCommand("nie ma", area1.getId(), notifier1.getId()));
+        manipulateFaultService.addFault(new CreateFaultCommand("spalony", area2.getId(), notifier2.getId()));
+        manipulateFaultService.addFault(new CreateFaultCommand("NOWA", area3.getId(), notifier2.getId()));
 //        when
-        List<Fault> list1 = faultService.findAllByUser(userJpaRepository.findById(2L).get());
+        List<Fault> list1 = queryFaultService.findAllByUser(userJpaRepository.findById(2L).get());
 //        then
         System.out.println(list1);
         assertEquals(3,list1.size());

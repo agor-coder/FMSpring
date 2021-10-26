@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.gorzki.fmspring.commons.UpdateResponse;
-import pl.gorzki.fmspring.fault.application.port.FaultUseCase;
-import pl.gorzki.fmspring.fault.application.port.FaultUseCase.AssignFaultCommand;
-import pl.gorzki.fmspring.fault.application.port.FaultUseCase.CreateFaultCommand;
-import pl.gorzki.fmspring.fault.application.port.FaultUseCase.UpdateFaultCommand;
+import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase;
+import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.AssignFaultCommand;
+import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.CreateFaultCommand;
+import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.UpdateFaultCommand;
+import pl.gorzki.fmspring.fault.application.port.QueryFaultUseCase;
 import pl.gorzki.fmspring.fault.domain.Fault;
 import pl.gorzki.fmspring.fault.domain.FaultStatus;
 import pl.gorzki.fmspring.users.application.port.UserUseCase;
@@ -31,7 +32,8 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @RequestMapping("/faults")
 @AllArgsConstructor
 public class FaultController {
-    private final FaultUseCase service;
+    private final ManipulateFaultUseCase manipulateFaultService;
+    private final QueryFaultUseCase queryFaultService;
     private final UserUseCase userService;
 
 
@@ -41,27 +43,27 @@ public class FaultController {
             @RequestParam Optional<String> descr,
             @RequestParam Optional<String> stat) {
         if (descr.isPresent() && stat.isPresent()) {
-            List<Fault> byDescAndStat = service.findByDescriptionAndStatus(descr.get(), stat.get());
+            List<Fault> byDescAndStat = queryFaultService.findByDescriptionAndStatus(descr.get(), stat.get());
             if (byDescAndStat.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such element");
             }
             return byDescAndStat;
 
         } else if (descr.isPresent()) {
-            List<Fault> byDesc = service.findByDescription(descr.get());
+            List<Fault> byDesc = queryFaultService.findByDescription(descr.get());
             if (byDesc.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such element");
             }
             return byDesc;
 
         } else if (stat.isPresent()) {
-            List<Fault> byStat = service.findByStatus(stat.get());
+            List<Fault> byStat = queryFaultService.findByStatus(stat.get());
             if (byStat.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such element");
             }
             return byStat;
         }
-        return service.findAll();
+        return queryFaultService.findAll();
     }
 
 
@@ -77,7 +79,7 @@ public class FaultController {
         if (id.equals(42L)) {
             throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "I'm a teapot - sorry");
         }
-        return service
+        return queryFaultService
                 .fidById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -89,12 +91,12 @@ public class FaultController {
         //TODO - get id from user
         UserEntity user = userService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "User not found with id: "+ id));
-        return service.findAllByUser(user);
+        return queryFaultService.findAllByUser(user);
     }
 
     @PostMapping
     public ResponseEntity<?> addFault(@Valid @RequestBody RestFaultCommand command) {
-        Fault fault = service.addFault(command.toCreateCommand());
+        Fault fault = manipulateFaultService.addFault(command.toCreateCommand());
         return ResponseEntity.created(createdFaultUri(fault)).build();
     }
 
@@ -105,14 +107,14 @@ public class FaultController {
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateFault(@PathVariable Long id, @RequestBody RestFaultCommand command) {
-        UpdateResponse response = service.updateFault(command.toUpdateCommand(id));
+        UpdateResponse response = manipulateFaultService.updateFault(command.toUpdateCommand(id));
         checkResponseSuccess(response);
     }
 
     @PatchMapping("/assign/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void assignFault(@PathVariable Long id, @Valid @RequestBody RestAssignFaultCommand command) {
-        UpdateResponse response = service.assignFault(command.toAssignCommand(id));
+        UpdateResponse response = manipulateFaultService.assignFault(command.toAssignCommand(id));
         checkResponseSuccess(response);
     }
 
@@ -120,14 +122,14 @@ public class FaultController {
     @PatchMapping("/end/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void endFault(@PathVariable Long id) {
-        UpdateResponse response = service.endFault(id);
+        UpdateResponse response = manipulateFaultService.endFault(id);
         checkResponseSuccess(response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
-        if (service.fidById(id).isPresent()) {
-            service.removeFaultById(id);
+        if (queryFaultService.fidById(id).isPresent()) {
+            manipulateFaultService.removeFaultById(id);
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
