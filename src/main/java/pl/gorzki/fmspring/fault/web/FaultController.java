@@ -74,6 +74,12 @@ public class FaultController {
 //    }
 
 
+    @GetMapping("/eager")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Fault> getAllEager(){
+        return queryFaultService.findAllEager();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         if (id.equals(42L)) {

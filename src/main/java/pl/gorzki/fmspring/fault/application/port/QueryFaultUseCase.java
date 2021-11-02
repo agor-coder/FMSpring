@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface QueryFaultUseCase {
     List<Fault> findAll();
+    List<Fault> findAllEager();
 
     Optional<Fault> fidById(Long id);
 

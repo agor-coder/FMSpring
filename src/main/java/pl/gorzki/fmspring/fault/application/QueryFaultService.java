@@ -18,11 +18,16 @@ class QueryFaultService implements QueryFaultUseCase {
     private final FaultJpaRepository repository;
 
 
-
-
     @Override
     public List<Fault> findAll() {
-        return repository.findAll();
+//        return repository.findAllEager();
+        return repository.findAll(); // default LAZY
+    }
+
+    @Override
+    public List<Fault> findAllEager() {
+        return repository.findAllEager();
+
     }
 
     @Override
@@ -74,7 +79,6 @@ class QueryFaultService implements QueryFaultUseCase {
                 .filter(fault -> fault.getStatus().getDescription().toLowerCase().contains(status.toLowerCase()))
                 .collect(Collectors.toList());
     }
-
 
 
 }

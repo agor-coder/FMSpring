@@ -28,4 +28,7 @@ public interface FaultJpaRepository extends JpaRepository<Fault, Long> {
     List<Fault> findAllByWhoAssigned(UserEntity assigner);
 
     List<Fault> findAllByWhoNotify(UserEntity notifier);
+
+    @Query(" SELECT DISTINCT b FROM Fault b JOIN FETCH b.area JOIN FETCH b.specialist JOIN FETCH b.whoAssigned JOIN FETCH b.whoNotify")
+    List<Fault>findAllEager();
 }
