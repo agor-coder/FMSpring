@@ -8,6 +8,7 @@ import pl.gorzki.fmspring.fault.domain.Fault;
 import pl.gorzki.fmspring.fault.domain.FaultStatus;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface FaultJpaRepository extends JpaRepository<Fault, Long> {
@@ -23,11 +24,14 @@ public interface FaultJpaRepository extends JpaRepository<Fault, Long> {
 
     int countBySpecialistAndStatus(UserEntity spec, FaultStatus status);
 
+
     List<Fault> findAllBySpecialist(UserEntity specialist);
 
     List<Fault> findAllByWhoAssigned(UserEntity assigner);
 
     List<Fault> findAllByWhoNotify(UserEntity notifier);
+
+    List<Fault>findByStatusAndCreatedAtLessThanEqual(FaultStatus status, LocalDateTime timestamp);
 
     @Query(" SELECT DISTINCT b FROM Fault b JOIN FETCH b.area  JOIN FETCH b.whoNotify")
     List<Fault>findAllEager();

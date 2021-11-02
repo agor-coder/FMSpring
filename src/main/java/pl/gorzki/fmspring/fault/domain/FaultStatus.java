@@ -8,7 +8,8 @@ import lombok.Getter;
 public enum FaultStatus {
     NOT_ASSIGNED("Nie przydzielona"),
     ASSIGNED("Przydzielona"),
-    END("Zakończona");
+    END("Zakończona"),
+    ABANDONED("Porzucona");
 
     private final String description;
 

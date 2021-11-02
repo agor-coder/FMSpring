@@ -9,6 +9,7 @@ import pl.gorzki.fmspring.commons.UpdateResponse;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase;
 import pl.gorzki.fmspring.fault.db.FaultJpaRepository;
 import pl.gorzki.fmspring.fault.domain.Fault;
+import pl.gorzki.fmspring.fault.domain.FaultStatus;
 import pl.gorzki.fmspring.users.db.UserJpaRepository;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
@@ -107,11 +108,11 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
 
     @Override
     @Transactional
-    public UpdateResponse endFault(Long id) {
+    public UpdateResponse changeStatus(Long id, FaultStatus status) {
         return repository
                 .findById(id)
                 .map(fault -> {
-                    fault.setStatus(END);
+                    fault.setStatus(status);
                     return UpdateResponse.SUCCESS;
                 })
                 .orElseGet(() -> new UpdateResponse(

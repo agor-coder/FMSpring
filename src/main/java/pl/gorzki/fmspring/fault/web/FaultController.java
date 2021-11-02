@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static pl.gorzki.fmspring.fault.domain.FaultStatus.END;
 
 @RestController
 @RequestMapping("/faults")
@@ -128,7 +129,7 @@ public class FaultController {
     @PatchMapping("/end/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void endFault(@PathVariable Long id) {
-        UpdateResponse response = manipulateFaultService.endFault(id);
+        UpdateResponse response = manipulateFaultService.changeStatus(id, END);
         checkResponseSuccess(response);
     }
 

@@ -17,7 +17,7 @@ public interface ManipulateFaultUseCase {
 
     UpdateResponse assignFault(AssignFaultCommand command);
 
-    UpdateResponse endFault(Long id);
+    UpdateResponse changeStatus(Long id, FaultStatus status);
 
 
     @Value
