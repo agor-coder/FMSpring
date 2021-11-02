@@ -4,30 +4,33 @@ import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase;
 import pl.gorzki.fmspring.fault.db.FaultJpaRepository;
 import pl.gorzki.fmspring.fault.domain.Fault;
-import pl.gorzki.fmspring.fault.domain.FaultStatus;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static pl.gorzki.fmspring.fault.domain.FaultStatus.*;
+import static pl.gorzki.fmspring.fault.domain.FaultStatus.ABANDONED;
+import static pl.gorzki.fmspring.fault.domain.FaultStatus.NOT_ASSIGNED;
 
 @Component
 @AllArgsConstructor
 public class AbandonedFaultJob {
 
     private final FaultJpaRepository repository;
-    private final ManipulateFaultService faultService;
+    private final ManipulateFaultUseCase faultUseCase;
+    private final FaultProperties properties;
 
-    @Scheduled(fixedRate = 60_000)
+    @Scheduled(cron = "${fmspring.faults.abandon-cron}")
     @Transactional
     public void run() {
-        LocalDateTime timestamp = LocalDateTime.now().minusMinutes(1);
-
-        List<Fault> faults = repository.findByStatusAndCreatedAtLessThanEqual(NOT_ASSIGNED, timestamp);
+        Duration period= properties.getAbandonPeriod();
+        LocalDateTime olderThan = LocalDateTime.now().minus(period);
+        List<Fault> faults = repository.findByStatusAndCreatedAtLessThanEqual(NOT_ASSIGNED, olderThan);
         System.out.println("******************** find orders to be abandoned " + faults.size());
-        faults.forEach(fault -> faultService.changeStatus(fault.getId(), ABANDONED));
+        faults.forEach(fault -> faultUseCase.changeStatus(fault.getId(), ABANDONED));
 
     }
 }

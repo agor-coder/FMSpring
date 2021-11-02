@@ -16,7 +16,6 @@ import pl.gorzki.fmspring.users.domain.UserEntity;
 import java.util.Collections;
 
 import static pl.gorzki.fmspring.fault.domain.FaultStatus.ASSIGNED;
-import static pl.gorzki.fmspring.fault.domain.FaultStatus.END;
 
 @Service
 public class ManipulateFaultService implements ManipulateFaultUseCase {
@@ -27,9 +26,9 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
     private final Long limit;
 
     public ManipulateFaultService(FaultJpaRepository repository,
-                             AreaJpaRepository areaRepository,
-                             UserJpaRepository userRepository,
-                             @Value("${fmspring.faults.limit}") Long limit) {
+                                  AreaJpaRepository areaRepository,
+                                  UserJpaRepository userRepository,
+                                  @Value("${fmspring.faults.limit}") Long limit) {
         this.repository = repository;
         this.areaRepository = areaRepository;
         this.userRepository = userRepository;
