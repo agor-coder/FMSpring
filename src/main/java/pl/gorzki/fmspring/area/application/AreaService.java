@@ -57,17 +57,17 @@ public class AreaService implements AreaUseCase {
     @Transactional
     public UpdateResponse updateArea(UpdateAreaCommand command) {
         return repository
-                .findById(command.getId())
+                .findById(command.id())
                 .map(area -> {
                     updateFields(command, area);
                     return UpdateResponse.SUCCESS;
                 })
-                .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("Area not found with id: " + command.getId())));
+                .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("Area not found with id: " + command.id())));
     }
 
     private TechArea updateFields(UpdateAreaCommand command, TechArea area) {
-        if (command.getAreaName() != null) {
-            area.setAreaName(command.getAreaName());
+        if (command.areaName() != null) {
+            area.setAreaName(command.areaName());
         }
         return area;
     }

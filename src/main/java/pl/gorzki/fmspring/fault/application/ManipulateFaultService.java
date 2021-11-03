@@ -44,10 +44,10 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
 
 
     private Fault toFault(CreateFaultCommand command) {
-        TechArea area = areaRepository.findById(command.getAreaId()).get();
+        TechArea area = areaRepository.findById(command.areaId()).get();
         //TODO - get id from user
-        UserEntity notif = userRepository.findById(command.getWhoNotifyId()).get();
-        return new Fault(command.getFaultDescribe(), area, notif);
+        UserEntity notif = userRepository.findById(command.whoNotifyId()).get();
+        return new Fault(command.faultDescribe(), area, notif);
 
     }
 
@@ -70,14 +70,14 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
     @Transactional
     public UpdateResponse updateFault(UpdateFaultCommand command) {
         return repository
-                .findById(command.getId())
+                .findById(command.id())
                 .map(fault -> {
                     updateFields(command, fault);
 //                    Fault updatedFault = command.updateFields(fault);  //bo @Transactional
 //                    repository.save(updatedFault);
                     return UpdateResponse.SUCCESS;
                 })
-                .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("Fault not found with id: " + command.getId())));
+                .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("Fault not found with id: " + command.id())));
 
     }
 
@@ -85,9 +85,9 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
     @Transactional
     public UpdateResponse assignFault(AssignFaultCommand command) {
         return repository
-                .findById(command.getId())
+                .findById(command.id())
                 .map(fault -> {
-                    UserEntity spec = userRepository.findById(command.getSpecialistId()).get();
+                    UserEntity spec = userRepository.findById(command.specialistId()).get();
                     if (countOfSpecFaults(spec) >= limit) {
                         return new UpdateResponse(false, Collections.singletonList("Specialist - fault limit reached"));
                     }
@@ -95,14 +95,14 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
                         return new UpdateResponse(false, Collections.singletonList("Specialist - the same"));
                     }
                     //TODO - get id from user
-                    UserEntity assigner = userRepository.findById(command.getWhoAssignedId()).get();
+                    UserEntity assigner = userRepository.findById(command.whoAssignedId()).get();
                     fault.setWhoAssigned(assigner);
                     fault.setSpecialist(spec);
                     fault.setStatus(ASSIGNED);
                     return UpdateResponse.SUCCESS;
                 })
                 .orElseGet(() -> new UpdateResponse(
-                        false, Collections.singletonList("Fault not found with id: " + command.getId())));
+                        false, Collections.singletonList("Fault not found with id: " + command.id())));
     }
 
     @Override
@@ -131,26 +131,26 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
 
 
     private Fault updateFields(UpdateFaultCommand command, Fault fault) {
-        if (command.getFaultDescribe() != null) {
-            fault.setFaultDescribe(command.getFaultDescribe());
+        if (command.faultDescribe() != null) {
+            fault.setFaultDescribe(command.faultDescribe());
         }
-        if (command.getStatus() != null) {
-            fault.setStatus(command.getStatus());
+        if (command.status() != null) {
+            fault.setStatus(command.status());
         }
-        if (command.getAreaId() != null) {
-            fault.setArea(areaRepository.findById(command.getAreaId())
+        if (command.areaId() != null) {
+            fault.setArea(areaRepository.findById(command.areaId())
                     .orElseThrow(() -> new IllegalStateException("Cannot find such area ")));
         }
-        if (command.getSpecialistId() != null) {
-            fault.setSpecialist(userRepository.findById(command.getSpecialistId())
+        if (command.specialistId() != null) {
+            fault.setSpecialist(userRepository.findById(command.specialistId())
                     .orElseThrow(() -> new IllegalStateException("Cannot find specialist ")));
         }
-        if (command.getWhoAssignedId() != null) {
-            fault.setWhoAssigned(userRepository.findById(command.getWhoAssignedId())
+        if (command.whoAssignedId() != null) {
+            fault.setWhoAssigned(userRepository.findById(command.whoAssignedId())
                     .orElseThrow(() -> new IllegalStateException("Cannot find assigner ")));
         }
-        if (command.getWhoNotifyId() != null) {
-            fault.setWhoNotify(userRepository.findById(command.getWhoNotifyId())
+        if (command.whoNotifyId() != null) {
+            fault.setWhoNotify(userRepository.findById(command.whoNotifyId())
                     .orElseThrow(() -> new IllegalStateException("Cannot find notifier ")));
         }
         return fault;

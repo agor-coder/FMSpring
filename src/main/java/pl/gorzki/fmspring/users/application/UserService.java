@@ -28,14 +28,7 @@ public class UserService implements UserUseCase {
     @Override
     @Transactional
     public UserEntity register(CreateUserCommand command) {
-        UserEntity user = new UserEntity(
-                command.getPassword(),
-                command.getFirstName(),
-                command.getLastName(),
-                command.getPhone(),
-                command.getEmailUserName(),
-                command.getRole()
-        );
+        UserEntity user = command.toUser();
         return repository.save(user);
     }
 
@@ -53,29 +46,29 @@ public class UserService implements UserUseCase {
     @Transactional
     public UpdateResponse updateUser(UpdateUserCommand command) {
         return repository
-                .findById(command.getId())
+                .findById(command.id())
                 .map(user -> {
                     updateFields(command, user);
                     return UpdateResponse.SUCCESS;
                 })
-                .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("User not found with id: " + command.getId())));
+                .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("User not found with id: " + command.id())));
     }
 
     private void updateFields(UpdateUserCommand command, UserEntity user) {
-        if (command.getPassword() != null) {
-            user.setPassword(command.getPassword());
+        if (command.password() != null) {
+            user.setPassword(command.password());
         }
-        if (command.getFirstName() != null) {
-            user.setFirstName(command.getFirstName());
+        if (command.firstName() != null) {
+            user.setFirstName(command.firstName());
         }
-        if (command.getLastName() != null) {
-            user.setLastName(command.getLastName());
+        if (command.lastName() != null) {
+            user.setLastName(command.lastName());
         }
-        if (command.getPhone() != null) {
-            user.setPhone(command.getPhone());
+        if (command.phone() != null) {
+            user.setPhone(command.phone());
         }
-        if (command.getRole() != null) {
-            user.setRole(command.getRole());
+        if (command.role() != null) {
+            user.setRole(command.role());
         }
     }
 }

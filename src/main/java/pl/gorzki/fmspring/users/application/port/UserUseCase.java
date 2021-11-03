@@ -1,8 +1,6 @@
 package pl.gorzki.fmspring.users.application.port;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Value;
 import pl.gorzki.fmspring.commons.UpdateResponse;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
@@ -23,30 +21,23 @@ public interface UserUseCase {
     UpdateResponse updateUser(UpdateUserCommand command);
 
 
-    @Value
-
-    class CreateUserCommand {
-        String password;
-        String firstName;
-        String lastName;
-        String phone;
-        String emailUserName;
-        String role;
-
+    record CreateUserCommand(String password,
+                             String firstName,
+                             String lastName,
+                             String phone,
+                             String emailUserName,
+                             String role) {
         public UserEntity toUser() {
             return new UserEntity(password, firstName, lastName, phone, emailUserName, role);
         }
     }
 
-    @Value
-    @AllArgsConstructor
-    class UpdateUserCommand {
-        Long id;
-        String password;
-        String firstName;
-        String lastName;
-        String phone;
-        String role;
 
+    record UpdateUserCommand(Long id,
+                             String password,
+                             String firstName,
+                             String lastName,
+                             String phone,
+                             String role) {
     }
 }
