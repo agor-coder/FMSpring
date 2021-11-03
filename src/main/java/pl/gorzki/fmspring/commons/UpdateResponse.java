@@ -6,9 +6,7 @@ import java.util.List;
 
 import static java.util.Collections.emptyList;
 
-@Value
-public class UpdateResponse {
+
+public record UpdateResponse(boolean success, List<String> errors) {
     public static UpdateResponse SUCCESS = new UpdateResponse(true, emptyList());
-    boolean success;
-    List<String> errors;
 }

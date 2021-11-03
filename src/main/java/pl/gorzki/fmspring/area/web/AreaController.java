@@ -54,8 +54,8 @@ public class AreaController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateArea(@PathVariable Long id, @RequestBody RestAreaCommand command) {
         UpdateResponse response = service.updateArea(command.toUpdateCommand(id));
-        if (!response.isSuccess()) {
-            String message = String.join(", ", response.getErrors());
+        if (!response.success()) {
+            String message = String.join(", ", response.errors());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
         }
     }

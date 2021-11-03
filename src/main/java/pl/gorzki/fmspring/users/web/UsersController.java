@@ -65,8 +65,8 @@ public class UsersController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateUser(@PathVariable Long id, @RequestBody RestUserCommand command) {
         UpdateResponse response = service.updateUser(command.toUpdateCommand(id));
-        if (!response.isSuccess()) {
-            String message = String.join(", ", response.getErrors());
+        if (!response.success()) {
+            String message = String.join(", ", response.errors());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
         }
     }
