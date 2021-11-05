@@ -55,13 +55,7 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
     public UpdateResponse removeFaultById(Long id) {
         return repository
                 .findById(id)
-                .map(fault -> {
-                    if (fault.getStatus() == ASSIGNED) {
-                        return new UpdateResponse(false, Collections.singletonList("Unable to remove assigned fault"));
-                    }
-                    repository.deleteById(fault.getId());
-                    return UpdateResponse.SUCCESS;
-                })
+                .map(this::remove)
                 .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("Fault not found with id: " + id)));
 
     }
@@ -156,4 +150,11 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
         return fault;
     }
 
+    private UpdateResponse remove(Fault fault) {
+        if (fault.getStatus() == ASSIGNED) {
+            return new UpdateResponse(false, Collections.singletonList("Unable to remove assigned fault"));
+        }
+        repository.deleteById(fault.getId());
+        return UpdateResponse.SUCCESS;
+    }
 }
