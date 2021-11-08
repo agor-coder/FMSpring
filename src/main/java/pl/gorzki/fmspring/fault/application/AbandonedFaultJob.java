@@ -1,6 +1,7 @@
 package pl.gorzki.fmspring.fault.application;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import static pl.gorzki.fmspring.fault.domain.FaultStatus.ABANDONED;
 import static pl.gorzki.fmspring.fault.domain.FaultStatus.NOT_ASSIGNED;
 
 @Component
+@Slf4j
 @AllArgsConstructor
 public class AbandonedFaultJob {
 
@@ -29,7 +31,7 @@ public class AbandonedFaultJob {
         Duration period= properties.getAbandonPeriod();
         LocalDateTime olderThan = LocalDateTime.now().minus(period);
         List<Fault> faults = repository.findByStatusAndCreatedAtLessThanEqual(NOT_ASSIGNED, olderThan);
-        System.out.println("******************** find orders to be abandoned " + faults.size());
+        log.info("******************** find orders to be abandoned " + faults.size());
         faults.forEach(fault -> faultUseCase.changeStatus(fault.getId(), ABANDONED));
 
     }
