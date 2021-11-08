@@ -2,6 +2,7 @@ package pl.gorzki.fmspring.initialization.application;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase;
 import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase;
@@ -23,6 +24,7 @@ public class InitService implements InitServiceUseCase {
 
 
     @Override
+    @Transactional
     public void initialize() {
         initData();
     }
