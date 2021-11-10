@@ -20,6 +20,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import static pl.gorzki.fmspring.area.application.port.AreaUseCase.CreateAreaCommand;
+
 @Service
 @AllArgsConstructor
 public class InitService implements InitServiceUseCase {
@@ -32,10 +34,11 @@ public class InitService implements InitServiceUseCase {
     @Override
     @Transactional
     public void initialize() {
-        initData();
+        initUsers();
+        initAreas();
     }
 
-    private void initData() {
+    private void initUsers() {
         ClassPathResource classPathResource = new ClassPathResource("users.csv");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(classPathResource.getInputStream()))) {
             CsvToBean<CsvUser> build = new CsvToBeanBuilder<CsvUser>(reader)
@@ -47,6 +50,25 @@ public class InitService implements InitServiceUseCase {
         } catch (IOException e) {
             throw new IllegalStateException("Failed to parse CSV file", e);
         }
+    }
+
+    private void initAreas() {
+        ClassPathResource classPathResource = new ClassPathResource("area.csv");
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(classPathResource.getInputStream()))) {
+            CsvToBean<CsvArea> build = new CsvToBeanBuilder<CsvArea>(reader)
+                    .withType(CsvArea.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build();
+
+            build.stream().forEach(this::initArea);
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to parse CSV file", e);
+        }
+    }
+
+    private void initArea(CsvArea csvArea) {
+        CreateAreaCommand command = new CreateAreaCommand(csvArea.areaName);
+        areaService.addArea(command);
     }
 
     private void initUser(CsvUser csvUser) {
@@ -120,5 +142,13 @@ public class InitService implements InitServiceUseCase {
         String emailUserName;
         @CsvBindByName
         String role;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class CsvArea {
+        @CsvBindByName
+        String areaName;
     }
 }
