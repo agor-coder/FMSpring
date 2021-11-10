@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase;
+import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.CreateFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.QueryFaultUseCase;
 import pl.gorzki.fmspring.initialization.application.port.InitServiceUseCase;
 import pl.gorzki.fmspring.users.application.port.UserUseCase;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import static pl.gorzki.fmspring.area.application.port.AreaUseCase.CreateAreaCommand;
+import static pl.gorzki.fmspring.fault.domain.FaultStatus.ASSIGNED;
 
 @Service
 @AllArgsConstructor
@@ -28,7 +30,7 @@ public class InitService implements InitServiceUseCase {
     private final QueryFaultUseCase queryFaultService;
     private final ManipulateFaultUseCase manipulateFaultService;
     private final AreaUseCase areaService;
-    private final UserUseCase registrationService;
+    private final UserUseCase userService;
 
 
     @Override
@@ -36,6 +38,7 @@ public class InitService implements InitServiceUseCase {
     public void initialize() {
         initUsers();
         initAreas();
+        initFaults();
     }
 
     private void initUsers() {
@@ -53,7 +56,7 @@ public class InitService implements InitServiceUseCase {
     }
 
     private void initAreas() {
-        ClassPathResource classPathResource = new ClassPathResource("area.csv");
+        ClassPathResource classPathResource = new ClassPathResource("areas.csv");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(classPathResource.getInputStream()))) {
             CsvToBean<CsvArea> build = new CsvToBeanBuilder<CsvArea>(reader)
                     .withType(CsvArea.class)
@@ -64,6 +67,33 @@ public class InitService implements InitServiceUseCase {
         } catch (IOException e) {
             throw new IllegalStateException("Failed to parse CSV file", e);
         }
+    }
+
+    private void initFaults() {
+        ClassPathResource classPathResource = new ClassPathResource("faults.csv");
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(classPathResource.getInputStream()))) {
+            CsvToBean<CsvFault> build = new CsvToBeanBuilder<CsvFault>(reader)
+                    .withType(CsvFault.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build();
+
+            build.stream().forEach(this::initFault);
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to parse CSV file", e);
+        }
+    }
+
+    private void initFault(CsvFault csvFault) {
+        Long a = Long.parseLong(csvFault.areaId);
+        Long n = Long.parseLong(csvFault.whoNotifyId);
+        CreateFaultCommand command = new CreateFaultCommand(csvFault.faultDescribe, a, n);
+        manipulateFaultService.addFault(command);
+
+        queryFaultService.fidById(2L).ifPresent(fault -> {
+            fault.setSpecialist(userService.findById(6L).get());
+            fault.setWhoAssigned(userService.findById(3L).get());
+            fault.setStatus(ASSIGNED);
+        });
     }
 
     private void initArea(CsvArea csvArea) {
@@ -80,51 +110,9 @@ public class InitService implements InitServiceUseCase {
                 csvUser.emailUserName,
                 csvUser.role
         );
-        registrationService.register(command);
+        userService.register(command);
     }
 
-//    private void initData() {
-//
-//        TechArea area1 = areaService.addArea(new AreaUseCase.CreateAreaCommand("maszynownia"));
-//        TechArea area2 = areaService.addArea(new AreaUseCase.CreateAreaCommand("elektryczny"));
-//        TechArea area3 = areaService.addArea(new AreaUseCase.CreateAreaCommand("kotlownia"));
-//
-//        UserEntity notifier1 = registrationService.register(new UserUseCase.CreateUserCommand(
-//                "123", "Peter", "Novak", "12345", "peter@2.pl", "ROLE_NOTIFIER"
-//        ));
-//        UserEntity notifier2 = registrationService.register(new UserUseCase.CreateUserCommand(
-//                "123", "Peter", "Smith", "12345", "peter2@2.pl", "ROLE_NOTIFIER"
-//        ));
-//        UserEntity assigner1 = registrationService.register(new UserUseCase.CreateUserCommand(
-//                "123", "Andy", "Gor", "12345", "andy@2.pl", "ROLE_ASSIGNER"
-//        ));
-//        UserEntity assigner2 = registrationService.register(new UserUseCase.CreateUserCommand(
-//                "123", "Tom", "Man", "12345", "aman@2.pl", "ROLE_ASSIGNER"
-//        ));
-//        UserEntity specialist1 = registrationService.register(new UserUseCase.CreateUserCommand(
-//                "123", "John", "Baker", "12345", "john@2.pl", "ROLE_SPECIALIST"
-//        ));
-//        UserEntity specialist2 = registrationService.register(new UserUseCase.CreateUserCommand(
-//                "123", "Stan", "Pure", "12345", "stan@2.pl", "ROLE_SPECIALIST"
-//        ));
-//        UserEntity admin1 = registrationService.register(new UserUseCase.CreateUserCommand(
-//                "123", "Kay", "Lenz", "12345", "kay@2.pl", "ROLE_ADMIN"
-//        ));
-//
-//        manipulateFaultService.addFault(new CreateFaultCommand("zwarcie", area1.getId(), notifier1.getId()));
-//        manipulateFaultService.addFault(new CreateFaultCommand("brak", area2.getId(), notifier2.getId()));
-//        manipulateFaultService.addFault(new CreateFaultCommand("nie ma", area1.getId(), notifier1.getId()));
-//        manipulateFaultService.addFault(new CreateFaultCommand("spalony", area2.getId(), notifier2.getId()));
-//        manipulateFaultService.addFault(new CreateFaultCommand("NOWA", area3.getId(), notifier2.getId()));
-//
-//        queryFaultService.fidById(2L).ifPresent(fault -> {
-//            fault.setSpecialist(specialist2);
-//            fault.setWhoAssigned(assigner2);
-//            fault.setStatus(ASSIGNED);
-//        });
-//
-//
-//    }
 
     @Data
     @AllArgsConstructor
@@ -150,5 +138,17 @@ public class InitService implements InitServiceUseCase {
     public static class CsvArea {
         @CsvBindByName
         String areaName;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class CsvFault {
+        @CsvBindByName
+        String faultDescribe;
+        @CsvBindByName
+        String areaId;
+        @CsvBindByName
+        String whoNotifyId;
     }
 }
