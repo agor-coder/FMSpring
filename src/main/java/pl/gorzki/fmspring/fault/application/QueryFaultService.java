@@ -31,7 +31,7 @@ class QueryFaultService implements QueryFaultUseCase {
     }
 
     @Override
-    public Optional<Fault> fidById(Long id) {
+    public Optional<Fault> findById(Long id) {
         return repository.findById(id);
     }
 

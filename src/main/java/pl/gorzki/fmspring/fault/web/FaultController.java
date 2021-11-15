@@ -87,7 +87,7 @@ public class FaultController {
             throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "I'm a teapot - sorry");
         }
         return queryFaultService
-                .fidById(id)
+                .findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

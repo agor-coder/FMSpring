@@ -81,6 +81,11 @@ public class InitService implements InitServiceUseCase {
         } catch (IOException e) {
             throw new IllegalStateException("Failed to parse CSV file", e);
         }
+        queryFaultService.findById(2L).ifPresent(fault -> {
+            fault.setSpecialist(userService.findById(6L).get());
+            fault.setWhoAssigned(userService.findById(3L).get());
+            fault.setStatus(ASSIGNED);
+        });
     }
 
     private void initFault(CsvFault csvFault) {
@@ -88,12 +93,6 @@ public class InitService implements InitServiceUseCase {
         Long n = Long.parseLong(csvFault.whoNotifyId);
         CreateFaultCommand command = new CreateFaultCommand(csvFault.faultDescribe, a, n);
         manipulateFaultService.addFault(command);
-
-        queryFaultService.fidById(2L).ifPresent(fault -> {
-            fault.setSpecialist(userService.findById(6L).get());
-            fault.setWhoAssigned(userService.findById(3L).get());
-            fault.setStatus(ASSIGNED);
-        });
     }
 
     private void initArea(CsvArea csvArea) {

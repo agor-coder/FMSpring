@@ -10,7 +10,7 @@ public interface QueryFaultUseCase {
     List<Fault> findAll();
     List<Fault> findAllEager();
 
-    Optional<Fault> fidById(Long id);
+    Optional<Fault> findById(Long id);
 
     List<Fault> findAllByUser(UserEntity specialist);
 
