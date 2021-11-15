@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase;
 import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase// with h2
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class FaultServiceTest {
     @Autowired
     ManipulateFaultUseCase manipulateFaultService;
@@ -35,7 +37,7 @@ class FaultServiceTest {
 
 
     @Test
-    public void findAllByUser() {
+    public void findAllFaultsByUser() {
 //        given
         TechArea area1 = areaService.addArea(new AreaUseCase.CreateAreaCommand("maszynownia"));
         TechArea area2 = areaService.addArea(new AreaUseCase.CreateAreaCommand("elektr"));
@@ -58,6 +60,33 @@ class FaultServiceTest {
         List<Fault> list1 = queryFaultService.findAllByUser(userJpaRepository.findById(2L).get());
 //        then
         System.out.println(list1);
-        assertEquals(3,list1.size());
+        assertEquals(3, list1.size());
+    }
+
+    @Test
+    public void findAllFaults() {
+//        given
+        TechArea area1 = areaService.addArea(new AreaUseCase.CreateAreaCommand("maszynownia"));
+        TechArea area2 = areaService.addArea(new AreaUseCase.CreateAreaCommand("elektr"));
+        TechArea area3 = areaService.addArea(new AreaUseCase.CreateAreaCommand("kotlownia"));
+
+        UserEntity notifier1 = registrationService.register(new UserUseCase.CreateUserCommand(
+                "123", "Peter", "Novak", "12345", "peter@2.pl", "ROLE_NOTIFIER"
+        ));
+        UserEntity notifier2 = registrationService.register(new UserUseCase.CreateUserCommand(
+                "123", "Peter", "Smith", "12345", "peter2@2.pl", "ROLE_NOTIFIER"
+        ));
+
+
+        manipulateFaultService.addFault(new CreateFaultCommand("zwarcie", area1.getId(), notifier1.getId()));
+        manipulateFaultService.addFault(new CreateFaultCommand("brak", area2.getId(), notifier2.getId()));
+        manipulateFaultService.addFault(new CreateFaultCommand("nie ma", area1.getId(), notifier1.getId()));
+        manipulateFaultService.addFault(new CreateFaultCommand("spalony", area2.getId(), notifier2.getId()));
+        manipulateFaultService.addFault(new CreateFaultCommand("NOWA", area3.getId(), notifier2.getId()));
+//        when
+        List<Fault> list1 = queryFaultService.findAll();
+//        then
+        System.out.println(list1);
+        assertEquals(5, list1.size());
     }
 }
