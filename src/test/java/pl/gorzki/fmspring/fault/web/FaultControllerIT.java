@@ -38,7 +38,6 @@ class FaultControllerIT {
     FaultController controller;
 
 
-
     @BeforeEach
     private void initData() {
         TechArea area1 = areaService.addArea(new CreateAreaCommand("maszynownia"));
@@ -71,7 +70,6 @@ class FaultControllerIT {
     }
 
 
-
     @Test
     public void findAllFaultsByUser() {
 //        given
@@ -96,4 +94,6 @@ class FaultControllerIT {
 //        then
         assertEquals(5, list1.size());
     }
+
+
 }

@@ -82,12 +82,13 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
                 .findById(command.id())
                 .map(fault -> {
                     UserEntity spec = userRepository.findById(command.specialistId()).get();
-                    if (countOfSpecFaults(spec) >= limit) {
-                        return new UpdateResponse(false, Collections.singletonList("Specialist - fault limit reached"));
-                    }
                     if (checkSpec(spec, fault)) {
                         return new UpdateResponse(false, Collections.singletonList("Specialist - the same"));
                     }
+                    if (countOfSpecFaults(spec) >= limit) {
+                        return new UpdateResponse(false, Collections.singletonList("Specialist - fault limit reached"));
+                    }
+
                     //TODO - get id from user
                     UserEntity assigner = userRepository.findById(command.whoAssignedId()).get();
                     fault.setWhoAssigned(assigner);
@@ -133,19 +134,19 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
         }
         if (command.areaId() != null) {
             fault.setArea(areaRepository.findById(command.areaId())
-                    .orElseThrow(() -> new IllegalStateException("Cannot find such area ")));
+                    .orElseThrow(() -> new IllegalStateException("Cannot find such area")));
         }
         if (command.specialistId() != null) {
             fault.setSpecialist(userRepository.findById(command.specialistId())
-                    .orElseThrow(() -> new IllegalStateException("Cannot find specialist ")));
+                    .orElseThrow(() -> new IllegalStateException("Cannot find specialist")));
         }
         if (command.whoAssignedId() != null) {
             fault.setWhoAssigned(userRepository.findById(command.whoAssignedId())
-                    .orElseThrow(() -> new IllegalStateException("Cannot find assigner ")));
+                    .orElseThrow(() -> new IllegalStateException("Cannot find assigner")));
         }
         if (command.whoNotifyId() != null) {
             fault.setWhoNotify(userRepository.findById(command.whoNotifyId())
-                    .orElseThrow(() -> new IllegalStateException("Cannot find notifier ")));
+                    .orElseThrow(() -> new IllegalStateException("Cannot find notifier")));
         }
         return fault;
     }

@@ -1,8 +1,6 @@
 package pl.gorzki.fmspring.fault.web;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import pl.gorzki.fmspring.fault.domain.Fault;
 
 import java.util.List;
@@ -12,14 +10,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 //////////////na aktywnej bazie
-@SpringBootTest
+//@SpringBootTest
 class FaultControllerIT_OnActiveDb {
 
     @Autowired
     FaultController controller;
 
 
-  @Test
+//  @Test
     public void findAllByUser() {
 //        given
 
