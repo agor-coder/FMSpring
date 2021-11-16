@@ -26,7 +26,7 @@ public class Fault extends BaseEntity {
     @NotNull
     private FaultStatus status = FaultStatus.NOT_ASSIGNED;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @NotNull
     private TechArea area;
 
