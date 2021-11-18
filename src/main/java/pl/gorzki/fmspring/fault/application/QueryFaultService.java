@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 class QueryFaultService implements QueryFaultUseCase {
     private final FaultJpaRepository repository;
 
-
     @Override
     public List<Fault> findAll() {
 //        return repository.findAllEager();
@@ -34,6 +33,7 @@ class QueryFaultService implements QueryFaultUseCase {
     public Optional<Fault> findById(Long id) {
         return repository.findById(id);
     }
+
 
     @Override
     public List<Fault> findAllByUser(UserEntity user) {
