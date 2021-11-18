@@ -47,12 +47,15 @@ class AbandonedFaultJobTest {
     @Test
     public void shouldMarkFaultAsAbandoned() {
         //given
-        clock.tick(Duration.ofHours(2));
+
         initData();
         //when
+        clock.tick(Duration.ofHours(2));
         faultJob.run();
         //then
         assertEquals(4, queryFaultService.findByStatus("porzucona").size());
+
+
     }
 
     private void initData() {
@@ -84,6 +87,5 @@ class AbandonedFaultJobTest {
         manipulateFaultService.updateFault(new ManipulateFaultUseCase.UpdateFaultCommand(
                 5L, null, ASSIGNED, null, spec.getId(), assigner.getId(), null));
     }
-
 
 }
