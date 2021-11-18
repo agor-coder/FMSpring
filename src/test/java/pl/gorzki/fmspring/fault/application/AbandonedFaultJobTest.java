@@ -13,6 +13,8 @@ import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase;
 import pl.gorzki.fmspring.users.application.port.UserUseCase;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
+import java.time.Duration;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pl.gorzki.fmspring.fault.domain.FaultStatus.ASSIGNED;
 
@@ -39,10 +41,13 @@ class AbandonedFaultJobTest {
     AreaUseCase areaService;
     @Autowired
     UserUseCase userService;
+    @Autowired
+    Clock.Fake clock;
 
     @Test
     public void shouldMarkFaultAsAbandoned() {
         //given
+        clock.tick(Duration.ofHours(2));
         initData();
         //when
         faultJob.run();
