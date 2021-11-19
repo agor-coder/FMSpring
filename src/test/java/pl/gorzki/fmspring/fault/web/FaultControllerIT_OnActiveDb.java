@@ -22,7 +22,7 @@ class FaultControllerIT_OnActiveDb {
 //        given
 
 //        when
-        List<Fault> list1 = controller.getAllByUser(1L);
+        List<Fault> list1 = controller.getAllByUserId(1L);
 //        then
         System.out.println(list1);
         assertEquals(3,list1.size());

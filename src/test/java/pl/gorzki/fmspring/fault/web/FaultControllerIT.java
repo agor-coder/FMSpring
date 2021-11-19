@@ -76,9 +76,9 @@ class FaultControllerIT {
 
 
 //        when
-        List<Fault> byNotifier = controller.getAllByUser(2L);
-        List<Fault> bySpec = controller.getAllByUser(3L);
-        List<Fault> byAssigner = controller.getAllByUser(4L);
+        List<Fault> byNotifier = controller.getAllByUserId(2L);
+        List<Fault> bySpec = controller.getAllByUserId(3L);
+        List<Fault> byAssigner = controller.getAllByUserId(4L);
 //        then
         assertEquals(3, byNotifier.size());
         assertEquals(1, bySpec.size());
