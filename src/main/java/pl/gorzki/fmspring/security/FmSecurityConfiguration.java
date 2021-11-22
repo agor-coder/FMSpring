@@ -12,7 +12,7 @@ public class FmSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .mvcMatchers(HttpMethod.GET, "/faults/**").permitAll()
+                .mvcMatchers(HttpMethod.POST, "/users/notifier").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()

@@ -31,7 +31,7 @@ public class UsersController {
         return service.findAll();
     }
 
-    //ALL
+    //ADMIN, NOTIFIER,SPECIALIST, ASSIGNER
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
 

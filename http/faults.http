@@ -19,7 +19,7 @@ GET http://localhost:8080/faults?stat=nie
 ###user's faults
 GET http://localhost:8080/faults/user/3
 
-###
+### add fault
 POST http://localhost:8080/faults
 Content-Type: application/json
 
