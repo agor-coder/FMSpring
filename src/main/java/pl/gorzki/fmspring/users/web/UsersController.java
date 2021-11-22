@@ -24,13 +24,14 @@ public class UsersController {
 
     private final UserUseCase service;
 
+//    ADMIN
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<UserEntity> getAll() {
         return service.findAll();
     }
 
-
+    //ALL
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
 
@@ -41,6 +42,7 @@ public class UsersController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    //    ADMIN, ASSIGNER
     @GetMapping("/spec")
     @ResponseStatus(HttpStatus.OK)
     public List<UserEntity> getSpecialists() {
@@ -48,6 +50,7 @@ public class UsersController {
     }
 
 
+    //ADMIN
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserEntity registerUser(@RequestBody RestUserCommand command) {
@@ -55,12 +58,14 @@ public class UsersController {
 
     }
 
+//    ALL
     @PostMapping("/notifier")
     @ResponseStatus(HttpStatus.CREATED)
     public UserEntity registerNotifier(@RequestBody RestNotifierCommand command) {
         return service.register(command.toCreateNotifierCommand());
     }
 
+//    ADMIN
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateUser(@PathVariable Long id, @RequestBody RestUserCommand command) {

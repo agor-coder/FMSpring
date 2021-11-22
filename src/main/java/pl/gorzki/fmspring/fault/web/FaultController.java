@@ -38,6 +38,7 @@ public class FaultController {
     private final UserUseCase userService;
 
 
+    //    ASSIGNER
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Fault> getAll(
@@ -75,6 +76,7 @@ public class FaultController {
 //    }
 
 
+//    ASSIGNER
     @GetMapping("/eager")
     @ResponseStatus(HttpStatus.OK)
     public List<Fault> getAllEager(){
@@ -92,6 +94,7 @@ public class FaultController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+//    ASSIGNER, SPECIALIST
     @GetMapping("/user/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<Fault> getAllByUserId(@PathVariable Long id) {
@@ -101,6 +104,8 @@ public class FaultController {
         return queryFaultService.findAllByUser(user);
     }
 
+
+//    NOTIFIER
     @PostMapping
     public ResponseEntity<?> addFault(@Valid @RequestBody RestFaultCommand command) {
         Fault fault = manipulateFaultService.addFault(command.toCreateCommand());
@@ -111,6 +116,7 @@ public class FaultController {
         return ServletUriComponentsBuilder.fromCurrentRequestUri().path("/" + fault.getId().toString()).build().toUri();
     }
 
+//    NOTIFIER
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateFault(@PathVariable Long id, @RequestBody RestFaultCommand command) {
@@ -118,6 +124,7 @@ public class FaultController {
         checkResponseSuccess(response);
     }
 
+//    ASSIGNER
     @PatchMapping("/assign/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void assignFault(@PathVariable Long id, @Valid @RequestBody RestAssignFaultCommand command) {
@@ -126,6 +133,7 @@ public class FaultController {
     }
 
 
+//    ASSIGNER, SPECIALIST
     @PatchMapping("/end/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void endFault(@PathVariable Long id) {
@@ -133,6 +141,7 @@ public class FaultController {
         checkResponseSuccess(response);
     }
 
+//    ASSIGNER
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) {

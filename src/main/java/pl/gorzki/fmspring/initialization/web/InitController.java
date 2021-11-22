@@ -15,6 +15,7 @@ public class InitController {
 
     private final InitServiceUseCase initService;
 
+//    ADMIN
     @PostMapping
     @Transactional
     public void initialize() {

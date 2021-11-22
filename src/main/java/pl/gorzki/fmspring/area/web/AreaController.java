@@ -25,6 +25,7 @@ public class AreaController {
 
     private final AreaUseCase service;
 
+//    ADMIN, NOTIFIER
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<TechArea> getAll(
@@ -35,6 +36,7 @@ public class AreaController {
         return service.findAll();
     }
 
+    //    ADMIN, NOTIFIER
     @GetMapping("/{id}")
     public ResponseEntity<?> geById(@PathVariable Long id) {
         return service
@@ -43,6 +45,7 @@ public class AreaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    //    ADMIN
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TechArea addArea(@Valid @RequestBody RestAreaCommand command) {
@@ -50,6 +53,7 @@ public class AreaController {
     }
 
 
+    //    ADMIN
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateArea(@PathVariable Long id, @RequestBody RestAreaCommand command) {
@@ -60,6 +64,7 @@ public class AreaController {
         }
     }
 
+    //    ADMIN
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
         if (service.fidById(id).isPresent()) {
