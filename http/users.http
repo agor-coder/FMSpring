@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 
-###
+###regNewNotifier
 POST http://localhost:8080/users/notifier
 Content-Type: application/json
 
@@ -24,7 +24,7 @@ Content-Type: application/json
    "emailUserName": "notif3@2.pl"
 }
 
-###findspecialists
+###findAllSpecialists
 GET http://localhost:8080/users/spec
 
 ###

@@ -38,7 +38,7 @@ public class UserService implements UserUseCase {
     }
 
     @Override
-    public List<UserEntity> findSpecialists() {
+    public List<UserEntity> findAllSpecialists() {
         return repository.findByRole("ROLE_SPECIALIST");
     }
 

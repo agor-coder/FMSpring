@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase;
@@ -25,7 +26,7 @@ public class AreaController {
 
     private final AreaUseCase service;
 
-//    ADMIN, NOTIFIER
+    @Secured({"ROLE_ADMIN", "ROLE_NOTIFIER"})
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<TechArea> getAll(
@@ -36,7 +37,7 @@ public class AreaController {
         return service.findAll();
     }
 
-    //    ADMIN, NOTIFIER
+    @Secured({"ROLE_ADMIN", "ROLE_NOTIFIER"})
     @GetMapping("/{id}")
     public ResponseEntity<?> geById(@PathVariable Long id) {
         return service
@@ -45,7 +46,7 @@ public class AreaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    //    ADMIN
+    @Secured({"ROLE_ADMIN"})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TechArea addArea(@Valid @RequestBody RestAreaCommand command) {
@@ -53,7 +54,7 @@ public class AreaController {
     }
 
 
-    //    ADMIN
+    @Secured({"ROLE_ADMIN"})
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateArea(@PathVariable Long id, @RequestBody RestAreaCommand command) {
@@ -64,7 +65,7 @@ public class AreaController {
         }
     }
 
-    //    ADMIN
+    @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
         if (service.fidById(id).isPresent()) {

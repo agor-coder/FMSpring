@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -38,7 +39,7 @@ public class FaultController {
     private final UserUseCase userService;
 
 
-    //    ASSIGNER
+    @Secured({"ROLE_ASSIGNER"})
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Fault> getAll(
@@ -94,7 +95,7 @@ public class FaultController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-//    ASSIGNER, SPECIALIST
+    @Secured({"ROLE_ASSIGNER","ROLE_SPECIALIST"})
     @GetMapping("/user/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<Fault> getAllByUserId(@PathVariable Long id) {
@@ -105,7 +106,7 @@ public class FaultController {
     }
 
 
-//    NOTIFIER
+    @Secured({"ROLE_NOTIFIER"})
     @PostMapping
     public ResponseEntity<?> addFault(@Valid @RequestBody RestFaultCommand command) {
         Fault fault = manipulateFaultService.addFault(command.toCreateCommand());
@@ -116,7 +117,7 @@ public class FaultController {
         return ServletUriComponentsBuilder.fromCurrentRequestUri().path("/" + fault.getId().toString()).build().toUri();
     }
 
-//    NOTIFIER
+    @Secured({"ROLE_NOTIFIER"})
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateFault(@PathVariable Long id, @RequestBody RestFaultCommand command) {
@@ -124,7 +125,7 @@ public class FaultController {
         checkResponseSuccess(response);
     }
 
-//    ASSIGNER
+    @Secured({"ROLE_ASSIGNER"})
     @PatchMapping("/assign/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void assignFault(@PathVariable Long id, @Valid @RequestBody RestAssignFaultCommand command) {
@@ -133,15 +134,16 @@ public class FaultController {
     }
 
 
-//    ASSIGNER, SPECIALIST
+    @Secured({"ROLE_ASSIGNER","ROLE_SPECIALIST"})
     @PatchMapping("/end/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
+    //TODO - get id from user
     public void endFault(@PathVariable Long id) {
         UpdateResponse response = manipulateFaultService.changeStatus(id, END);
         checkResponseSuccess(response);
     }
 
-//    ASSIGNER
+    @Secured({"ROLE_ASSIGNER"})
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) {

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.gorzki.fmspring.commons.UpdateResponse;
@@ -24,17 +25,16 @@ public class UsersController {
 
     private final UserUseCase service;
 
-//    ADMIN
+    @Secured({"ROLE_ADMIN"})
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<UserEntity> getAll() {
         return service.findAll();
     }
 
-    //ADMIN, NOTIFIER,SPECIALIST, ASSIGNER
+    @Secured({"ROLE_ASSIGNER","ROLE_SPECIALIST","ROLE_NOTIFIER","ROLE_ADMIN"})
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
-
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
         return service
                 //TODO - get id from user
                 .findById(id)
@@ -42,15 +42,15 @@ public class UsersController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    //    ADMIN, ASSIGNER
+    @Secured({"ROLE_ASSIGNER","ROLE_ADMIN"})
     @GetMapping("/spec")
     @ResponseStatus(HttpStatus.OK)
-    public List<UserEntity> getSpecialists() {
-        return service.findSpecialists();
+    public List<UserEntity> getAllSpecialists() {
+        return service.findAllSpecialists();
     }
 
 
-    //ADMIN
+    @Secured({"ROLE_ADMIN"})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserEntity registerUser(@RequestBody RestUserCommand command) {
@@ -58,14 +58,14 @@ public class UsersController {
 
     }
 
-//    ALL
+
     @PostMapping("/notifier")
     @ResponseStatus(HttpStatus.CREATED)
     public UserEntity registerNotifier(@RequestBody RestNotifierCommand command) {
         return service.register(command.toCreateNotifierCommand());
     }
 
-//    ADMIN
+    @Secured({"ROLE_ADMIN"})
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateUser(@PathVariable Long id, @RequestBody RestUserCommand command) {

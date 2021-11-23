@@ -1,8 +1,8 @@
 password,firstName,lastname,phone,emailUserName,role
-123,Peter,Novak,12345,peter@2.pl,ROLE_NOTIFIER
-123,Peter,Smith,12345,peter2@2.pl,ROLE_NOTIFIER
-123,Andy,Gor,12345,andy@2.pl,ROLE_ASSIGNER
-123,Tom,Man,12345,aman@2.pl,ROLE_ASSIGNER
-123,John,Baker,12345,john@2.pl,ROLE_SPECIALIST
-123,Stan,Pure,12345,stan@2.pl,ROLE_SPECIALIST
-123,Kay,Lenz,12345,kay@2.pl,ROLE_ADMIN
+123,Peter,Novak,12345,notif1@2.pl,ROLE_NOTIFIER
+123,Peter,Smith,12345,notif2@2.pl,ROLE_NOTIFIER
+123,Andy,Gor,12345,ass1@2.pl,ROLE_ASSIGNER
+123,Tom,Man,12345,ass2@2.pl,ROLE_ASSIGNER
+123,John,Baker,12345,spec1@2.pl,ROLE_SPECIALIST
+123,Stan,Pure,12345,spec2@2.pl,ROLE_SPECIALIST
+123,Kay,Lenz,12345,admin@2.pl,ROLE_ADMIN
