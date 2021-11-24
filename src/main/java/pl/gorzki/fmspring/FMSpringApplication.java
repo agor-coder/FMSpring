@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import pl.gorzki.fmspring.fault.application.FaultProperties;
 
 @SpringBootApplication
-@EnableJpaAuditing
 @EnableScheduling
 @EnableConfigurationProperties(FaultProperties.class)
 public class FMSpringApplication {
