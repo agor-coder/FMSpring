@@ -13,7 +13,6 @@ import pl.gorzki.fmspring.area.application.port.AreaUseCase.CreateAreaCommand;
 import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.commons.UpdateResponse;
 
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -25,6 +24,11 @@ import java.util.Optional;
 public class AreaController {
 
     private final AreaUseCase service;
+
+    @GetMapping("/getAllTest")
+    public List<TechArea> getAllTest() {
+        return service.findAll();
+    }
 
     @Secured({"ROLE_ADMIN", "ROLE_NOTIFIER"})
     @GetMapping

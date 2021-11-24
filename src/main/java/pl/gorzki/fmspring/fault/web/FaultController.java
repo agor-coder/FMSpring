@@ -39,7 +39,7 @@ public class FaultController {
     private final UserUseCase userService;
 
 
-    @Secured({"ROLE_ASSIGNER"})
+   @Secured({"ROLE_ASSIGNER"})
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Fault> getAll(

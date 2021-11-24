@@ -7,17 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
+import pl.gorzki.fmspring.area.application.port.AreaUseCase;
 import pl.gorzki.fmspring.area.domain.TechArea;
-import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase;
-import pl.gorzki.fmspring.fault.application.port.QueryFaultUseCase;
-import pl.gorzki.fmspring.fault.domain.Fault;
-import pl.gorzki.fmspring.users.application.port.UserUseCase;
-import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import java.net.URI;
 import java.util.List;
@@ -27,38 +21,31 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase
-@ActiveProfiles("test")
-class FaultControllerAPITest_List {
+class AreaControllerAPITest_List {
 
     @LocalServerPort
     private int port;
     @MockBean
-    QueryFaultUseCase queryService;
-    @MockBean
-    ManipulateFaultUseCase manipulateService;
-    @MockBean
-    UserUseCase userUseCase;
+    AreaUseCase areaService;
 
     @Autowired
     TestRestTemplate restTemplate;
 
-
     @Test
-    public void getAllFaults() {
+    public void getAllAreas() {
 
         //given
         TechArea area = new TechArea("maszynownia");
-        UserEntity notifier = new UserEntity("12", "a", "b", "123", "aa@2.pl", "ROLE_NOTIFIER");
-        Fault fault1 = new Fault("brak", area, notifier);
-        Fault fault2 = new Fault("niski", area, notifier);
-        when(queryService.findAll()).thenReturn(List.of(fault1, fault2));
-        ParameterizedTypeReference<List<Fault>> type = new ParameterizedTypeReference<>() {
+        TechArea area2 = new TechArea("maszynownia2");
+
+        when(areaService.findAll()).thenReturn(List.of(area, area2));
+        ParameterizedTypeReference<List<TechArea>> type = new ParameterizedTypeReference<>() {
         };
 
         // when
-        String url = "http://localhost:" + port + "/faults";
+        String url = "http://localhost:" + port + "/areas/getAllTest";
         RequestEntity<Void> request = RequestEntity.get(URI.create(url)).build();
-        ResponseEntity<List<Fault>> response = restTemplate.exchange(request, type);// List
+        ResponseEntity<List<TechArea>> response = restTemplate.exchange(request, type);// List
         //then
 
         assertEquals(2, response.getBody().size());

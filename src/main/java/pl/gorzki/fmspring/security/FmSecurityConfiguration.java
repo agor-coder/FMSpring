@@ -17,6 +17,7 @@ public class FmSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .mvcMatchers(HttpMethod.POST, "/users/notifier").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/areas/getAllTest").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
