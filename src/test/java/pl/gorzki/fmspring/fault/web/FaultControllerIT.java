@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase.CreateAreaCommand;
 import pl.gorzki.fmspring.area.domain.TechArea;
@@ -27,6 +28,7 @@ import static pl.gorzki.fmspring.fault.domain.FaultStatus.ASSIGNED;
 @SpringBootTest
 @AutoConfigureTestDatabase// with h2
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@ActiveProfiles("test")
 class FaultControllerIT {
     @Autowired
     ManipulateFaultUseCase manipulateFaultService;
