@@ -27,9 +27,13 @@ public class UserService implements UserUseCase {
 
     @Override
     @Transactional
-    public UserEntity register(CreateUserCommand command) {
+    public UpdateResponse register(CreateUserCommand command) {
+        if (repository.findByEmailUserNameIgnoreCase(command.emailUserName()).isPresent()) {
+            return new UpdateResponse(false, Collections.singletonList("Account exists already"));
+        }
         UserEntity user = command.toUser();
-        return repository.save(user);
+        repository.save(user);
+        return UpdateResponse.SUCCESS;
     }
 
     @Override

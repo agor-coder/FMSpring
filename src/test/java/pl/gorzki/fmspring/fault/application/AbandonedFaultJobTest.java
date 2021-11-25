@@ -10,7 +10,7 @@ import pl.gorzki.fmspring.area.application.port.AreaUseCase;
 import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.clock.Clock;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase;
-import pl.gorzki.fmspring.users.application.port.UserUseCase;
+import pl.gorzki.fmspring.users.db.UserJpaRepository;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import java.time.Duration;
@@ -40,7 +40,7 @@ class AbandonedFaultJobTest {
     @Autowired
     AreaUseCase areaService;
     @Autowired
-    UserUseCase userService;
+    UserJpaRepository userRepository;
     @Autowired
     Clock.Fake clock;
 
@@ -63,17 +63,17 @@ class AbandonedFaultJobTest {
         TechArea area2 = areaService.addArea(new AreaUseCase.CreateAreaCommand("elektr"));
         TechArea area3 = areaService.addArea(new AreaUseCase.CreateAreaCommand("kotlownia"));
 
-        UserEntity notifier1 = userService.register(new UserUseCase.CreateUserCommand(
+        UserEntity notifier1 = userRepository.save(new UserEntity(
                 "123", "Peter", "Novak", "12345", "peter@2.pl", "ROLE_NOTIFIER"
         ));
-        UserEntity notifier2 = userService.register(new UserUseCase.CreateUserCommand(
+        UserEntity notifier2 = userRepository.save(new UserEntity(
                 "123", "Peter", "Smith", "12345", "peter2@2.pl", "ROLE_NOTIFIER"
         ));
 
-        UserEntity spec = userService.register(new UserUseCase.CreateUserCommand(
+        UserEntity spec = userRepository.save(new UserEntity(
                 "123", "John", "Spec", "12345", "spec@2.pl", "ROLE_SPECIALIST"
         ));
-        UserEntity assigner = userService.register(new UserUseCase.CreateUserCommand(
+        UserEntity assigner = userRepository.save(new UserEntity(
                 "123", "Mike", "Assign", "12345", "assigner@2.pl", "ROLE_ASSIGNER"
         ));
 

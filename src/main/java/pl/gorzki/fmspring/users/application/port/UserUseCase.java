@@ -12,7 +12,7 @@ public interface UserUseCase {
 
     List<UserEntity> findAll();
 
-    UserEntity register(CreateUserCommand command);
+    UpdateResponse register(CreateUserCommand command);
 
     Optional<UserEntity> findById(Long id);
 

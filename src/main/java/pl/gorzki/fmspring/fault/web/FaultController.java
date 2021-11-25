@@ -86,6 +86,8 @@ public class FaultController {
         return queryFaultService.findAllEager();
     }
 
+
+    @Secured({"ROLE_ASSIGNER"})
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         if (id.equals(42L)) {
@@ -96,6 +98,7 @@ public class FaultController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
 
     @Secured({"ROLE_ASSIGNER","ROLE_SPECIALIST"})
     @GetMapping("/user/{id}")

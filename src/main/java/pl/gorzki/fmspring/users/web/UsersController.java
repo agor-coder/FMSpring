@@ -32,7 +32,7 @@ public class UsersController {
         return service.findAll();
     }
 
-    @Secured({"ROLE_ASSIGNER","ROLE_SPECIALIST","ROLE_NOTIFIER","ROLE_ADMIN"})
+    @Secured({"ROLE_ASSIGNER", "ROLE_SPECIALIST", "ROLE_NOTIFIER", "ROLE_ADMIN"})
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         return service
@@ -42,7 +42,7 @@ public class UsersController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Secured({"ROLE_ASSIGNER","ROLE_ADMIN"})
+    @Secured({"ROLE_ASSIGNER", "ROLE_ADMIN"})
     @GetMapping("/spec")
     @ResponseStatus(HttpStatus.OK)
     public List<UserEntity> getAllSpecialists() {
@@ -53,16 +53,23 @@ public class UsersController {
     @Secured({"ROLE_ADMIN"})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserEntity registerUser(@RequestBody RestUserCommand command) {
-        return service.register(command.toCreateCommand());
-
+    public void registerUser(@RequestBody RestUserCommand command) {
+        UpdateResponse response = service.register(command.toCreateCommand());
+        if (!response.success()) {
+            String message = String.join(", ", response.errors());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+        }
     }
 
 
     @PostMapping("/notifier")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserEntity registerNotifier(@RequestBody RestNotifierCommand command) {
-        return service.register(command.toCreateNotifierCommand());
+    public void registerNotifier(@RequestBody RestNotifierCommand command) {
+        UpdateResponse response = service.register(command.toCreateNotifierCommand());
+        if (!response.success()) {
+            String message = String.join(", ", response.errors());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+        }
     }
 
     @Secured({"ROLE_ADMIN"})

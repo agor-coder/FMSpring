@@ -14,11 +14,10 @@ import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.AssignFa
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.CreateFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.UpdateFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.QueryFaultUseCase;
-import pl.gorzki.fmspring.users.application.port.UserUseCase;
+import pl.gorzki.fmspring.users.db.UserJpaRepository;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pl.gorzki.fmspring.fault.domain.FaultStatus.ASSIGNED;
 
 
@@ -35,7 +34,7 @@ class ManipulateFaultServiceTest {
     @Autowired
     AreaUseCase areaService;
     @Autowired
-    UserUseCase userService;
+    UserJpaRepository userRepository;
 
 
     @BeforeEach
@@ -44,17 +43,17 @@ class ManipulateFaultServiceTest {
         TechArea area2 = areaService.addArea(new AreaUseCase.CreateAreaCommand("elektr"));
         TechArea area3 = areaService.addArea(new AreaUseCase.CreateAreaCommand("kotlownia"));
 
-        UserEntity notifier1 = userService.register(new UserUseCase.CreateUserCommand(
+        UserEntity notifier1 = userRepository.save(new UserEntity(
                 "123", "Peter", "Novak", "12345", "peter@2.pl", "ROLE_NOTIFIER"
         ));
-        UserEntity notifier2 = userService.register(new UserUseCase.CreateUserCommand(
+        UserEntity notifier2 = userRepository.save(new UserEntity(
                 "123", "Peter", "Smith", "12345", "peter2@2.pl", "ROLE_NOTIFIER"
         ));
 
-        UserEntity spec = userService.register(new UserUseCase.CreateUserCommand(
+        UserEntity spec = userRepository.save(new UserEntity(
                 "123", "John", "Spec", "12345", "spec@2.pl", "ROLE_SPECIALIST"
         ));
-        UserEntity assigner = userService.register(new UserUseCase.CreateUserCommand(
+        UserEntity assigner = userRepository.save(new UserEntity(
                 "123", "Mike", "Assign", "12345", "assigner@2.pl", "ROLE_ASSIGNER"
         ));
 

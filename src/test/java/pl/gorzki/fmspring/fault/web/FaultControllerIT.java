@@ -14,8 +14,7 @@ import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.CreateFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.UpdateFaultCommand;
 import pl.gorzki.fmspring.fault.domain.Fault;
-import pl.gorzki.fmspring.users.application.port.UserUseCase;
-import pl.gorzki.fmspring.users.application.port.UserUseCase.CreateUserCommand;
+import pl.gorzki.fmspring.users.db.UserJpaRepository;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import java.util.List;
@@ -35,7 +34,7 @@ class FaultControllerIT {
     @Autowired
     AreaUseCase areaService;
     @Autowired
-    UserUseCase userService;
+    UserJpaRepository userRepository;
     @Autowired
     FaultController controller;
 
@@ -46,17 +45,17 @@ class FaultControllerIT {
         TechArea area2 = areaService.addArea(new CreateAreaCommand("elektr"));
         TechArea area3 = areaService.addArea(new CreateAreaCommand("kotlownia"));
 
-        UserEntity notifier1 = userService.register(new CreateUserCommand(
+        UserEntity notifier1 = userRepository.save(new UserEntity(
                 "123", "Peter", "Novak", "12345", "peter@2.pl", "ROLE_NOTIFIER"
         ));
-        UserEntity notifier2 = userService.register(new CreateUserCommand(
+        UserEntity notifier2 = userRepository.save(new UserEntity(
                 "123", "Peter", "Smith", "12345", "peter2@2.pl", "ROLE_NOTIFIER"
         ));
 
-        UserEntity spec = userService.register(new CreateUserCommand(
+        UserEntity spec = userRepository.save(new UserEntity(
                 "123", "John", "Spec", "12345", "spec@2.pl", "ROLE_SPECIALIST"
         ));
-        UserEntity assigner = userService.register(new CreateUserCommand(
+        UserEntity assigner = userRepository.save(new UserEntity(
                 "123", "Mike", "Assign", "12345", "assigner@2.pl", "ROLE_ASSIGNER"
         ));
 
@@ -96,6 +95,5 @@ class FaultControllerIT {
 //        then
         assertEquals(5, list1.size());
     }
-
 
 }

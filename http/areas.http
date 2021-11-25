@@ -17,7 +17,7 @@ PATCH http://localhost:8080/areas/update/3
 Content-Type: application/json
 
 {
-  "areaName": "kotłownia22"
+  "areaName": "kotłownia42"
 }
 
 ###
