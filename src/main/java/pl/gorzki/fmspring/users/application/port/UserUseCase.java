@@ -16,6 +16,8 @@ public interface UserUseCase {
 
     Optional<UserEntity> findById(Long id);
 
+    Optional<UserEntity>findByUserName(String userName);
+
     List<UserEntity> findAllSpecialists();
 
     UpdateResponse updateUser(UpdateUserCommand command);

@@ -38,6 +38,11 @@ public class UserService implements UserUseCase {
     }
 
     @Override
+    public Optional<UserEntity> findByUserName(String userName) {
+        return repository.findByEmailUserNameIgnoreCase(userName);
+    }
+
+    @Override
     public List<UserEntity> findAllSpecialists() {
         return repository.findByRole("ROLE_SPECIALIST");
     }

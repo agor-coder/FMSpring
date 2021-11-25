@@ -25,8 +25,7 @@ Content-Type: application/json
 
 {
   "faultDescribe": "jeszcze jedna",
-  "areaId": "3",
-  "whoNotifyId": "2"
+  "areaId": "3"
 }
 
 ###

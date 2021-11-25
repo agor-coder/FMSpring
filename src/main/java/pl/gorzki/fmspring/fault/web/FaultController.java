@@ -6,6 +6,8 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -77,10 +79,10 @@ public class FaultController {
 //    }
 
 
-//    ASSIGNER
+    @Secured({"ROLE_ASSIGNER"})
     @GetMapping("/eager")
     @ResponseStatus(HttpStatus.OK)
-    public List<Fault> getAllEager(){
+    public List<Fault> getAllEager() {
         return queryFaultService.findAllEager();
     }
 
@@ -108,8 +110,9 @@ public class FaultController {
 
     @Secured({"ROLE_NOTIFIER"})
     @PostMapping
-    public ResponseEntity<?> addFault(@Valid @RequestBody RestFaultCommand command) {
-        Fault fault = manipulateFaultService.addFault(command.toCreateCommand());
+    public ResponseEntity<?> addFault(@Valid @RequestBody RestFaultCommand command, @AuthenticationPrincipal User user) {
+        Long id = userService.findByUserName(user.getUsername()).get().getId();
+        Fault fault = manipulateFaultService.addFault(command.toCreateCommand(id));
         return ResponseEntity.created(createdFaultUri(fault)).build();
     }
 
@@ -134,7 +137,7 @@ public class FaultController {
     }
 
 
-    @Secured({"ROLE_ASSIGNER","ROLE_SPECIALIST"})
+    @Secured({"ROLE_ASSIGNER", "ROLE_SPECIALIST"})
     @PatchMapping("/end/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     //TODO - get id from user
@@ -169,11 +172,11 @@ public class FaultController {
         private Long whoAssignedId;
         private Long whoNotifyId;
 
-        CreateFaultCommand toCreateCommand() {
+        CreateFaultCommand toCreateCommand(Long id) {
             return new CreateFaultCommand(
                     faultDescribe,
                     areaId,
-                    whoNotifyId);
+                    id);
         }
 
         UpdateFaultCommand toUpdateCommand(Long id) {
