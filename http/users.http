@@ -35,8 +35,9 @@ PATCH http://localhost:8080/users/update/1
 Content-Type: application/json
 
 {
-  "passwordddd": "123",
+  "password": "123",
   "firstName": "Andy",
   "lastName": "Notif",
-  "phone": "123456"
+  "phone": "123456",
+  "role": "ROLE_NOTIFIER"
 }

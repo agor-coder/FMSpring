@@ -14,6 +14,9 @@ import pl.gorzki.fmspring.users.application.port.UserUseCase.CreateUserCommand;
 import pl.gorzki.fmspring.users.application.port.UserUseCase.UpdateUserCommand;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 
@@ -53,7 +56,7 @@ public class UsersController {
     @Secured({"ROLE_ADMIN"})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerUser(@RequestBody RestUserCommand command) {
+    public void registerUser(@Valid @RequestBody RestUserCommand command) {
         AppResponse response = service.register(command.toCreateCommand());
         response.checkResponseSuccess();
     }
@@ -61,7 +64,7 @@ public class UsersController {
 
     @PostMapping("/notifier")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerNotifier(@RequestBody RestNotifierCommand command) {
+    public void registerNotifier(@Valid @RequestBody RestNotifierCommand command) {
         AppResponse response = service.register(command.toCreateNotifierCommand());
         response.checkResponseSuccess();
     }
@@ -69,7 +72,7 @@ public class UsersController {
     @Secured({"ROLE_ADMIN"})
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateUser(@PathVariable Long id, @RequestBody RestUserCommand command) {
+    public void updateUser(@PathVariable Long id, @Valid @RequestBody RestUserCommand command) {
         AppResponse response = service.updateUser(command.toUpdateCommand(id));
         if (!response.isSuccess()) {
             String message = String.join(", ", response.getErrors());
@@ -79,11 +82,17 @@ public class UsersController {
 
     @Data
     private static class RestUserCommand {
+        @NotBlank(message = "password cannot be empty")
         private String password;
+        @NotBlank(message = "firstName cannot be empty")
         private String firstName;
+        @NotBlank(message = "lastName cannot be empty")
         private String lastName;
         private String phone;
+        @NotBlank(message = "username cannot be empty")
+        @Email
         private String emailUserName;
+        @NotBlank(message = "role cannot be empty")
         private String role;
 
         CreateUserCommand toCreateCommand() {
@@ -104,10 +113,15 @@ public class UsersController {
 
     @Data
     private static class RestNotifierCommand {
+        @NotBlank(message = "password cannot be empty")
         private String password;
+        @NotBlank(message = "firstName cannot be empty")
         private String firstName;
+        @NotBlank(message = "lastName cannot be empty")
         private String lastName;
         private String phone;
+        @NotBlank(message = "username cannot be empty")
+        @Email
         private String emailUserName;
 
         CreateUserCommand toCreateNotifierCommand() {
