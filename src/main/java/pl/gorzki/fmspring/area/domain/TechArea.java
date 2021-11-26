@@ -6,6 +6,7 @@ import pl.gorzki.fmspring.jpa.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -14,6 +15,7 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 public class TechArea  extends BaseEntity {
+    @NotNull
     @Column(unique = true)
     String areaName;
 }

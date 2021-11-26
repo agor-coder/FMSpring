@@ -9,6 +9,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase.CreateAreaCommand;
+import pl.gorzki.fmspring.area.application.port.AreaUseCase.UpdateAreaCommand;
 import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.commons.AppResponse;
 
@@ -54,11 +55,8 @@ public class AreaController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> addArea(@Valid @RequestBody RestAreaCommand command) {
         String name = command.getAreaName();
-        if (service.findAreaByName(name).isEmpty()) {
-            service.addArea(command.toCreateCommand());
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.badRequest().body(command);
+        service.addArea(command.toCreateCommand());
+        return ResponseEntity.ok().build();
     }
 
 
@@ -85,12 +83,12 @@ public class AreaController {
         @NotBlank(message = "podaj nazwe")
         private String areaName;
 
-        private CreateAreaCommand toCreateCommand() {
+        CreateAreaCommand toCreateCommand() {
             return new CreateAreaCommand(areaName);
         }
 
-        private AreaUseCase.UpdateAreaCommand toUpdateCommand(Long id) {
-            return new AreaUseCase.UpdateAreaCommand(id, areaName);
+        UpdateAreaCommand toUpdateCommand(Long id) {
+            return new UpdateAreaCommand(id, areaName);
         }
     }
 }
