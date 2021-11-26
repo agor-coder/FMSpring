@@ -44,7 +44,7 @@ public class AreaController {
     @GetMapping("/{id}")
     public ResponseEntity<?> geById(@PathVariable Long id) {
         return service
-                .fidById(id)
+                .findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -52,8 +52,13 @@ public class AreaController {
     @Secured({"ROLE_ADMIN"})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TechArea addArea(@Valid @RequestBody RestAreaCommand command) {
-        return service.addArea(command.toCreateCommand());
+    public ResponseEntity<?> addArea(@Valid @RequestBody RestAreaCommand command) {
+        String name = command.getAreaName();
+        if (service.findAreaByName(name).isEmpty()) {
+            service.addArea(command.toCreateCommand());
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().body(command);
     }
 
 
@@ -68,7 +73,7 @@ public class AreaController {
     @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
-        if (service.fidById(id).isPresent()) {
+        if (service.findById(id).isPresent()) {
             service.removeAreaById(id);
             return ResponseEntity.noContent().build();
         }

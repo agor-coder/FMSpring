@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface AreaUseCase {
     List<TechArea> findAll();
 
-    Optional<TechArea> fidById(Long id);
+    Optional<TechArea> findById(Long id);
 
     List<TechArea> findAreaByName(String name);
 

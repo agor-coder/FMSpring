@@ -28,7 +28,7 @@ public class AreaService implements AreaUseCase {
     }
 
     @Override
-    public Optional<TechArea> fidById(Long id) {
+    public Optional<TechArea> findById(Long id) {
         return repository.findById(id);
     }
 
