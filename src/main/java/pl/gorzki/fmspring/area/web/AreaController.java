@@ -53,10 +53,9 @@ public class AreaController {
     @Secured({"ROLE_ADMIN"})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> addArea(@Valid @RequestBody RestAreaCommand command) {
-        String name = command.getAreaName();
-        service.addArea(command.toCreateCommand());
-        return ResponseEntity.ok().build();
+    public TechArea addArea(@Valid @RequestBody RestAreaCommand command) {
+        return service.addArea(command.toCreateCommand());
+
     }
 
 

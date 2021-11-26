@@ -10,6 +10,7 @@ import pl.gorzki.fmspring.jpa.BaseEntity;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -19,7 +20,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class Fault extends BaseEntity {
 
-    @NotNull
+    @NotBlank
     private String faultDescribe;
 
     @Enumerated(EnumType.STRING)
