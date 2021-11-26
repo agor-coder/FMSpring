@@ -7,6 +7,7 @@ import lombok.Setter;
 import pl.gorzki.fmspring.jpa.BaseEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 
 @Entity
@@ -16,18 +17,19 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserEntity extends BaseEntity {
-
+    @NotBlank
     private String password;
-
+    @NotBlank
     private String firstName;
-
+    @NotBlank
     private String lastName;
 
     private String phone;
 
     @Column(unique = true)
+    @NotBlank
     private String emailUserName;
-
+    @NotBlank
     private String role;
 
 }

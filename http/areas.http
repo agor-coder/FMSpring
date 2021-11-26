@@ -9,7 +9,7 @@ POST http://localhost:8080/areas
 Content-Type: application/json
 
 {
-  "areaName": "  "
+  "areaName": ""
 }
 
 ###

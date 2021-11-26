@@ -83,7 +83,7 @@ public class AreaController {
         private String areaName;
 
         CreateAreaCommand toCreateCommand() {
-            return new CreateAreaCommand(areaName);
+            return new CreateAreaCommand(null);
         }
 
         UpdateAreaCommand toUpdateCommand(Long id) {

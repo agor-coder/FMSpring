@@ -1,12 +1,15 @@
 package pl.gorzki.fmspring.area.domain;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.gorzki.fmspring.jpa.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 
 @Entity
@@ -15,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class TechArea  extends BaseEntity {
-    @NotNull
+    @NotBlank
     @Column(unique = true)
     String areaName;
 }
