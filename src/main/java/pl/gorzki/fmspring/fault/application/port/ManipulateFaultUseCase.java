@@ -1,6 +1,6 @@
 package pl.gorzki.fmspring.fault.application.port;
 
-import pl.gorzki.fmspring.commons.UpdateResponse;
+import pl.gorzki.fmspring.commons.AppResponse;
 import pl.gorzki.fmspring.fault.domain.Fault;
 import pl.gorzki.fmspring.fault.domain.FaultStatus;
 
@@ -8,13 +8,13 @@ public interface ManipulateFaultUseCase {
 
     Fault addFault(CreateFaultCommand command);
 
-    UpdateResponse removeFaultById(Long id);
+    AppResponse removeFaultById(Long id);
 
-    UpdateResponse updateFault(UpdateFaultCommand command);
+    AppResponse updateFault(UpdateFaultCommand command);
 
-    UpdateResponse assignFault(AssignFaultCommand command);
+    AppResponse assignFault(AssignFaultCommand command);
 
-    UpdateResponse changeStatus(Long id, FaultStatus status);
+    AppResponse changeStatus(Long id, FaultStatus status);
 
 
 

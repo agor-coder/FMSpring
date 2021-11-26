@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import pl.gorzki.fmspring.commons.UpdateResponse;
+import pl.gorzki.fmspring.commons.AppResponse;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.AssignFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.CreateFaultCommand;
@@ -127,16 +127,16 @@ public class FaultController {
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateFault(@PathVariable Long id, @RequestBody RestFaultCommand command) {
-        UpdateResponse response = manipulateFaultService.updateFault(command.toUpdateCommand(id));
-        checkResponseSuccess(response);
+        AppResponse response = manipulateFaultService.updateFault(command.toUpdateCommand(id));
+        response.checkResponseSuccess();
     }
 
     @Secured({"ROLE_ASSIGNER"})
     @PatchMapping("/assign/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void assignFault(@PathVariable Long id, @Valid @RequestBody RestAssignFaultCommand command) {
-        UpdateResponse response = manipulateFaultService.assignFault(command.toAssignCommand(id));
-        checkResponseSuccess(response);
+        AppResponse response = manipulateFaultService.assignFault(command.toAssignCommand(id));
+        response.checkResponseSuccess();
     }
 
 
@@ -145,25 +145,18 @@ public class FaultController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     //TODO - get id from user
     public void endFault(@PathVariable Long id) {
-        UpdateResponse response = manipulateFaultService.changeStatus(id, END);
-        checkResponseSuccess(response);
+        AppResponse response = manipulateFaultService.changeStatus(id, END);
+        response.checkResponseSuccess();
     }
 
     @Secured({"ROLE_ASSIGNER"})
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) {
-        UpdateResponse response = manipulateFaultService.removeFaultById(id);
-        checkResponseSuccess(response);
+        AppResponse response = manipulateFaultService.removeFaultById(id);
+        response.checkResponseSuccess();
     }
 
-
-    private void checkResponseSuccess(UpdateResponse response) {
-        if (!response.success()) {
-            String message = String.join(", ", response.errors());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
-        }
-    }
 
     @Data
     private static class RestFaultCommand {

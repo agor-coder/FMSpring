@@ -3,7 +3,7 @@ package pl.gorzki.fmspring.users.application;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gorzki.fmspring.commons.UpdateResponse;
+import pl.gorzki.fmspring.commons.AppResponse;
 import pl.gorzki.fmspring.users.application.port.UserUseCase;
 import pl.gorzki.fmspring.users.db.UserJpaRepository;
 import pl.gorzki.fmspring.users.domain.UserEntity;
@@ -27,13 +27,13 @@ public class UserService implements UserUseCase {
 
     @Override
     @Transactional
-    public UpdateResponse register(CreateUserCommand command) {
+    public AppResponse register(CreateUserCommand command) {
         if (repository.findByEmailUserNameIgnoreCase(command.emailUserName()).isPresent()) {
-            return new UpdateResponse(false, Collections.singletonList("Account exists already"));
+            return new AppResponse(false, Collections.singletonList("Account exists already"));
         }
         UserEntity user = command.toUser();
         repository.save(user);
-        return UpdateResponse.SUCCESS;
+        return AppResponse.SUCCESS;
     }
 
     @Override
@@ -53,14 +53,14 @@ public class UserService implements UserUseCase {
 
     @Override
     @Transactional
-    public UpdateResponse updateUser(UpdateUserCommand command) {
+    public AppResponse updateUser(UpdateUserCommand command) {
         return repository
                 .findById(command.id())
                 .map(user -> {
                     updateFields(command, user);
-                    return UpdateResponse.SUCCESS;
+                    return AppResponse.SUCCESS;
                 })
-                .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("User not found with id: " + command.id())));
+                .orElseGet(() -> new AppResponse(false, Collections.singletonList("User not found with id: " + command.id())));
     }
 
     private void updateFields(UpdateUserCommand command, UserEntity user) {

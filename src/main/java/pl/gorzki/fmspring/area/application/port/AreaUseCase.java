@@ -1,7 +1,7 @@
 package pl.gorzki.fmspring.area.application.port;
 
 import pl.gorzki.fmspring.area.domain.TechArea;
-import pl.gorzki.fmspring.commons.UpdateResponse;
+import pl.gorzki.fmspring.commons.AppResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +15,7 @@ public interface AreaUseCase {
 
     TechArea addArea(CreateAreaCommand command);
 
-    UpdateResponse updateArea(UpdateAreaCommand command);
+    AppResponse updateArea(UpdateAreaCommand command);
 
     void removeAreaById(Long id);
 

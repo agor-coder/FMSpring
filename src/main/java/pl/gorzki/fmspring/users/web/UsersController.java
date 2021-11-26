@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import pl.gorzki.fmspring.commons.UpdateResponse;
+import pl.gorzki.fmspring.commons.AppResponse;
 import pl.gorzki.fmspring.users.application.port.UserUseCase;
 import pl.gorzki.fmspring.users.application.port.UserUseCase.CreateUserCommand;
 import pl.gorzki.fmspring.users.application.port.UserUseCase.UpdateUserCommand;
@@ -54,31 +54,25 @@ public class UsersController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void registerUser(@RequestBody RestUserCommand command) {
-        UpdateResponse response = service.register(command.toCreateCommand());
-        if (!response.success()) {
-            String message = String.join(", ", response.errors());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
-        }
+        AppResponse response = service.register(command.toCreateCommand());
+        response.checkResponseSuccess();
     }
 
 
     @PostMapping("/notifier")
     @ResponseStatus(HttpStatus.CREATED)
     public void registerNotifier(@RequestBody RestNotifierCommand command) {
-        UpdateResponse response = service.register(command.toCreateNotifierCommand());
-        if (!response.success()) {
-            String message = String.join(", ", response.errors());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
-        }
+        AppResponse response = service.register(command.toCreateNotifierCommand());
+        response.checkResponseSuccess();
     }
 
     @Secured({"ROLE_ADMIN"})
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateUser(@PathVariable Long id, @RequestBody RestUserCommand command) {
-        UpdateResponse response = service.updateUser(command.toUpdateCommand(id));
-        if (!response.success()) {
-            String message = String.join(", ", response.errors());
+        AppResponse response = service.updateUser(command.toUpdateCommand(id));
+        if (!response.isSuccess()) {
+            String message = String.join(", ", response.getErrors());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
         }
     }

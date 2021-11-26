@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gorzki.fmspring.area.db.AreaJpaRepository;
 import pl.gorzki.fmspring.area.domain.TechArea;
-import pl.gorzki.fmspring.commons.UpdateResponse;
+import pl.gorzki.fmspring.commons.AppResponse;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase;
 import pl.gorzki.fmspring.fault.db.FaultJpaRepository;
 import pl.gorzki.fmspring.fault.domain.Fault;
@@ -52,41 +52,41 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
     }
 
     @Override
-    public UpdateResponse removeFaultById(Long id) {
+    public AppResponse removeFaultById(Long id) {
         return repository
                 .findById(id)
                 .map(this::remove)
-                .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("Fault not found with id: " + id)));
+                .orElseGet(() -> new AppResponse(false, Collections.singletonList("Fault not found with id: " + id)));
 
     }
 
     @Override
     @Transactional
-    public UpdateResponse updateFault(UpdateFaultCommand command) {
+    public AppResponse updateFault(UpdateFaultCommand command) {
         return repository
                 .findById(command.id())
                 .map(fault -> {
                     updateFields(command, fault);
 //                    Fault updatedFault = command.updateFields(fault);  //bo @Transactional
 //                    repository.save(updatedFault);
-                    return UpdateResponse.SUCCESS;
+                    return AppResponse.SUCCESS;
                 })
-                .orElseGet(() -> new UpdateResponse(false, Collections.singletonList("Fault not found with id: " + command.id())));
+                .orElseGet(() -> new AppResponse(false, Collections.singletonList("Fault not found with id: " + command.id())));
 
     }
 
     @Override
     @Transactional
-    public UpdateResponse assignFault(AssignFaultCommand command) {
+    public AppResponse assignFault(AssignFaultCommand command) {
         return repository
                 .findById(command.id())
                 .map(fault -> {
                     UserEntity spec = userRepository.findById(command.specialistId()).get();
                     if (checkSpec(spec, fault)) {
-                        return new UpdateResponse(false, Collections.singletonList("Specialist - the same"));
+                        return new AppResponse(false, Collections.singletonList("Specialist - the same"));
                     }
                     if (countOfSpecFaults(spec) >= limit) {
-                        return new UpdateResponse(false, Collections.singletonList("Specialist - fault limit reached"));
+                        return new AppResponse(false, Collections.singletonList("Specialist - fault limit reached"));
                     }
 
                     //TODO - get id from user
@@ -94,22 +94,22 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
                     fault.setWhoAssigned(assigner);
                     fault.setSpecialist(spec);
                     fault.setStatus(ASSIGNED);
-                    return UpdateResponse.SUCCESS;
+                    return AppResponse.SUCCESS;
                 })
-                .orElseGet(() -> new UpdateResponse(
+                .orElseGet(() -> new AppResponse(
                         false, Collections.singletonList("Fault not found with id: " + command.id())));
     }
 
     @Override
     @Transactional
-    public UpdateResponse changeStatus(Long id, FaultStatus status) {
+    public AppResponse changeStatus(Long id, FaultStatus status) {
         return repository
                 .findById(id)
                 .map(fault -> {
                     fault.setStatus(status);
-                    return UpdateResponse.SUCCESS;
+                    return AppResponse.SUCCESS;
                 })
-                .orElseGet(() -> new UpdateResponse(
+                .orElseGet(() -> new AppResponse(
                         false, Collections.singletonList("Fault not found with id: " + id)));
     }
 
@@ -151,11 +151,11 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
         return fault;
     }
 
-    private UpdateResponse remove(Fault fault) {
+    private AppResponse remove(Fault fault) {
         if (fault.getStatus() == ASSIGNED) {
-            return new UpdateResponse(false, Collections.singletonList("Unable to remove assigned fault"));
+            return new AppResponse(false, Collections.singletonList("Unable to remove assigned fault"));
         }
         repository.deleteById(fault.getId());
-        return UpdateResponse.SUCCESS;
+        return AppResponse.SUCCESS;
     }
 }

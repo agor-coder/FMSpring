@@ -1,7 +1,7 @@
 package pl.gorzki.fmspring.users.application.port;
 
 
-import pl.gorzki.fmspring.commons.UpdateResponse;
+import pl.gorzki.fmspring.commons.AppResponse;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public interface UserUseCase {
 
     List<UserEntity> findAll();
 
-    UpdateResponse register(CreateUserCommand command);
+    AppResponse register(CreateUserCommand command);
 
     Optional<UserEntity> findById(Long id);
 
@@ -20,7 +20,7 @@ public interface UserUseCase {
 
     List<UserEntity> findAllSpecialists();
 
-    UpdateResponse updateUser(UpdateUserCommand command);
+    AppResponse updateUser(UpdateUserCommand command);
 
 
     record CreateUserCommand(String password,

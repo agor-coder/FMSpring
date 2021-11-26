@@ -7,11 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase.CreateAreaCommand;
 import pl.gorzki.fmspring.area.domain.TechArea;
-import pl.gorzki.fmspring.commons.UpdateResponse;
+import pl.gorzki.fmspring.commons.AppResponse;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -62,11 +61,8 @@ public class AreaController {
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateArea(@PathVariable Long id, @RequestBody RestAreaCommand command) {
-        UpdateResponse response = service.updateArea(command.toUpdateCommand(id));
-        if (!response.success()) {
-            String message = String.join(", ", response.errors());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
-        }
+        AppResponse response = service.updateArea(command.toUpdateCommand(id));
+        response.checkResponseSuccess();
     }
 
     @Secured({"ROLE_ADMIN"})

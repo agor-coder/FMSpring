@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase;
 import pl.gorzki.fmspring.area.domain.TechArea;
-import pl.gorzki.fmspring.commons.UpdateResponse;
+import pl.gorzki.fmspring.commons.AppResponse;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.AssignFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.CreateFaultCommand;
@@ -72,8 +72,8 @@ class ManipulateFaultServiceTest {
 
     @Test
     public void removeFault() {
-        UpdateResponse response = manipulateFaultService.removeFaultById(1L);
-        assertTrue(response.success());
+        AppResponse response = manipulateFaultService.removeFaultById(1L);
+        assertTrue(response.isSuccess());
         assertEquals(4, queryFaultService.findAll().size());
     }
 
@@ -82,10 +82,10 @@ class ManipulateFaultServiceTest {
         //given
 
         //when
-        UpdateResponse response = manipulateFaultService.removeFaultById(7L);
+        AppResponse response = manipulateFaultService.removeFaultById(7L);
         //then
-        assertTrue(response.errors().get(0).contains("Fault not found"));
-        assertFalse(response.success());
+        assertTrue(response.getErrors().get(0).contains("Fault not found"));
+        assertFalse(response.isSuccess());
     }
 
     @Test
@@ -93,19 +93,19 @@ class ManipulateFaultServiceTest {
         //given
 
         //when
-        UpdateResponse response = manipulateFaultService.removeFaultById(5L);
+        AppResponse response = manipulateFaultService.removeFaultById(5L);
         //then
-        assertTrue(response.errors().get(0).contains("Unable to remove assigned fault"));
-        assertFalse(response.success());
+        assertTrue(response.getErrors().get(0).contains("Unable to remove assigned fault"));
+        assertFalse(response.isSuccess());
     }
 
     @Test
     public void updateFault() {
         //when
-        UpdateResponse response = manipulateFaultService.updateFault(new UpdateFaultCommand(
+        AppResponse response = manipulateFaultService.updateFault(new UpdateFaultCommand(
                 2L, "update", null, null, null, null, null));
         //then
-        assertTrue(response.success());
+        assertTrue(response.isSuccess());
         assertTrue(queryFaultService.findOneByDescription("update").isPresent());
 
     }
@@ -123,20 +123,20 @@ class ManipulateFaultServiceTest {
     @Test
     public void assignFaultWithTheSameSpecialist() {
         //when
-        UpdateResponse response = manipulateFaultService.assignFault(new AssignFaultCommand(5L, 3L, 4L));
+        AppResponse response = manipulateFaultService.assignFault(new AssignFaultCommand(5L, 3L, 4L));
         //then
-        assertFalse(response.success());
-        assertEquals("Specialist - the same", response.errors().get(0));
+        assertFalse(response.isSuccess());
+        assertEquals("Specialist - the same", response.getErrors().get(0));
 
     }
 
     @Test
     public void assignFaultWithSpecLimit() {
         //when
-        UpdateResponse response = manipulateFaultService.assignFault(new AssignFaultCommand(3L, 3L, 4L));
+        AppResponse response = manipulateFaultService.assignFault(new AssignFaultCommand(3L, 3L, 4L));
         //then
-        assertFalse(response.success());
-        assertEquals("Specialist - fault limit reached", response.errors().get(0));
+        assertFalse(response.isSuccess());
+        assertEquals("Specialist - fault limit reached", response.getErrors().get(0));
 
     }
 
