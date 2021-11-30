@@ -25,11 +25,11 @@ public interface FaultJpaRepository extends JpaRepository<Fault, Long> {
     int countBySpecialistAndStatus(UserEntity spec, FaultStatus status);
 
 
-    List<Fault> findAllBySpecialist(UserEntity specialist);
+    List<Fault> findAllBySpecialist_Id(Long id);
 
-    List<Fault> findAllByWhoAssigned(UserEntity assigner);
+    List<Fault> findAllByWhoAssigned_Id(Long id);
 
-    List<Fault> findAllByWhoNotify(UserEntity notifier);
+    List<Fault> findAllByWhoNotify_Id(Long id);
 
     List<Fault>findByStatusAndCreatedAtLessThanEqual(FaultStatus status, LocalDateTime timestamp);
 

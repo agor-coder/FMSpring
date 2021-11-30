@@ -51,6 +51,10 @@ public class FmSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .withUser("notif1@2.pl")
                 .password("{noop}123")
+                .roles("NOTIFIER")
+                .and()
+                .withUser("notif2@2.pl")
+                .password("{noop}123")
                 .roles("NOTIFIER");
     }
 

@@ -12,7 +12,7 @@ public interface QueryFaultUseCase {
 
     Optional<Fault> findById(Long id);
 
-    List<Fault> findAllByUser(UserEntity specialist);
+    List<Fault> findAllByUser(UserEntity userEntity);
 
     List<Fault> findByDescription(String text);
 

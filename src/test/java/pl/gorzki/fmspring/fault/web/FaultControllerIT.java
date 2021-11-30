@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase;
@@ -19,6 +21,7 @@ import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pl.gorzki.fmspring.fault.domain.FaultStatus.ASSIGNED;
@@ -46,10 +49,10 @@ class FaultControllerIT {
         TechArea area3 = areaService.addArea(new CreateAreaCommand("kotlownia"));
 
         UserEntity notifier1 = userRepository.save(new UserEntity(
-                "123", "Peter", "Novak", "12345", "peter@2.pl", "ROLE_NOTIFIER"
+                "123", "Peter", "Novak", "12345", "notif1@2.pl", "ROLE_NOTIFIER"
         ));
         UserEntity notifier2 = userRepository.save(new UserEntity(
-                "123", "Peter", "Smith", "12345", "peter2@2.pl", "ROLE_NOTIFIER"
+                "123", "Peter", "Smith", "12345", "notif2@2.pl", "ROLE_NOTIFIER"
         ));
 
         UserEntity spec = userRepository.save(new UserEntity(
@@ -74,12 +77,19 @@ class FaultControllerIT {
     @Test
     public void findAllFaultsByUser() {
 //        given
-
+        User notif2 = new User("notif2@2.pl", "123", Set.of(new GrantedAuthority() {
+            @Override
+            public String getAuthority() {
+                return "ROLE_NOTIFIER";
+            }
+        }));
+        User spec = new User("spec@2.pl", "123", Set.of());
+        User assigner = new User("assigner@2.pl", "123", Set.of());
 
 //        when
-        List<Fault> byNotifier = controller.getAllByUserId(2L);
-        List<Fault> bySpec = controller.getAllByUserId(3L);
-        List<Fault> byAssigner = controller.getAllByUserId(4L);
+        List<Fault> byNotifier = controller.getAllMyFaults(notif2);
+        List<Fault> bySpec = controller.getAllMyFaults(spec);
+        List<Fault> byAssigner = controller.getAllMyFaults(assigner);
 //        then
         assertEquals(3, byNotifier.size());
         assertEquals(1, bySpec.size());

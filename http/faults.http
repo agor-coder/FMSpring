@@ -17,7 +17,7 @@ GET http://localhost:8080/faults?stat=nie
 
 
 ###user's faults
-GET http://localhost:8080/faults/user/3
+GET http://localhost:8080/faults/user
 
 ### add fault
 POST http://localhost:8080/faults
@@ -40,11 +40,11 @@ Content-Type: application/json
 }
 
 ###assign
-PATCH http://localhost:8080/faults/assign/5
+PATCH http://localhost:8080/faults/assign/3
 Content-Type: application/json
 
 {
-  "specialistId": "6",
+  "specialistId": "5",
   "whoAssignedId": "4"
 }
 

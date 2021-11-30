@@ -38,9 +38,9 @@ class QueryFaultService implements QueryFaultUseCase {
     @Override
     public List<Fault> findAllByUser(UserEntity user) {
         return switch (user.getRole()) {
-            case "ROLE_SPECIALIST" -> repository.findAllBySpecialist(user);
-            case "ROLE_ASSIGNER" -> repository.findAllByWhoAssigned(user);
-            case "ROLE_NOTIFIER" -> repository.findAllByWhoNotify(user);
+            case "ROLE_SPECIALIST" -> repository.findAllBySpecialist_Id(user.getId());
+            case "ROLE_ASSIGNER" -> repository.findAllByWhoAssigned_Id(user.getId());
+            case "ROLE_NOTIFIER" -> repository.findAllByWhoNotify_Id(user.getId());
             default -> Collections.emptyList();
         };
     }

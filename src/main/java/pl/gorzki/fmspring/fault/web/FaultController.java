@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -42,7 +41,7 @@ public class FaultController {
     private final UserUseCase userService;
 
 
-   @Secured({"ROLE_ASSIGNER"})
+    @Secured({"ROLE_ASSIGNER"})
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Fault> getAll(
@@ -101,14 +100,13 @@ public class FaultController {
     }
 
 
-    @Secured({"ROLE_ASSIGNER","ROLE_SPECIALIST"})
-    @GetMapping("/user/{id}")
+    @Secured({"ROLE_ASSIGNER", "ROLE_SPECIALIST","ROLE_NOTIFIER"})
+    @GetMapping("/user")
     @ResponseStatus(HttpStatus.OK)
-    public List<Fault> getAllByUserId(@PathVariable Long id) {
-        //TODO - get id from user
-        UserEntity user = userService.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "User not found with id: "+ id));
-        return queryFaultService.findAllByUser(user);
+    public List<Fault> getAllMyFaults(@AuthenticationPrincipal User user) {
+        UserEntity userEntity = userService.findByUserName(user.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "User not found"));
+        return queryFaultService.findAllByUser(userEntity);
     }
 
 
