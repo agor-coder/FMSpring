@@ -45,7 +45,6 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
 
     private Fault toFault(CreateFaultCommand command) {
         TechArea area = areaRepository.findById(command.areaId()).get();
-        //TODO - get id from user
         UserEntity notif = userRepository.findById(command.whoNotifyId()).get();
         return new Fault(command.faultDescribe(), area, notif);
 

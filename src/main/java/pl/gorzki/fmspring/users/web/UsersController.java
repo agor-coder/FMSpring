@@ -6,6 +6,8 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.gorzki.fmspring.commons.AppResponse;
@@ -36,11 +38,11 @@ public class UsersController {
     }
 
     @Secured({"ROLE_ASSIGNER", "ROLE_SPECIALIST", "ROLE_NOTIFIER", "ROLE_ADMIN"})
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+    @GetMapping("/account")
+    public ResponseEntity<?> getMyAccountData(@AuthenticationPrincipal User user) {
+        String userName = user.getUsername();
         return service
-                //TODO - get id from user
-                .findById(id)
+                .findByUserName(userName)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

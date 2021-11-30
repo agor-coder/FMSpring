@@ -24,7 +24,7 @@ POST http://localhost:8080/faults
 Content-Type: application/json
 
 {
-  "faultDescribe": "jeszcze jedna",
+  "faultDescribe": "222AAAAA",
   "areaId": "3"
 }
 

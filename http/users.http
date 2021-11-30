@@ -27,8 +27,11 @@ Content-Type: application/json
 ###findAllSpecialists
 GET http://localhost:8080/users/spec
 
-###
+###All
 GET http://localhost:8080/users
+
+###MyAccount
+GET http://localhost:8080/users/account
 
 ###
 PATCH http://localhost:8080/users/update/1
