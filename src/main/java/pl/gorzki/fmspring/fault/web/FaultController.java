@@ -133,8 +133,9 @@ public class FaultController {
     @Secured({"ROLE_ASSIGNER"})
     @PatchMapping("/assign/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void assignFault(@PathVariable Long id, @Valid @RequestBody RestAssignFaultCommand command) {
-        AppResponse response = manipulateFaultService.assignFault(command.toAssignCommand(id));
+    public void assignFault(@PathVariable Long id, @Valid @RequestBody RestAssignFaultCommand command, @AuthenticationPrincipal User user) {
+        Long assignerId = userService.findByUserName(user.getUsername()).get().getId();
+        AppResponse response = manipulateFaultService.assignFault(command.toAssignCommand(id, assignerId));
         response.checkResponseSuccess();
     }
 
@@ -142,7 +143,6 @@ public class FaultController {
     @Secured({"ROLE_ASSIGNER", "ROLE_SPECIALIST"})
     @PatchMapping("/end/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    //TODO - get id from user
     public void endFault(@PathVariable Long id) {
         AppResponse response = manipulateFaultService.changeStatus(id, END);
         response.checkResponseSuccess();
@@ -190,12 +190,11 @@ public class FaultController {
     private static class RestAssignFaultCommand {
         @NotNull
         private Long specialistId;
-        @NotNull
-        private Long whoAssignedId;
 
-        AssignFaultCommand toAssignCommand(Long id) {
+
+        AssignFaultCommand toAssignCommand(Long faultId, Long whoAssignedId) {
             return new AssignFaultCommand(
-                    id,
+                    faultId,
                     specialistId,
                     whoAssignedId);
         }
