@@ -36,7 +36,7 @@ public interface ManipulateFaultUseCase {
     }
 
 
-    record AssignFaultCommand(Long id,
+    record AssignFaultCommand(Long faultId,
                               Long specialistId,
                               Long whoAssignedId) {
     }

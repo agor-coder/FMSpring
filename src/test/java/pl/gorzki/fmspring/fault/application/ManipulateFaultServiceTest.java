@@ -14,6 +14,7 @@ import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.AssignFa
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.CreateFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.UpdateFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.QueryFaultUseCase;
+import pl.gorzki.fmspring.fault.domain.Fault;
 import pl.gorzki.fmspring.users.db.UserJpaRepository;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
@@ -52,6 +53,9 @@ class ManipulateFaultServiceTest {
 
         UserEntity spec = userRepository.save(new UserEntity(
                 "123", "John", "Spec", "12345", "spec@2.pl", "ROLE_SPECIALIST"
+        ));
+        UserEntity spec2 = userRepository.save(new UserEntity(
+                "123", "Jake", "Spec2", "12345", "spec2@2.pl", "ROLE_SPECIALIST"
         ));
         UserEntity assigner = userRepository.save(new UserEntity(
                 "123", "Mike", "Assign", "12345", "assigner@2.pl", "ROLE_ASSIGNER"
@@ -123,7 +127,7 @@ class ManipulateFaultServiceTest {
     @Test
     public void assignFaultWithTheSameSpecialist() {
         //when
-        AppResponse response = manipulateFaultService.assignFault(new AssignFaultCommand(5L, 3L, 4L));
+        AppResponse response = manipulateFaultService.assignFault(new AssignFaultCommand(5L, 3L, 5L));
         //then
         assertFalse(response.isSuccess());
         assertEquals("Specialist - the same", response.getErrors().get(0));
@@ -133,10 +137,23 @@ class ManipulateFaultServiceTest {
     @Test
     public void assignFaultWithSpecLimit() {
         //when
-        AppResponse response = manipulateFaultService.assignFault(new AssignFaultCommand(3L, 3L, 4L));
+        AppResponse response = manipulateFaultService.assignFault(new AssignFaultCommand(3L, 3L, 5L));
         //then
         assertFalse(response.isSuccess());
         assertEquals("Specialist - fault limit reached", response.getErrors().get(0));
+
+    }
+
+    @Test
+    public void assignFault() {
+        //when
+        AppResponse response = manipulateFaultService.assignFault(new AssignFaultCommand(1L, 4L, 5L));
+        Fault fault = queryFaultService.findById(1L).get();
+
+        //then
+        assertTrue(response.isSuccess());
+        assertEquals("spec2@2.pl", fault.getSpecialist().getEmailUserName());
+        assertEquals("assigner@2.pl", fault.getWhoAssigned().getEmailUserName());
 
     }
 

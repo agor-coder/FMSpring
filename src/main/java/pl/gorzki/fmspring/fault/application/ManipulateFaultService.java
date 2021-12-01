@@ -78,7 +78,7 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
     @Transactional
     public AppResponse assignFault(AssignFaultCommand command) {
         return repository
-                .findById(command.id())
+                .findById(command.faultId())
                 .map(fault -> {
                     UserEntity spec = userRepository.findById(command.specialistId()).get();
                     if (checkSpec(spec, fault)) {
@@ -94,7 +94,7 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
                     return AppResponse.SUCCESS;
                 })
                 .orElseGet(() -> new AppResponse(
-                        false, Collections.singletonList("Fault not found with id: " + command.id())));
+                        false, Collections.singletonList("Fault not found with id: " + command.faultId())));
     }
 
     @Override
