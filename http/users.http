@@ -21,7 +21,7 @@ Content-Type: application/json
    "firstName": "Andy",
    "lastName": "Notif",
    "phone": "12345",
-   "emailUserName": "notif1111@2.pl"
+   "emailUserName": "notif113@2.pl"
 }
 
 ###findAllSpecialists
@@ -38,7 +38,7 @@ PATCH http://localhost:8080/users/update/1
 Content-Type: application/json
 
 {
-  "password": "1234",
+  "password": "123",
   "firstName": "Andy",
   "lastName": "Notif",
   "phone": "123453",

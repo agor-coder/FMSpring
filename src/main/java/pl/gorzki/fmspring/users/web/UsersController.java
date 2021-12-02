@@ -76,10 +76,7 @@ public class UsersController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateUser(@PathVariable Long id, @RequestBody RestUserCommand command) {
         AppResponse response = service.updateUser(command.toUpdateCommand(id));
-        if (!response.isSuccess()) {
-            String message = String.join(", ", response.getErrors());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
-        }
+        response.checkResponseSuccess();
     }
 
     @Data
@@ -115,7 +112,7 @@ public class UsersController {
 
     @Data
     private static class RestNotifierCommand {
-        @NotBlank(message = "password cannot be empty")
+        @Size(min=3, max=50)
         private String password;
         @NotBlank(message = "firstName cannot be empty")
         private String firstName;
