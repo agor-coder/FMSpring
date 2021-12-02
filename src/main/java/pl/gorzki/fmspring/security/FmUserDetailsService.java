@@ -11,9 +11,14 @@ import pl.gorzki.fmspring.users.db.UserJpaRepository;
 public class FmUserDetailsService implements UserDetailsService {
 
     private final UserJpaRepository repository;
+    private final AdminConfig adminConfig;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        if(adminConfig.getUsername().equals(userName)){
+            return adminConfig.adminUser();
+        }
+
         return repository.findByEmailUserNameIgnoreCase(userName)
                 .map(UserEntityDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException(userName));
