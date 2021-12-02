@@ -28,6 +28,12 @@ public class FmSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserJpaRepository userJpaRepository;
     private final AdminConfig adminConfig;
 
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
@@ -67,10 +73,6 @@ public class FmSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return provider;
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
 
 }

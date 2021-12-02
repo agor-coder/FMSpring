@@ -16,7 +16,7 @@ public interface UserUseCase {
 
     Optional<UserEntity> findById(Long id);
 
-    Optional<UserEntity>findByUserName(String userName);
+    Optional<UserEntity> findByUserName(String userName);
 
     List<UserEntity> findAllSpecialists();
 
@@ -29,8 +29,8 @@ public interface UserUseCase {
                              String phone,
                              String emailUserName,
                              String role) {
-        public UserEntity toUser() {
-            return new UserEntity(password, firstName, lastName, phone, emailUserName, role);
+        public UserEntity toUser(String pass) {
+            return new UserEntity(pass, firstName, lastName, phone, emailUserName, role);
         }
     }
 

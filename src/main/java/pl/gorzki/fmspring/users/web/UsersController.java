@@ -19,13 +19,13 @@ import pl.gorzki.fmspring.users.domain.UserEntity;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/users")
-
 public class UsersController {
 
     private final UserUseCase service;
@@ -59,7 +59,7 @@ public class UsersController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void registerUser(@Valid @RequestBody RestUserCommand command) {
-        AppResponse response = service.register(command.toCreateCommand());
+        AppResponse response = service.register(command.toCreateUserCommand());
         response.checkResponseSuccess();
     }
 
@@ -84,7 +84,7 @@ public class UsersController {
 
     @Data
     private static class RestUserCommand {
-        @NotBlank(message = "password cannot be empty")
+        @Size(min=3, max=50)
         private String password;
         @NotBlank(message = "firstName cannot be empty")
         private String firstName;
@@ -97,7 +97,7 @@ public class UsersController {
         @NotBlank(message = "role cannot be empty")
         private String role;
 
-        CreateUserCommand toCreateCommand() {
+        CreateUserCommand toCreateUserCommand() {
             return new CreateUserCommand(password, firstName, lastName, phone, emailUserName, role);
         }
 

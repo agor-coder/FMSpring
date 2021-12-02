@@ -1,6 +1,7 @@
 package pl.gorzki.fmspring.users.application;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gorzki.fmspring.commons.AppResponse;
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class UserService implements UserUseCase {
 
     private final UserJpaRepository repository;
+    private final PasswordEncoder encoder;
 
 
     @Override
@@ -31,7 +33,8 @@ public class UserService implements UserUseCase {
         if (repository.findByEmailUserNameIgnoreCase(command.emailUserName()).isPresent()) {
             return new AppResponse(false, Collections.singletonList("Account exists already"));
         }
-        UserEntity user = command.toUser();
+        String pass = encoder.encode(command.password());
+        UserEntity user = command.toUser(pass);
         repository.save(user);
         return AppResponse.SUCCESS;
     }

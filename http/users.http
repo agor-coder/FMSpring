@@ -1,4 +1,4 @@
-###addUser
+###regUser
 POST http://localhost:8080/users
 Content-Type: application/json
 
@@ -7,8 +7,8 @@ Content-Type: application/json
    "firstName": "Andy",
    "lastName": "Gor",
    "phone": "12345",
-   "emailUserName": "agor332@2.pl",
-   "role": "ROLE_ASSIGN"
+   "emailUserName": "agor111@2.pl",
+   "role": "ROLE_ASSIGNER"
 }
 
 
@@ -21,7 +21,7 @@ Content-Type: application/json
    "firstName": "Andy",
    "lastName": "Notif",
    "phone": "12345",
-   "emailUserName": "notif3@2.pl"
+   "emailUserName": "notif1111@2.pl"
 }
 
 ###findAllSpecialists
