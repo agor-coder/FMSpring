@@ -41,6 +41,6 @@ Content-Type: application/json
   "password": "123",
   "firstName": "Andy",
   "lastName": "Notif",
-  "phone": "123456",
+  "phone": "1234566",
   "role": "ROLE_NOTIFIER"
 }

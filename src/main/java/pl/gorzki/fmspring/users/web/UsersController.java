@@ -74,7 +74,7 @@ public class UsersController {
     @Secured({"ROLE_ADMIN"})
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateUser(@PathVariable Long id, @Valid @RequestBody RestUserCommand command) {
+    public void updateUser(@PathVariable Long id, @RequestBody RestUserCommand command) {
         AppResponse response = service.updateUser(command.toUpdateCommand(id));
         if (!response.isSuccess()) {
             String message = String.join(", ", response.getErrors());
