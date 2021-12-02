@@ -74,7 +74,7 @@ public class UsersController {
     @Secured({"ROLE_ADMIN"})
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateUser(@PathVariable Long id, @RequestBody RestUserCommand command) {
+    public void updateUser(@PathVariable Long id, @Valid @RequestBody RestUpdateUserCommand command) {
         AppResponse response = service.updateUser(command.toUpdateCommand(id));
         response.checkResponseSuccess();
     }
@@ -97,6 +97,21 @@ public class UsersController {
         CreateUserCommand toCreateUserCommand() {
             return new CreateUserCommand(password, firstName, lastName, phone, emailUserName, role);
         }
+
+    }
+
+
+    @Data
+    private static class RestUpdateUserCommand {
+        @Size(min=3, max=50)
+        private String password;
+        @NotBlank(message = "firstName cannot be empty")
+        private String firstName;
+        @NotBlank(message = "lastName cannot be empty")
+        private String lastName;
+        private String phone;
+        @NotBlank(message = "role cannot be empty")
+        private String role;
 
         UpdateUserCommand toUpdateCommand(Long id) {
             return new UpdateUserCommand(
