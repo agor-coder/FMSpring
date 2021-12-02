@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -103,7 +103,7 @@ public class FaultController {
     @Secured({"ROLE_ASSIGNER", "ROLE_SPECIALIST","ROLE_NOTIFIER"})
     @GetMapping("/user")
     @ResponseStatus(HttpStatus.OK)
-    public List<Fault> getAllMyFaults(@AuthenticationPrincipal User user) {
+    public List<Fault> getAllMyFaults(@AuthenticationPrincipal UserDetails user) {
         UserEntity userEntity = userService.findByUserName(user.getUsername())
                 .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "User not found"));
         return queryFaultService.findAllByUser(userEntity);
@@ -112,7 +112,7 @@ public class FaultController {
 
     @Secured({"ROLE_NOTIFIER"})
     @PostMapping
-    public ResponseEntity<?> addFault(@Valid @RequestBody RestFaultCommand command, @AuthenticationPrincipal User user) {
+    public ResponseEntity<?> addFault(@Valid @RequestBody RestFaultCommand command, @AuthenticationPrincipal UserDetails user) {
         Long id = userService.findByUserName(user.getUsername()).get().getId();
         Fault fault = manipulateFaultService.addFault(command.toCreateCommand(id));
         return ResponseEntity.created(createdFaultUri(fault)).build();
@@ -133,7 +133,7 @@ public class FaultController {
     @Secured({"ROLE_ASSIGNER"})
     @PatchMapping("/assign/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void assignFault(@PathVariable Long id, @Valid @RequestBody RestAssignFaultCommand command, @AuthenticationPrincipal User user) {
+    public void assignFault(@PathVariable Long id, @Valid @RequestBody RestAssignFaultCommand command, @AuthenticationPrincipal UserDetails user) {
         Long assignerId = userService.findByUserName(user.getUsername()).get().getId();
         AppResponse response = manipulateFaultService.assignFault(command.toAssignCommand(id, assignerId));
         response.checkResponseSuccess();

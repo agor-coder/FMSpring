@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.gorzki.fmspring.commons.AppResponse;
@@ -39,7 +39,7 @@ public class UsersController {
 
     @Secured({"ROLE_ASSIGNER", "ROLE_SPECIALIST", "ROLE_NOTIFIER", "ROLE_ADMIN"})
     @GetMapping("/account")
-    public ResponseEntity<?> getMyAccountData(@AuthenticationPrincipal User user) {
+    public ResponseEntity<?> getMyAccountData(@AuthenticationPrincipal UserDetails user) {
         String userName = user.getUsername();
         return service
                 .findByUserName(userName)

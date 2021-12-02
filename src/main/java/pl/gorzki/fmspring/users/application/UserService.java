@@ -68,7 +68,7 @@ public class UserService implements UserUseCase {
 
     private void updateFields(UpdateUserCommand command, UserEntity user) {
         if (command.password() != null) {
-            user.setPassword(command.password());
+            user.setPassword(encoder.encode(command.password()));
         }
         if (command.firstName() != null) {
             user.setFirstName(command.firstName());

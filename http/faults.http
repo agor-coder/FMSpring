@@ -16,7 +16,7 @@ GET http://localhost:8080/faults?descr=E
 GET http://localhost:8080/faults?stat=nie
 
 
-###user's faults
+###get my faults
 GET http://localhost:8080/faults/user
 
 ### add fault
