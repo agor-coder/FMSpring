@@ -28,11 +28,7 @@ public interface ManipulateFaultUseCase {
 
     record UpdateFaultCommand(Long id,
                               String faultDescribe,
-                              FaultStatus status,
-                              Long areaId,
-                              Long specialistId,
-                              Long whoAssignedId,
-                              Long whoNotifyId) {
+                              Long areaId) {
     }
 
 

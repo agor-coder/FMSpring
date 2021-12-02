@@ -126,24 +126,9 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
         if (command.faultDescribe() != null) {
             fault.setFaultDescribe(command.faultDescribe());
         }
-        if (command.status() != null) {
-            fault.setStatus(command.status());
-        }
         if (command.areaId() != null) {
             fault.setArea(areaRepository.findById(command.areaId())
                     .orElseThrow(() -> new IllegalStateException("Cannot find such area")));
-        }
-        if (command.specialistId() != null) {
-            fault.setSpecialist(userRepository.findById(command.specialistId())
-                    .orElseThrow(() -> new IllegalStateException("Cannot find specialist")));
-        }
-        if (command.whoAssignedId() != null) {
-            fault.setWhoAssigned(userRepository.findById(command.whoAssignedId())
-                    .orElseThrow(() -> new IllegalStateException("Cannot find assigner")));
-        }
-        if (command.whoNotifyId() != null) {
-            fault.setWhoNotify(userRepository.findById(command.whoNotifyId())
-                    .orElseThrow(() -> new IllegalStateException("Cannot find notifier")));
         }
         return fault;
     }

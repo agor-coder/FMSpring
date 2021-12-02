@@ -25,18 +25,16 @@ Content-Type: application/json
 
 {
   "faultDescribe": "222AAAAA",
-  "areaId": "3"
+  "areaId": "2"
 }
 
-###
+###update fault
 PATCH http://localhost:8080/faults/update/3
 Content-Type: application/json
 
 {
-  "faultDescribe": "wyłączony",
-  "specialistId": "4",
-  "whoAssignedId": "3",
-  "status": "ASSIGNED"
+  "faultDescribe": "ssss",
+  "areaId": "3"
 }
 
 ###assign

@@ -68,10 +68,10 @@ class ManipulateFaultServiceTest {
         manipulateFaultService.addFault(new CreateFaultCommand("spalony", area2.getId(), notifier2.getId()));
         manipulateFaultService.addFault(new CreateFaultCommand("NOWA", area3.getId(), notifier2.getId()));
 
-        manipulateFaultService.updateFault(new UpdateFaultCommand(
-                5L, null, ASSIGNED, null, spec.getId(), assigner.getId(), null));
-        manipulateFaultService.updateFault(new UpdateFaultCommand(
-                4L, null, ASSIGNED, null, spec.getId(), assigner.getId(), null));
+        manipulateFaultService.assignFault(new AssignFaultCommand(
+                5L, spec.getId(), assigner.getId()));
+        manipulateFaultService.assignFault(new AssignFaultCommand(
+                4L, spec.getId(), assigner.getId()));
     }
 
     @Test
@@ -107,7 +107,7 @@ class ManipulateFaultServiceTest {
     public void updateFault() {
         //when
         AppResponse response = manipulateFaultService.updateFault(new UpdateFaultCommand(
-                2L, "update", null, null, null, null, null));
+                2L, "update", null));
         //then
         assertTrue(response.isSuccess());
         assertTrue(queryFaultService.findOneByDescription("update").isPresent());
@@ -118,7 +118,7 @@ class ManipulateFaultServiceTest {
     public void updateFaultWithAreaNotFound() {
         //when
         UpdateFaultCommand command = new UpdateFaultCommand(
-                2L, "update", null, 4L, null, null, null);
+                2L, "update", 4L);
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> manipulateFaultService.updateFault(command));
         //then
         assertEquals("Cannot find such area", exception.getMessage());

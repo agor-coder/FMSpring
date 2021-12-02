@@ -125,7 +125,7 @@ public class FaultController {
     @Secured({"ROLE_NOTIFIER"})
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateFault(@PathVariable Long id, @RequestBody RestFaultCommand command) {
+    public void updateFault(@PathVariable Long id, @Valid @RequestBody RestFaultCommand command) {
         AppResponse response = manipulateFaultService.updateFault(command.toUpdateCommand(id));
         response.checkResponseSuccess();
     }
@@ -178,11 +178,7 @@ public class FaultController {
             return new UpdateFaultCommand(
                     id,
                     faultDescribe,
-                    status,
-                    areaId,
-                    specialistId,
-                    whoAssignedId,
-                    whoNotifyId);
+                    areaId);
         }
     }
 

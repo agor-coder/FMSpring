@@ -17,6 +17,7 @@ import pl.gorzki.fmspring.area.application.port.AreaUseCase;
 import pl.gorzki.fmspring.area.application.port.AreaUseCase.CreateAreaCommand;
 import pl.gorzki.fmspring.area.domain.TechArea;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase;
+import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.AssignFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.CreateFaultCommand;
 import pl.gorzki.fmspring.fault.application.port.ManipulateFaultUseCase.UpdateFaultCommand;
 import pl.gorzki.fmspring.fault.domain.Fault;
@@ -82,8 +83,8 @@ class FaultControllerIT {
         manipulateFaultService.addFault(new CreateFaultCommand("spalony", area2.getId(), notifier2.getId()));
         manipulateFaultService.addFault(new CreateFaultCommand("NOWA", area3.getId(), notifier2.getId()));
 
-        manipulateFaultService.updateFault(new UpdateFaultCommand(
-                5L, null, ASSIGNED, null, spec.getId(), assigner.getId(), null));
+        manipulateFaultService.assignFault(new AssignFaultCommand(
+                5L, spec.getId(), assigner.getId()));
     }
 
 
