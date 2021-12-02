@@ -16,6 +16,7 @@ import pl.gorzki.fmspring.users.domain.UserEntity;
 import java.util.Collections;
 
 import static pl.gorzki.fmspring.fault.domain.FaultStatus.ASSIGNED;
+import static pl.gorzki.fmspring.fault.domain.FaultStatus.NOT_ASSIGNED;
 
 @Service
 public class ManipulateFaultService implements ManipulateFaultUseCase {
@@ -65,6 +66,9 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
         return repository
                 .findById(command.id())
                 .map(fault -> {
+                    if (fault.getStatus() != NOT_ASSIGNED) {
+                        return new AppResponse(false, Collections.singletonList("Fault cannot be updated"));
+                    }
                     updateFields(command, fault);
 //                    Fault updatedFault = command.updateFields(fault);  //bo @Transactional
 //                    repository.save(updatedFault);

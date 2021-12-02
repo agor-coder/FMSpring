@@ -29,7 +29,7 @@ Content-Type: application/json
 }
 
 ###update fault
-PATCH http://localhost:8080/faults/update/3
+PATCH http://localhost:8080/faults/update/1
 Content-Type: application/json
 
 {
