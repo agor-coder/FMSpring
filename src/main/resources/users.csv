@@ -1,8 +1,8 @@
 password,firstName,lastname,phone,emailUserName,role
-$2a$12$Z62k.4uhjpS/qFJAGblVMeZTUzbfptX/uyNIPVNLMHk.hTvNTWtpW,Peter,Novak,12345,notif1@2.pl,ROLE_NOTIFIER
-$2a$12$Z62k.4uhjpS/qFJAGblVMeZTUzbfptX/uyNIPVNLMHk.hTvNTWtpW,Peter,Smith,12345,notif2@2.pl,ROLE_NOTIFIER
-$2a$12$Z62k.4uhjpS/qFJAGblVMeZTUzbfptX/uyNIPVNLMHk.hTvNTWtpW,Andy,Gor,12345,ass1@2.pl,ROLE_ASSIGNER
-$2a$12$Z62k.4uhjpS/qFJAGblVMeZTUzbfptX/uyNIPVNLMHk.hTvNTWtpW,Tom,Man,12345,ass2@2.pl,ROLE_ASSIGNER
-$2a$12$Z62k.4uhjpS/qFJAGblVMeZTUzbfptX/uyNIPVNLMHk.hTvNTWtpW,John,Baker,12345,spec1@2.pl,ROLE_SPECIALIST
-$2a$12$Z62k.4uhjpS/qFJAGblVMeZTUzbfptX/uyNIPVNLMHk.hTvNTWtpW,Stan,Pure,12345,spec2@2.pl,ROLE_SPECIALIST
-$2a$12$Z62k.4uhjpS/qFJAGblVMeZTUzbfptX/uyNIPVNLMHk.hTvNTWtpW,Kay,Lenz,12345,admin@2.pl,ROLE_ADMIN
+123,Peter,Novak,12345,notif1@2.pl,ROLE_NOTIFIER
+123,Peter,Smith,12345,notif2@2.pl,ROLE_NOTIFIER
+123,Andy,Gor,12345,ass1@2.pl,ROLE_ASSIGNER
+123,Tom,Man,12345,ass2@2.pl,ROLE_ASSIGNER
+123,John,Baker,12345,spec1@2.pl,ROLE_SPECIALIST
+123,Stan,Pure,12345,spec2@2.pl,ROLE_SPECIALIST
+123,Kay,Lenz,12345,admin@2.pl,ROLE_ADMIN
