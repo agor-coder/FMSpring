@@ -1,6 +1,6 @@
 ## FaultsManagement
 - JDK 16
- -JPA & Hibernate
+- JPA & Hibernate
 - PostgreSQL
 - Flyway 8.1.0
 - Docker
