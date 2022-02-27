@@ -33,7 +33,7 @@ public class AbandonedFaultJob {
         Duration period= properties.getAbandonPeriod();
         LocalDateTime olderThan = clock.now().minus(period);
         List<Fault> faults = repository.findByStatusAndCreatedAtLessThanEqual(NOT_ASSIGNED, olderThan);
-        log.info("******************** find orders to be abandoned " + faults.size());
+        log.info( "******************** find orders to be abandoned " + faults.size());
         faults.forEach(fault -> faultUseCase.changeStatus(fault.getId(), ABANDONED));
 
     }
