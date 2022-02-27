@@ -4,10 +4,13 @@ POST http://localhost:8080/login
 Content-Type: application/json
 
 {
-  "userName": "admin",
+  "userName": "ass1@2.pl",
   "password": "123"
 }
 
 
 ###
 POST http://localhost:8080/logout
+
+###
+POST http://localhost:8080/actuator/health

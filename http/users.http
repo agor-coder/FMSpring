@@ -7,7 +7,7 @@ Content-Type: application/json
    "firstName": "Andy",
    "lastName": "Gor",
    "phone": "12345",
-   "emailUserName": "agor111@2.pl",
+   "emailUserName": "agor211@2.pl",
    "role": "ROLE_ASSIGNER"
 }
 
@@ -41,6 +41,6 @@ Content-Type: application/json
   "password": "123",
   "firstName": "Andy",
   "lastName": "Notif",
-  "phone": "123453",
+  "phone": "123452",
   "role": "ROLE_NOTIFIER"
 }

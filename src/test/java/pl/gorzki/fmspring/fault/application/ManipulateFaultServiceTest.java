@@ -19,7 +19,6 @@ import pl.gorzki.fmspring.users.db.UserJpaRepository;
 import pl.gorzki.fmspring.users.domain.UserEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static pl.gorzki.fmspring.fault.domain.FaultStatus.ASSIGNED;
 
 
 @SpringBootTest
