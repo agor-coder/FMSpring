@@ -1,5 +1,6 @@
 ## FaultsManagement
 - JDK 16
+- Spring Boot 2.5.4
 - JPA & Hibernate
 - PostgreSQL
 - Flyway 8.1.0
