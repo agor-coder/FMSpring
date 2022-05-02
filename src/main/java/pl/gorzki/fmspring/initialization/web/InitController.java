@@ -19,7 +19,6 @@ public class InitController {
 
 
     @PostMapping
-    @Transactional
     public void initialize() {
         initService.initialize();
     }

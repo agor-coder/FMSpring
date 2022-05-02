@@ -41,7 +41,7 @@ public class FmSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .mvcMatchers(HttpMethod.POST, "/users/notifier", "/login").permitAll()
-                .mvcMatchers(HttpMethod.GET, "/areas/getAllTest").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/areas/getAllTest","/actuator/**").permitAll()
                 .mvcMatchers("/swagger-ui/**", "/v3/api-docs/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()

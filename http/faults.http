@@ -38,7 +38,7 @@ Content-Type: application/json
 }
 
 ###assign
-PATCH http://localhost:8080/faults/assign/1
+PATCH http://localhost:8080/faults/assign/6
 Content-Type: application/json
 
 {

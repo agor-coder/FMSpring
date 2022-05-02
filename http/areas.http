@@ -1,7 +1,7 @@
 ###
 GET http://localhost:8080/areas
 ###
-GET http://localhost:8080/areas/2
+GET http://localhost:8080/areas/56
 ###
 GET http://localhost:8080/areas/?name=n
 ###
