@@ -90,6 +90,7 @@ public class ManipulateFaultService implements ManipulateFaultUseCase {
                     if (countOfSpecFaults(spec) >= limit) {
                         return new AppResponse(false, Collections.singletonList("Specialist - fault limit reached"));
                     }
+                    spec.setVersion(spec.getVersion()+1);
                     UserEntity assigner = userRepository.findById(command.whoAssignedId()).get();
                     fault.setWhoAssigned(assigner);
                     fault.setSpecialist(spec);

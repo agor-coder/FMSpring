@@ -38,7 +38,7 @@ Content-Type: application/json
 }
 
 ###assign
-PATCH http://localhost:8080/faults/assign/6
+PATCH http://localhost:8080/faults/assign/3
 Content-Type: application/json
 
 {
@@ -46,7 +46,7 @@ Content-Type: application/json
 }
 
 ###END
-PATCH http://localhost:8080/faults/end/15
+PATCH http://localhost:8080/faults/end/1
 
 ###
 DELETE http://localhost:8080/faults/3
